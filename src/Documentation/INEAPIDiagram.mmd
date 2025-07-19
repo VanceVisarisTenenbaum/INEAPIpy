@@ -1,0 +1,163 @@
+---
+title: INE Database
+---
+classDiagram
+    class Operacion{
+        Id: int
+        Cod_IOE: str
+        Nombre: str
+        Codigo: str
+        Referencia_: List(Referencia)
+    }
+    class Periodicidad{
+        Id: int
+        Nombre: str
+        Codigo: str
+    }
+    class Periodo{
+        Id: int
+        Valor: int
+        Periodicidad_: Periodicidad
+        Dia_inicio: str
+        Mes_inicio: str
+        Codigo: str
+        Nombre: str
+        Nombre_largo: str
+    }
+    class PubFechaAct{
+        Id: int
+        Nombre: str
+        Fecha: int/str
+        Periodo_: Periodo
+        Anyo: int
+    }
+    class Publicacion{
+        Id: int
+        Nombre: str
+        Periodicidad_: Periodicidad
+        Operacion_: List(Operacion)
+        PubFechaAct_: PubFechaAct
+    }
+    class Referencia{
+        Id: int
+        Titulo: str
+        Url: str
+    }
+    class Tabla{
+        Id: int
+        Nombre: str
+        Periodicidad_: Periodicidad
+        Publicacion_: Publicacion
+        Periodo_ini: Periodo
+        Anyo_Perido_ini: str
+        FechaRef_fin: int/str
+        Ultima_Modificacion: int/str
+        GruposTabla_: List(GrupoTabla)
+        Series_: List(Serie)
+    }
+    class Valor{
+        Id: int
+        Variable_: Variable
+        Nombre: str
+        Codigo: str
+        Nota: str
+        JerarquiaPadres: List(Valor)
+    }
+    class Variable{
+        Id: int
+        Nombre: str
+        Codigo: str
+    }
+    class Serie{
+        Id: int
+        COD: str
+        Operacion_: Operacion
+        Nombre: str
+        Decimales: int
+        Periodicidad_: Periodicidad
+        Publicacion_: Publicacion
+        Clasificacion_: Clasificacion
+        Escala_: Escala
+        Unidad_: Unidad
+        MetaData: List(Valor)
+        DatosSerie_(Just for clarity that this represents a DatosSerie): DatosSerie
+    }
+    class Clasificacion{
+        Id: int
+        Nombre: str
+        Fecha: date
+    }
+    class Dato{
+        Fecha: date
+        TipoDato_: TipoDato
+        Periodo_: Periodo
+        Anyo: int
+        Valor: float
+        Secreto: bool
+    }
+    class TipoDato{
+        Id: int
+        Nombre: str
+        Codigo: str
+    }
+    class Nota{
+        texto: str
+        Fk_TipoNota(Fk, not FK): int
+        Nombre_TipoNota: str
+        textoTipo: str
+    }
+    class DatosSerie{
+        COD: str
+        Nombre: str
+        Unidad_: Unidad
+        Notas: List(Nota)
+        MetaData: List(Valor)
+        Data: List(Dato)
+        Serie_(Just for clarity that this represents a Serie): Serie
+    }
+    class Unidad{
+        Id: int
+        Nombre: str
+        Codigo: str
+        Abrev: str
+    }
+    class Escala{
+        Id: int
+        Nombre: str
+        Factor: float(str)
+        Codigo: str
+        Abrev: str
+    }
+    class GrupoTabla{
+        Id: int
+        Nombre: str
+    }
+    %%Relations
+    Operacion "1" --> "n" Referencia
+    Operacion "1" --> "n" Variable
+    Periodo "1" --> "1" Periodicidad
+    PubFechaAct "1" --> "1" Periodo
+    Publicacion "1" --> "n" Operacion
+    Publicacion "1" --> "1" PubFechaAct
+    Tabla "1" --> "1" Periodicidad
+    Tabla "1" --> "1" Publicacion
+    Tabla "1" --> "1" Periodo
+    Tabla "1" --> "n" GrupoTabla
+    GrupoTabla "1" --> "n" Valor
+    Variable "1" --> "n" Valor
+    Valor "1" --> "n" Valor
+    Serie "1" --> "1" Operacion
+    Serie "1" --> "1" Periodicidad
+    Serie "1" --> "1" Publicacion
+    Serie "1" --> "1" Clasificacion
+    Serie "1" --> "1" Escala
+    Serie "1" --> "1" Unidad
+    Serie "1" <--> "1" DatosSerie
+    Serie "1" --> "n" Valor
+    %%DatosSerie "1" --> "1" Unidad %%Commented for better vis, since it is the same as serie
+    DatosSerie "1" --> "n" Dato
+    DatosSerie "1" --> "n" Nota
+    %%DatosSerie "1" --> "n" Valor %%Commented for better vis, since it is the same as serie
+    Dato "1" --> "1" TipoDato
+    Dato "1" --> "1" Periodo
+    Tabla "1" --> "n" Serie

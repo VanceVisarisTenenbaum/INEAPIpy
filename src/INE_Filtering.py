@@ -9,7 +9,7 @@ Created on Thu Jul 17 15:55:13 2025
 
 """
 This file contains the functions needed for creating the filtering params
-from INE API.
+for INE API.
 """
 
 import datetime as dt
@@ -43,11 +43,11 @@ def metadata_param_filtering_builder(self,
     If publication is not in keys and the value of some keys is not a list
     they will be skipped
 
-    if empty it will return empty dict
+    If empty it will return empty dict.
     """
     if var_value_dict is None:
         return dict()
-    if isinstance(var_value_dict, dict):
+    if not isinstance(var_value_dict, dict):
         return dict()
 
     if format_ == 'series':

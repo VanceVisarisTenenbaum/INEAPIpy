@@ -189,6 +189,14 @@ class pyDato(p.BaseModel):
     Secreto: bool
 
 
+class pyNota(p.BaseModel):
+    """Class model for Nota from INE."""
+
+    texto: str
+    Fk_TipoNota: int  # Yes this one is Fk, not FK.
+    Nombre_TipoNota: str | None  # Only appears if det>0
+    textoTipo: str | None  # Appears but it can be null.
+
 
 class pyDatosSerie(p.BaseModel):
     """
@@ -205,12 +213,9 @@ class pyDatosSerie(p.BaseModel):
     T3_Unidad: str | None = None
     Unidad: pyUnidad | None = None
     # COMPROBAR SI OCURRE UNO U OTRO
-    Serie: pySerie | None = None
+    Notas: p.List[pyNota] | None = None
     MetaData: p.List(pyValor) | None = None
     Data: p.List(pyDato) | None = None
-
-
-
 
 
 class pySerie(p.BaseModel):
@@ -247,8 +252,6 @@ class pySerie(p.BaseModel):
     MetaData: p.List[pyValor] | None = None
     # Only if tip = M
     DatosSerie: pyDatosSerie | None = None
-
-
 
 
 class pyGrupoTabla(p.BaseModel):
