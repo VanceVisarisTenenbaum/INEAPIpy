@@ -54,6 +54,40 @@ class pyVariable(p.BaseMode):
     Codigo: str
 
 
+def check_if_all_are_None(
+        *options,
+        name=''):
+    """
+    Checks if all options are None.
+
+    Raises ValueError if all are.
+
+    name optional param is simply a name to print when the error si raised.
+    For simplification on debugging.
+
+    Parameters
+    ----------
+    *options : Any
+        Options to check.
+    name : str, optional
+        String to print when raising the error. The default is ''.
+
+    Raises
+    ------
+    ValueError
+        Error meaning that all options where None.
+
+    Returns
+    -------
+    None.
+
+    """
+    checks = [v is None for v in options]
+    if all(checks):
+        raise ValueError(f'All values are None.\n---Debug message: {name}')
+    return None
+
+
 class pyValorBase(p.BaseModel):
     """Base because it doesn't have the JerarquiaPadres Keyword."""
 
@@ -64,13 +98,29 @@ class pyValorBase(p.BaseModel):
     """
     Valor has associated a Variable, this is represented in these params.
 
-    Both are optional, but one of them must input.
-
-    COMPROBAR PYDANTIC QUE OCURRE ALGUNO DE LOS INPUTS VARIABLE O FK_VARIABLE.
+    These three are optional, but one of them must input.
     """
     Nombre: str
     Codigo: str
     Nota: str | None = None  # Doesn't appears always.
+
+    @p.model_validator('after')
+    def checks(self):
+        """
+        Checks if FK, T3, or Variable are all None.
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_Variable,
+            self.T3_Variable,
+            self.Variable,
+            name='pyValorBase'
+        )
+
+        return self
 
 
 class pyValor(p.BaseModel, pyValorBase):
@@ -100,12 +150,29 @@ class pyPeriodo(p.BaseModel):
     FK_Periodicidad: int | None = None
     T3_Periodicidad: str | None = None
     Periodicidad: pyPeriodicidad | None
-    # COMPROBAR SI OCURRE UNO U OTRO
     Dia_inicio: str
     Mes_inicio: str
     Codigo: str
     Nombre: str
     Nombre_largo: str
+
+    @p.model_validator('after')
+    def checks(self):
+        """
+        Checks if FK, T3, or Periodicidad are all None.
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_Periodicidad,
+            self.T3_Periodicidad,
+            self.Periodicidad,
+            name='pyPeriodo'
+        )
+
+        return self
 
 
 class pyPublicacionFechaActa(p.BaseModel):
@@ -117,8 +184,25 @@ class pyPublicacionFechaActa(p.BaseModel):
     FK_Periodo: int | None = None
     T3_Periodo: str | None = None
     Periodo: pyPeriodo | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     Anyo: int
+
+    @p.model_validator('after')
+    def checks(self):
+        """
+        Checks if FK, T3, or Periodo are all None.
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_Periodo,
+            self.T3_Periodo,
+            self.Periodo,
+            name='pyPublicacionFechaActa'
+        )
+
+        return self
 
 
 class pyPublicacion(p.BaseModel):
@@ -129,12 +213,34 @@ class pyPublicacion(p.BaseModel):
     FK_Periodicidad: int | None = None
     T3_Periodicidad: str | None = None
     Periodicidad: pyPeriodicidad | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     FK_PubFechaAct: int | None = None
     T3_PubFechaAct: str | None = None
     PubFechaAct: pyPublicacionFechaActa | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     Operacion: p.List[pyOperacion] | None = None
+
+    @p.model_validator('after')
+    def checks(self):
+        """
+        Checks None for both Periodicidad and PubFechaAct
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_Periodicidad,
+            self.T3_Periodicidad,
+            self.Periodicidad,
+            name='pyPublicacion -- Periodicidad'
+        )
+        check_if_all_are_None(
+            self.FK_PubFechaAct,
+            self.T3_PubFechaAct,
+            self.PubFechaAct,
+            name='pyPublicacion -- PubFechaAct'
+        )
+
+        return self
 
 
 class pyClasificacion(p.BaseModel):
@@ -179,14 +285,36 @@ class pyDato(p.BaseModel):
     FK_TipoDato: int | None = None
     T3_TipoDato: str | None = None
     TipoDato: pyTipoDato | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     FK_Periodo: int | None = None
     T3_Periodo: str | None = None
     Periodo: pyPeriodo | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     Anyo: int
     Valor: float
     Secreto: bool
+
+    @p.model_validator('after')
+    def checks(self):
+        """
+        Checks if all None for TipoDato and Periodo.
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_TipoDato,
+            self.T3_TipoDato,
+            self.TipoDato,
+            name='pyDato -- TipoDato'
+        )
+        check_if_all_are_None(
+            self.FK_Periodo,
+            self.T3_Periodo,
+            self.Periodo,
+            name='pyDato -- Periodo'
+        )
+
+        return self
 
 
 class pyNota(p.BaseModel):
@@ -212,10 +340,27 @@ class pyDatosSerie(p.BaseModel):
     FK_Unidad: int | None = None
     T3_Unidad: str | None = None
     Unidad: pyUnidad | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     Notas: p.List[pyNota] | None = None
     MetaData: p.List(pyValor) | None = None
     Data: p.List(pyDato) | None = None
+
+    @p.model_validator('after')
+    def checks(self):
+        """
+        Checks if FK, T3, or Unidad are all None.
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_Unidad,
+            self.T3_Unidad,
+            self.Unidad,
+            name='pyDatosSerie'
+        )
+
+        return self
 
 
 class pySerie(p.BaseModel):
@@ -226,32 +371,81 @@ class pySerie(p.BaseModel):
     FK_Operacion: int | None = None
     T3_Operacion: str | None = None
     Operacion: pyOperacion | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     Nombre: str
     Decimales: int
     FK_Periodicidad: int | None = None
     T3_Periodicidad: str | None = None
     Periodicidad: pyPeriodicidad | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     FK_Publicacion: int | None = None
     T3_Publicacion: str | None = None
     Publicacion: pyPublicacion | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     FK_Clasificacion: int | None = None
     T3_Clasificacion: str | None = None
     Clasificacion: pyClasificacion | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     FK_Escala: int | None = None
     T3_Escala: str | None = None
     Escala: pyEscala | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     FK_Unidad: int | None = None
     T3_Unidad: str | None = None
     Unidad: pyUnidad | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     MetaData: p.List[pyValor] | None = None
     # Only if tip = M
     DatosSerie: pyDatosSerie | None = None
+
+    @p.model_validator('after')
+    def checks(self):
+        """
+        Checks if all None for next attributes.
+
+            Operacion
+            Periodicidad
+            Publicacion
+            Clasificacion
+            Escala
+            Unidad
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_Operacion,
+            self.T3_Operacion,
+            self.Operacion,
+            name='pySerie -- Operacion'
+        )
+        check_if_all_are_None(
+            self.FK_Periodicidad,
+            self.T3_Periodicidad,
+            self.Periodicidad,
+            name='pySerie -- Periodicidad'
+        )
+        check_if_all_are_None(
+            self.FK_Publicacion,
+            self.T3_Publicacion,
+            self.Publicacion,
+            name='pySerie -- Publicacion'
+        )
+        check_if_all_are_None(
+            self.FK_Clasificacion,
+            self.T3_Clasificacion,
+            self.Clasificacion,
+            name='pySerie -- Clasificacion'
+        )
+        check_if_all_are_None(
+            self.FK_Escala,
+            self.T3_Escala,
+            self.Escala,
+            name='pySerie -- Escala'
+        )
+        check_if_all_are_None(
+            self.FK_Unidad,
+            self.T3_Unidad,
+            self.Unidad,
+            name='pySerie -- Unidad'
+        )
+
+        return self
 
 
 class pyGrupoTabla(p.BaseModel):
@@ -270,17 +464,48 @@ class pyTabla(p.BaseModel):
     FK_Periodicidad: int | None = None
     T3_Periodicidad: str | None = None
     Periodicidad: pyPeriodicidad | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     FK_Publicacion: int | None = None
     T3_Publicacion: str | None = None
     Publicacion: pyPublicacion | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     FK_Periodo_ini: int | None = None
     T3_Periodo_ini: str | None = None
     Periodo_ini: pyPeriodo | None = None
-    # COMPROBAR SI OCURRE UNO U OTRO
     Anyo_Periodo_ini: str
     FechaRef_fin: int | str
     Ultima_Modificacion: int | str
     GruposTabla: p.List[pyGrupoTabla] | None = None
     Series: p.List[pySerie] | None = None
+
+    @p.model_validator('after')
+    def checks(self):
+        """
+        Checks if all None for next attributes.
+
+            Periodicidad
+            Publicacion
+            Periodo_ini
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_Periodicidad,
+            self.T3_Periodicidad,
+            self.Periodicidad,
+            name='pyTabla -- Periodicidad'
+        )
+        check_if_all_are_None(
+            self.FK_Publicacion,
+            self.T3_Publicacion,
+            self.Publicacion,
+            name='pyTabla -- Publicacion'
+        )
+        check_if_all_are_None(
+            self.FK_Periodo_ini,
+            self.T3_Periodo_ini,
+            self.Periodo_ini,
+            name='pyTabla -- Periodo_ini'
+        )
+
+        return self

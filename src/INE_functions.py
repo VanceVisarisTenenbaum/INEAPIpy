@@ -24,7 +24,7 @@ def datos_tabla(tab_id,
                 metadata_filtering=dict()
                 ):
     """
-    Function from INE.
+    Function DATOS_TABLA from INE.
 
     Parameters
     ----------
@@ -47,5 +47,4 @@ def datos_tabla(tab_id,
         Built URL.
 
     """
-
     return URL
