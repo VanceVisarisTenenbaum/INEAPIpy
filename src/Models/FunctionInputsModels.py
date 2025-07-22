@@ -7,6 +7,7 @@ Created on Thu Jul 17 18:14:21 2025
 """
 
 import pydantic as p
+import datetime as dt
 
 
 class InputParams(p.BaseModel):
@@ -25,8 +26,139 @@ class InputParams(p.BaseModel):
     tab_id: int | None = None  # Table Id
     group_id: int | None = None  # Table Group Id
     serie_id: int | None = None  # Serie Id
+    unit_id: int | None = None  # Unit Id
+    scale_id: int | None = None  # Scale Id
+    period_id: int | None = None  # Period Id
+    periodicity_id: int | None = None  # Periodicity Id
+    classification_id: int | None = None  # Classification Id
 
     """
     There is no need for any additional check since this model is used to
     check that the inputs were correct.
     """
+
+
+class VarValueDictModel(p.BaseModel):
+    """Class model to check proper shape of input dict for metadata filters."""
+
+    variables: p.Dict[int, p.List[int]]  # I doubt there is any negative Id
+    publicacion: int = p.Field(alias='Filter by Publication Id')
+    # This class shouldnt be used outside FilteringInputs class.
+
+
+class customDate(p.BaseModel):
+    """Class model for dates. This exist just to perform the date checks."""
+
+    date_val = dt.datetime | str
+
+    @p.field_serializer('date_val', mode='after')
+    @classmethod
+    def date_transform(cls, val):
+        """
+        Takes a value and transform it to a datetime is possible.
+
+        Parameters
+        ----------
+        val : datetime or str of shape %Y-%m-%d
+            Value to transform to datetime.
+
+        Returns
+        -------
+        new_val : datetime.datetime
+            Input value transformed as datetime.
+
+        """
+        if isinstance(val, dt.datetime):
+            return val
+        elif isinstance(val, str):
+            # datetime already raises ValueError if it doesn't have the proper
+            # format %Y-%m-%d
+            return dt.datetime.strptime(val, '%Y-%m-%d')
+        # else shouldn't happen cause this validation occurs after the
+        # pydantic validation, which forces the val to be str or datetime.
+
+
+class customDateRange(p.BaseModel):
+    """Class model to handle date ranges formats."""
+
+    start_date: customDate | None = None
+    end_date: customDate | None = None
+
+    @p.model_validator('date_range', mode='after')
+    def __reorder_date_range(self):
+        """Orders ascendingly the date range if needed."""
+        if self.start_date is not None and self.end_date is not None:
+            first_date = min(self.start_date, self.end_date)
+            second_date = max(self.start_date, self.end_date)
+            if first_date == second_date:
+                raise ValueError("Both dates can't be the same.")
+            self.start_date = first_date
+            self.end_date = second_date
+        return self
+
+
+class ListOfDates(p.BaseModel):
+    """
+    Class model to transform possible date formats.
+
+    This class takes as input a list of dates or date ranges that may come
+    with different formats.
+
+    These formats are the next (also explained in the INE filtering module):
+        each value in the list must be
+            datetime
+            str: %Y-%m-%d
+            tuple: 2 elements of datetime, str or None
+                (date,None) from date until today.
+                (None,date) from any time until date.
+                (date,date) from first date until second date (chrono order).
+                this indicates a range instead of particular dates.
+    """
+
+
+class FilteringInputs(p.BaseModel):
+    """Class model to check valid filtering function inputs."""
+
+    # Metadata filtering.
+    # Metadata filtering inputs are a dictionary and string specifying the
+    # shape of the output.
+    """
+    Already specified in the respective function.
+
+    var_value_dict is a dict of shape
+    {
+         variable_id_1: [value_id_1_1, value_id_2_1, ..., value_id_m_1],
+         variable_id_2: [value_id_1_2, value_id_2_2, ..., value_id_m_2],
+         .
+         .
+         .
+         variable_id_n: [value_id_1_n, value_id_2_n, ..., value_id_m_n],
+         # With the additional possible key.
+         publicacion:publication_id
+     }
+
+    """
+    var_value_dict: VarValueDictModel | None = None
+    format_: p.Literal['series', 'metadata'] = 'series'
+    # Data quantity filtering.
+    """
+    These formats are the next (also explained in the INE filtering module):
+        each value in the list must be
+            datetime
+            str: %Y-%m-%d
+            tuple: 2 elements of datetime, str or None
+                (date,None) from date until today.
+                (None,date) from any time until date.
+                (date,date) from first date until second date (chrono order).
+                this indicates a range instead of particular dates.
+    """
+    list_of_dates: p.List[customDate | customDateRange] | None = None
+    count: p.PositiveInt | None = None
+
+    @p.model_validator('after')
+    def __quantity_filters_check(self):
+        """Checks if at least one input was passed to date or count."""
+        if self.list_of_dates is None and self.count is None:
+            raise ValueError('At least count or date range must be provided.')
+        return self
+

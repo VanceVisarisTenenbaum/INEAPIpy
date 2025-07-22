@@ -94,6 +94,22 @@ def date_count_selection_params_builder(self,
     Takes the input of dates or count and builds a dictionary valid
     for the filtering params of the INE API.
 
+    The resulting dict will be
+    {
+         'date1': 'YYYYmmdd'
+         'date2': 'YYYYmmdd:',
+         'date3': ':YYYYmmdd',
+         'date4': 'YYYYmmdd:YYYYmmdd',
+    }
+
+    or
+
+    {
+         'nult': count
+    }
+
+    depending on inputs.
+
     Parameters
     ----------
     list_of_dates : List, optional
