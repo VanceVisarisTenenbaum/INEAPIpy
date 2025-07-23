@@ -6,6 +6,7 @@ Created on Thu Jul 17 18:14:21 2025
 @author: mano
 """
 
+import typing as ty
 import pydantic as p
 import datetime as dt
 
@@ -16,7 +17,7 @@ class InputParams(p.BaseModel):
     # API Information Config
     detail_level: p.NonNegativeInt = 0  # Int>=0
     # In practice, detail_level shouldnt be greater than 3, but it may work.
-    tipology: p.Literal['', 'A', 'M', 'AM'] = ''
+    tipology: ty.Literal['', 'A', 'M', 'AM'] = ''
     geographical_level: p.NonNegativeInt = 0  # Int>=0
 
     # API variables options.
@@ -41,7 +42,7 @@ class InputParams(p.BaseModel):
 class VarValueDictModel(p.BaseModel):
     """Class model to check proper shape of input dict for metadata filters."""
 
-    variables: p.Dict[int, p.List[int]]  # I doubt there is any negative Id
+    variables: ty.Dict[int, ty.List[int]]  # I doubt there is any negative Id
     publicacion: int = p.Field(alias='Filter by Publication Id')
     # This class shouldnt be used outside FilteringInputs class.
 
@@ -139,7 +140,7 @@ class FilteringInputs(p.BaseModel):
 
     """
     var_value_dict: VarValueDictModel | None = None
-    format_: p.Literal['series', 'metadata'] = 'series'
+    format_: ty.Literal['series', 'metadata'] = 'series'
     # Data quantity filtering.
     """
     These formats are the next (also explained in the INE filtering module):
@@ -152,7 +153,7 @@ class FilteringInputs(p.BaseModel):
                 (date,date) from first date until second date (chrono order).
                 this indicates a range instead of particular dates.
     """
-    list_of_dates: p.List[customDate | customDateRange] | None = None
+    list_of_dates: ty.List[customDate | customDateRange] | None = None
     count: p.PositiveInt | None = None
 
     @p.model_validator('after')

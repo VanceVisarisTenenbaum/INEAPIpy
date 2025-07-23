@@ -18,6 +18,7 @@ This means that if you see T3 or FK, they represent the same, but with
 different names.
 """
 
+import typing as ty
 import pydantic as p
 
 
@@ -42,7 +43,7 @@ class pyOperacion(p.BaseModel):
     Nombre: str
     Codigo: str
     Url: str | None = None  # Not all operations have this param.
-    Referencia: p.List[pyReferencia] | None = None
+    Referencia: ty.List[pyReferencia] | None = None
     # Not all operations contain this param, and appear only if det>0.
 
 
@@ -126,11 +127,11 @@ class pyValorBase(p.BaseModel):
 class pyValor(p.BaseModel, pyValorBase):
     """Extends pyValorBase by adding JerarquiaPadres."""
 
-    FK_JerarquiaPadres: p.List[int] | None = None  # Only if det = 0
-    T3_JerarquiaPadres: p.List[str] | None = None  # Only if tip = A,
+    FK_JerarquiaPadres: ty.List[int] | None = None  # Only if det = 0
+    T3_JerarquiaPadres: ty.List[str] | None = None  # Only if tip = A,
     # shouldn't appear
     # Not all Valor has this key.
-    JerarquiaPadres: p.List[pyValorBase] | None = None
+    JerarquiaPadres: ty.List[pyValorBase] | None = None
     """No need to check if one of both happens since they may not appear."""
 
 
@@ -216,7 +217,7 @@ class pyPublicacion(p.BaseModel):
     FK_PubFechaAct: int | None = None
     T3_PubFechaAct: str | None = None
     PubFechaAct: pyPublicacionFechaActa | None = None
-    Operacion: p.List[pyOperacion] | None = None
+    Operacion: ty.List[pyOperacion] | None = None
 
     @p.model_validator('after')
     def checks(self):
@@ -340,9 +341,9 @@ class pyDatosSerie(p.BaseModel):
     FK_Unidad: int | None = None
     T3_Unidad: str | None = None
     Unidad: pyUnidad | None = None
-    Notas: p.List[pyNota] | None = None
-    MetaData: p.List(pyValor) | None = None
-    Data: p.List(pyDato) | None = None
+    Notas: ty.List[pyNota] | None = None
+    MetaData: ty.List(pyValor) | None = None
+    Data: ty.List(pyDato) | None = None
 
     @p.model_validator('after')
     def checks(self):
@@ -388,7 +389,7 @@ class pySerie(p.BaseModel):
     FK_Unidad: int | None = None
     T3_Unidad: str | None = None
     Unidad: pyUnidad | None = None
-    MetaData: p.List[pyValor] | None = None
+    MetaData: ty.List[pyValor] | None = None
     # Only if tip = M
     DatosSerie: pyDatosSerie | None = None
 
@@ -473,8 +474,8 @@ class pyTabla(p.BaseModel):
     Anyo_Periodo_ini: str
     FechaRef_fin: int | str
     Ultima_Modificacion: int | str
-    GruposTabla: p.List[pyGrupoTabla] | None = None
-    Series: p.List[pySerie] | None = None
+    GruposTabla: ty.List[pyGrupoTabla] | None = None
+    Series: ty.List[pySerie] | None = None
 
     @p.model_validator('after')
     def checks(self):
