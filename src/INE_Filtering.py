@@ -13,6 +13,7 @@ for INE API.
 """
 
 import datetime as dt
+import Models.FunctionInputsModels as FIM
 
 def metadata_param_filtering_builder(self,
                                      var_value_dict=None,
@@ -50,46 +51,43 @@ def metadata_param_filtering_builder(self,
     if not isinstance(var_value_dict, dict):
         return dict()
 
+    # Pydantic checks
+    Inputs = FIM.FilteringInputs(
+        var_value_dict=var_value_dict,
+        format_=format_)
+
+    var_value_dict = Inputs.var_value_dict  # Transformed to correct shape.
+    format_ = Inputs.format_
+
     if format_ == 'series':
         key_base = 'tv'
     elif format_ == 'metadata':
         key_base = 'g'
-    else:
-        raise ValueError(
-            'format_ param can only be "series" or "metadata".'
-        )
 
     params_dict = dict()
     counter = 1
     # Loop the input dict and transform it and save it to params_dict
     for i, (k, v) in enumerate(var_value_dict.items()):
+        # k is a variable Id or publicacion
+        # v is a list of value_id or id of publicacion
         # The only special case is publicacion.
         if k == 'publicacion':
-            if type(v) not in [int, str]:
-                raise ValueError(
-                    'The input for publicacion must be an '
-                    + 'integer or a string.'
-                )
             params_dict['p'] = str(v)  # To str in case it is an int.
             continue
         else:
-            if isinstance(v, list):
-                for val in v:
-                    params_dict[f'{key_base}{counter}'] = f'{k}:{val}'
-                    counter += 1
-            else:
-                raise ValueError(
-                    f'Your metadata input for key {k} was {v},'
-                    + ' it must be a list.'
-                )
+            # In any other case, the value is a list.
+            for val in v:
+                params_dict[f'{key_base}{counter}'] = f'{k}:{val}'
+                counter += 1
 
     return params_dict
+
 
 def date_count_selection_params_builder(self,
                                         list_of_dates=None,
                                         count=None):
     """
-    Builds filtering params valid for the INE API
+    Builds filtering params valid for the INE API.
 
     Takes the input of dates or count and builds a dictionary valid
     for the filtering params of the INE API.
@@ -130,102 +128,36 @@ def date_count_selection_params_builder(self,
         DESCRIPTION.
 
     """
-    if list_of_dates is None and count is None:
-        raise ValueError('At least count or date range must be provided.')
+    # pydantic checks. This raises error if input isn't correctly shaped.
+    Inputs = FIM.FilteringInputs(list_of_dates=list_of_dates, count=count)
 
-    params_dict = dict()
+    list_of_dates = Inputs.list_of_dates  # Values are transformed by pydantic.
+    count = Inputs.count
+
+    params_dict = dict()  # To store the data.
     if list_of_dates is not None:
-        if not isinstance(list_of_dates, list):
-            raise TypeError('list of dates must be a list.')
         # Recorremos la lista
         for i, date in enumerate(list_of_dates):
-            """
-            each value in the list must be
-                datetime
-                str: %Y-%m-%d
-                tuple: 2 elements of datetime, str or None
-                    (date,None)
-                    (None,date)
-                    (date,date)
-                    this indicates a range instead of particular dates.
-            """
-
-            if type(date) not in [str, dt.datetime, tuple]:
-                raise TypeError(
-                    'Dates must be a string, a datetime or a tuple.'
-                )
-
-            if isinstance(date, str):
-                # if input is a string we just transform it to datetime
-                try:
-                    v = dt.datetime.strptime(date, '%Y-%m-%d')
-                except ValueError:
-                    raise ValueError('datetime string must match %Y-%m-%v')
+            # date is a datetime or an ordered tuple of datetimes
+            if isinstance(date, dt.datetime):
+                v = date  # v is the value we will set for the dict.
             elif isinstance(date, tuple):
-                # if tuple we transform to string "start_date:end_date"
-                if len(date) != 2:
-                    raise ValueError(
-                        'tuple of dates must be of two dates.'
-                        + ' In case you dont want one you can set None'
-                    )
-                start_date = date[0]
-                end_date = date[1]
-
-                if start_date is None and end_date is None:
-                    raise ValueError(
-                        'At least one value must be provided.'
-                    )
-
-                if start_date is None:
+                start = date[0]
+                end = date[0]
+                if start is None:
                     start_date = ''
-                if end_date is None:
+                else:
+                    start_date = start.strftime('%Y%m%d')
+                if end is None:
                     end_date = ''
-
-                if type(start_date) not in [str, dt.datetime]:
-                    raise TypeError(
-                        'start date must be a string or a datetime.'
-                    )
-                if type(end_date) not in [str, dt.datetime]:
-                    raise TypeError(
-                        'end date must be a string or a datetime.'
-                    )
-
-                if start_date != '' and isinstance(start_date, str):
-                    try:
-                        start_date = dt.datetime.strptime(date[0],
-                                                          '%Y-%m-%d')
-                    except ValueError:
-                        raise ValueError(
-                            'start date datetime string must match'
-                            + ' %Y-%m-%v'
-                        )
-
-                if end_date != '' and isinstance(end_date, str):
-                    try:
-                        end_date = dt.datetime.strptime(date[1],
-                                                        '%Y-%m-%d')
-                    except ValueError:
-                        raise ValueError(
-                            'end date datetime string must match %Y-%m-%v'
-                        )
-
-                if isinstance(start_date, dt.datetime):
-                    start_date = start_date.strftime('%Y-%m-%d')
-                if isinstance(end_date, dt.datetime):
-                    end_date = end_date.strftime('%Y-%m-%d')
+                else:
+                    end_date = end.strftime('%Y%m%d')
 
                 v = f'{start_date}:{end_date}'
-            elif isinstance(date, dt.datetime):
-                v = date
-            else:
-                raise ValueError('This should not happen.')
 
             key = f'date{i}'
             params_dict[key] = v
     elif count is not None:
-        if isinstance(count, int):
-            raise TypeError('count param must be an integer.')
         params_dict['nult'] = count
 
     return params_dict
-
