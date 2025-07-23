@@ -24,7 +24,7 @@ def url_gen(function, *inputs, **kwargs):
 
     for example
         function = 'OPERACIONES_DISPONIBLES'
-        input =
+        input = 123
     """
     Inputs = URLModels.InputModel(
         function=function,

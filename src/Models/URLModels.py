@@ -109,7 +109,7 @@ class InputModel(p.BaseModel):
     ]
 
     language: ty.Literal['ES', 'EN'] = 'ES'
-    path: str | ty.List[str | None] | ty.Tuple[str | None] = ''
+    path: str | int | ty.List[str | int | None] | ty.Tuple[str | int | None] = ''
     query: ty.Dict[str, str | int] = dict()
 
     @p.model_validator(mode='after')
