@@ -50,7 +50,7 @@ class VarValueDictModel(p.BaseModel):
 class customDate(p.BaseModel):
     """Class model for dates. This exist just to perform the date checks."""
 
-    date_val = dt.datetime | str
+    date_val: dt.datetime | str
 
     @p.field_serializer('date_val', mode='after')
     @classmethod

@@ -23,6 +23,7 @@ def metadata_param_filtering_builder(self,
 
     This function receives a dictionary of shape
         variable_id : [value_id,...]
+        publicacion: publication_id
 
     and will return a dictionary of the shape:
         tv1:"variable_id:value_id_1"
