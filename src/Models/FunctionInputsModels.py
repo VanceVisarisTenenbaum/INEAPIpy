@@ -38,6 +38,38 @@ class InputParams(p.BaseModel):
     check that the inputs were correct.
     """
 
+    @p.model_validator(mode='after')
+    def __build_params(self):
+        """
+        Builds API Information Config inputs as a dict.
+
+        The resulting Dict is valid to use as URL query.
+        """
+        self.__params = dict()
+        # We skip the defaults since there is no need to provide them in the
+        # url
+        if self.detail_level != 0:
+            self.__params['det'] = self.detail_level
+        if self.tipology != '':
+            self.__params['tip'] = self.tipology
+        if self.geographical_level != 0:
+            self.__params['geo'] = self.geographical_level
+        return self
+
+    def get_params(self):
+        """Returns API Information Config params as a dict if necessary."""
+        return self.__params
+
+    def join_filtering_params(self, filtering_params):
+        """
+        Returns API Config params plus the filtering params from input.
+
+        Doesn't alter the input params.
+        """
+        newdict = dict(self.get_params())  # Dict to make a copy.
+        newdict.update(dict(filtering_params))
+        return newdict
+
 
 class VarValueDictModel(p.RootModel):
     """Class model to check proper shape of input dict for metadata filters."""
