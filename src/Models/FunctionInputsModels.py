@@ -21,17 +21,17 @@ class InputParams(p.BaseModel):
     geographical_level: p.NonNegativeInt = 0  # Int>=0
 
     # API variables options.
-    op_id: int | None = None  # Operation Id
-    var_id: int | None = None  # Variable Id
-    val_id: int | None = None  # Value Id
-    tab_id: int | None = None  # Table Id
-    group_id: int | None = None  # Table Group Id
-    serie_id: int | None = None  # Serie Id
-    unit_id: int | None = None  # Unit Id
-    scale_id: int | None = None  # Scale Id
-    period_id: int | None = None  # Period Id
-    periodicity_id: int | None = None  # Periodicity Id
-    classification_id: int | None = None  # Classification Id
+    op_id: int | str | None = None  # Operation Id
+    var_id: int | str | None = None  # Variable Id
+    val_id: int | str | None = None  # Value Id
+    tab_id: int | str | None = None  # Table Id
+    group_id: int | str | None = None  # Table Group Id
+    serie_id: int | str | None = None  # Serie Id
+    unit_id: int | str | None = None  # Unit Id
+    scale_id: int | str | None = None  # Scale Id
+    period_id: int | str | None = None  # Period Id
+    periodicity_id: int | str | None = None  # Periodicity Id
+    classification_id: int | str | None = None  # Classification Id
 
     """
     There is no need for any additional check since this model is used to
