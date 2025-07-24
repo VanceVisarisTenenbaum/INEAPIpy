@@ -139,3 +139,23 @@ class InputModel(p.BaseModel):
             # We remove the last /
             self.path = path_str
         return self
+
+    @p.model_validator(mode='after')
+    def __query_checks(self):
+        """Checks that query keys are valid for the INE API."""
+        date_param_regex = re.compile(r'\bdate\d+')
+        FK_param_regex = re.compile(r'\bg\d+')
+        FK_metadata_filter_regex = re.compile(r'\btv\d+')
+        static_keys = ['det', 'tip', 'geo', 'page', 'nult', 'p']
+
+        for k, v in self.query.items():
+            check1 = date_param_regex.match(k)
+            check2 = FK_param_regex.match(k)
+            check3 = FK_metadata_filter_regex.match(k)
+            check4 = k in static_keys
+            if check1 or check2 or check3 or check4:
+                continue
+            else:
+                raise ValueError(f'Your key {k} is not valid.')
+
+        return self

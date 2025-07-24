@@ -13,8 +13,8 @@ import datetime as dt
 import Models.FunctionInputsModels as FIM
 
 
-def metadata_param_filtering_builder(var_value_dict=None,
-                                     format_='series'):
+def metadata_param_filtering_builder(var_value_dict: dict | None = None,
+                                     format_: str = 'series'):
     """
     Transforms the input dictionary into a dictionary valid for the API.
 
@@ -81,8 +81,8 @@ def metadata_param_filtering_builder(var_value_dict=None,
     return params_dict
 
 
-def date_count_selection_params_builder(list_of_dates=None,
-                                        count=None):
+def date_count_selection_params_builder(list_of_dates: list | None = None,
+                                        count: int | None = None):
     """
     Builds filtering params valid for the INE API.
 
@@ -161,3 +161,24 @@ def date_count_selection_params_builder(list_of_dates=None,
         params_dict['nult'] = count
 
     return params_dict
+
+
+def metadata_and_date_filtering(var_value_dict: dict | None = None,
+                                format_: str = 'series',
+                                list_of_dates: list | None = None,
+                                count: int | None = None):
+    """Runs both previous functions and concats both dict."""
+    newdict = dict()
+    newdict.update(
+        metadata_param_filtering_builder(
+            var_value_dict=var_value_dict,
+            format_=format_
+        )
+    )
+    newdict.update(
+        date_count_selection_params_builder(
+            list_of_dates=list_of_dates,
+            count=count
+        )
+    )
+    return newdict

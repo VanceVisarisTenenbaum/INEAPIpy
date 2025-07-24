@@ -14,9 +14,10 @@ They are all described here: https://www.ine.es/dyngs/DAB/index.htm?cid=1100
 """
 
 import INE_Filtering as filtering
+import INE_URL_Treatment as INEURL
 
 
-def datos_tabla(tab_id,
+def datos_tabla(tab_id: int | str,
                 detail_level=0,
                 tipology='',
                 count=None,
@@ -47,4 +48,5 @@ def datos_tabla(tab_id,
         Built URL.
 
     """
+
     return URL

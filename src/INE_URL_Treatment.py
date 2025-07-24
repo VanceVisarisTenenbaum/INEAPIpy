@@ -29,8 +29,23 @@ def url_gen(function, *inputs, **kwargs):
         det=2
         tip=A
 
-        returns
-        https://servicios.ine.es/wstempus/js/ES/SERIES_OPERACION/25?page=1&det=2&tip=A
+        would return
+            https://servicios.ine.es/wstempus/js/ES/SERIES_OPERACION/25?page=1&det=2&tip=A
+
+    Parameters
+    ----------
+    function : str
+        function from INE API.
+    *inputs : str | int
+        Inputs for function.
+    **kwargs : int | str
+        Query params for INE API URL
+
+    Returns
+    -------
+    str
+        Generated URL valid for INE API.
+
     """
     Inputs = URLModels.InputModel(
         function=function,
