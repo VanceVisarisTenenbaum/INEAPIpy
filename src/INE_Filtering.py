@@ -57,10 +57,10 @@ def metadata_param_filtering_builder(var_value_dict=None,
     var_value_dict = Inputs.var_value_dict.root  # root attribute needed.
     format_ = Inputs.format_
 
-    if format_ == 'series':
-        key_base = 'tv'
-    elif format_ == 'metadata':
+    if format_ == 'metadata' or 'publicacion' in var_value_dict.keys():
         key_base = 'g'
+    elif format_ == 'series':
+        key_base = 'tv'
 
     params_dict = dict()
     counter = 1
