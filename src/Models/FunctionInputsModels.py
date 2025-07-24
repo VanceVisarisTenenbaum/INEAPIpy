@@ -39,13 +39,36 @@ class InputParams(p.BaseModel):
     """
 
 
-class VarValueDictModel(p.BaseModel):
+class VarValueDictModel(p.RootModel):
     """Class model to check proper shape of input dict for metadata filters."""
 
-    variables: ty.Dict[int | str, ty.List[int | str]]
+    root: ty.Dict[int | str, ty.List[int | str] | str | int]
     # I doubt there is any negative Id, but we don't know.
-    publicacion: int | str = p.Field(alias='Filter by Publication Id')
-    # This class shouldnt be used outside FilteringInputs class.
+    """
+    This accepts any dict with values as int or str at any point.
+    but we want that only the key publicacion has that type.
+    """
+
+    @p.model_validator(mode='after')
+    def __publication_check(self):
+        """
+        Raises error if it finds any key other than publicacion isn't a list.
+
+        Any key value must be a list.
+        Only key publicacion can have a value that is a str or int.
+        """
+        for k, v in self.root.items():
+            if k == 'publicacion':
+                if isinstance(v, list):
+                    raise TypeError(
+                        'Value for publicacion must be an int or str.'
+                    )
+            else:
+                if not isinstance(v, list):
+                    raise TypeError(
+                        'Values of dict must be a list except for publicacion.'
+                    )
+        return self
 
 
 class customDate(p.BaseModel):
@@ -156,10 +179,3 @@ class FilteringInputs(p.BaseModel):
     """
     list_of_dates: ty.List[customDate | customDateRange] | None = None
     count: p.PositiveInt | None = None
-
-    @p.model_validator(mode='after')
-    def __quantity_filters_check(self):
-        """Checks if at least one input was passed to date or count."""
-        if self.list_of_dates is None and self.count is None:
-            raise ValueError('At least count or date range must be provided.')
-        return self
