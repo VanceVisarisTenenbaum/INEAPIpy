@@ -138,11 +138,12 @@ def date_count_selection_params_builder(list_of_dates=None,
         # Recorremos la lista
         for i, date in enumerate(list_of_dates):
             # date is a datetime or an ordered tuple of datetimes
-            if isinstance(date, dt.datetime):
-                v = date  # v is the value we will set for the dict.
-            elif isinstance(date, tuple):
-                start = date[0]
-                end = date[0]
+            if isinstance(date, FIM.customDate):
+                v = date.date_val.strftime('%Y%m%d')
+                # v is the value we will set for the dict.
+            elif isinstance(date, FIM.customDateRange):
+                start = date.start_date
+                end = date.end_date
                 if start is None:
                     start_date = ''
                 else:

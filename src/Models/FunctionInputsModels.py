@@ -74,7 +74,7 @@ class VarValueDictModel(p.RootModel):
 class customDate(p.BaseModel):
     """Class model for dates. This exist just to perform the date checks."""
 
-    date_val: dt.datetime | str
+    date_val: dt.datetime | str | None
 
     @p.field_validator('date_val', mode='after')
     @classmethod
@@ -93,7 +93,9 @@ class customDate(p.BaseModel):
             Input value transformed as datetime.
 
         """
-        if isinstance(val, dt.datetime):
+        if val is None:
+            return val
+        elif isinstance(val, dt.datetime):
             return val
         elif isinstance(val, str):
             # datetime already raises ValueError if it doesn't have the proper
@@ -105,14 +107,18 @@ class customDate(p.BaseModel):
 
 class customDateRange(p.BaseModel):
     """Class model to handle date ranges formats."""
-
-    start_date: customDate | None = None
-    end_date: customDate | None = None
+    start_date: customDate = None
+    end_date: customDate = None
 
     @p.model_validator(mode='after')
     def __reorder_date_range(self):
         """Orders ascendingly the date range if needed."""
+        # First we extract the datetimes from customDate
+        self.start_date = self.start_date.date_val
+        self.end_date = self.end_date.date_val
+
         if self.start_date is not None and self.end_date is not None:
+
             first_date = min(self.start_date, self.end_date)
             second_date = max(self.start_date, self.end_date)
             if first_date == second_date:
@@ -177,5 +183,19 @@ class FilteringInputs(p.BaseModel):
                 (date,date) from first date until second date (chrono order).
                 this indicates a range instead of particular dates.
     """
-    list_of_dates: ty.List[customDate | customDateRange] | None = None
+    list_of_dates: ty.List[str | ty.List[str | None] | ty.Tuple[str | None]] | None = None
     count: p.PositiveInt | None = None
+
+    @p.field_validator('list_of_dates', mode='after')
+    @classmethod
+    def __correct_list_of_dates(cls, list_):
+        corrected_list = list()
+        for d in list_:
+            if isinstance(d, str):
+                corrected_list.append(customDate(date_val=d))
+            elif isinstance(d, list) or isinstance(d, tuple):
+                corrected_list.append(customDateRange(
+                    start_date=customDate(date_val=d[0]),
+                    end_date=customDate(date_val=d[1])
+                ))
+        return corrected_list
