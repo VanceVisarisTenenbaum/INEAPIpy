@@ -52,7 +52,7 @@ class customDate(p.BaseModel):
 
     date_val: dt.datetime | str
 
-    @p.field_serializer('date_val', mode='after')
+    @p.field_validator('date_val', mode='after')
     @classmethod
     def date_transform(cls, val):
         """
@@ -85,7 +85,7 @@ class customDateRange(p.BaseModel):
     start_date: customDate | None = None
     end_date: customDate | None = None
 
-    @p.model_validator('date_range', mode='after')
+    @p.model_validator(mode='after')
     def __reorder_date_range(self):
         """Orders ascendingly the date range if needed."""
         if self.start_date is not None and self.end_date is not None:
@@ -156,10 +156,9 @@ class FilteringInputs(p.BaseModel):
     list_of_dates: ty.List[customDate | customDateRange] | None = None
     count: p.PositiveInt | None = None
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def __quantity_filters_check(self):
         """Checks if at least one input was passed to date or count."""
         if self.list_of_dates is None and self.count is None:
             raise ValueError('At least count or date range must be provided.')
         return self
-
