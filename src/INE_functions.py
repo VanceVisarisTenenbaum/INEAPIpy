@@ -4,17 +4,18 @@
 Created on Thu Jul 17 15:46:00 2025
 
 @author: mano
-"""
 
-"""
 This file contains all the functions from the INE as they are, but instead
 of returning the result from the input, they build the corresponding url.
 
 They are all described here: https://www.ine.es/dyngs/DAB/index.htm?cid=1100
+
+All params are assumed to be known, so this functions have minimum docs.
 """
 
 import INE_Filtering as filtering
 import INE_URL_Treatment as INEURL
+import Models.FunctionInputsModels as FIM
 
 
 def datos_tabla(tab_id: int | str,
@@ -24,29 +25,20 @@ def datos_tabla(tab_id: int | str,
                 list_of_dates=None,
                 metadata_filtering=dict()
                 ):
-    """
-    Function DATOS_TABLA from INE.
+    """Function DATOS_TABLA from INE. Returns the URL to make the request."""
+    Inputs = FIM.InputParams(
+        tab_id=tab_id,
+        detail_level=detail_level,
+        tipology=tipology,
+    )
 
-    Parameters
-    ----------
-    tab_id : TYPE
-        DESCRIPTION.
-    detail_level : TYPE, optional
-        DESCRIPTION. The default is 0.
-    tipology : TYPE, optional
-        DESCRIPTION. The default is ''.
-    count : TYPE, optional
-        DESCRIPTION. The default is None.
-    list_of_dates : TYPE, optional
-        DESCRIPTION. The default is None.
-    metadata_filtering : TYPE, optional
-        DESCRIPTION. The default is dict().
+    filter_params = filtering.metadata_and_date_filtering(
+        var_value_dict=metadata_filtering,
+        format_='metadata',
+        list_of_dates=list_of_dates,
+        count=count
+    )
 
-    Returns
-    -------
-    URL : yarl.URL
-        Built URL.
-
-    """
-
+    query = Inputs.join_filtering_params(filter_params)
+    URL = INEURL.url_gen('DATOS_TABLA', Inputs.tab_id, **query)
     return URL

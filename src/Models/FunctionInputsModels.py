@@ -221,6 +221,9 @@ class FilteringInputs(p.BaseModel):
     @p.field_validator('list_of_dates', mode='after')
     @classmethod
     def __correct_list_of_dates(cls, list_):
+        """Transforms the list of dates to valid dates."""
+        if list_ is None:
+            return list_
         corrected_list = list()
         for d in list_:
             if isinstance(d, str):
