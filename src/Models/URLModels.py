@@ -126,13 +126,15 @@ class InputModel(p.BaseModel):
         """
         if isinstance(self.path, str):
             pass
+        elif isinstance(self.path, int):
+            self.path = str(self.path)
         else:
             path_str = f'wstempus/js/{self.language}/{self.function}/'
             for v in self.path:
                 if v is None:
                     continue
                 else:
-                    path_str = path_str + v + '/'
+                    path_str = path_str + str(v) + '/'
             path_str = path_str[:-1]
             # We remove the last /
             self.path = path_str

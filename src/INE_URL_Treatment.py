@@ -23,8 +23,14 @@ def url_gen(function, *inputs, **kwargs):
     required for filtering and selecting outputs.
 
     for example
-        function = 'OPERACIONES_DISPONIBLES'
-        input = 123
+        function = 'SERIES_OPERACION'
+        inputs = 25
+        page=1
+        det=2
+        tip=A
+
+        returns
+        https://servicios.ine.es/wstempus/js/ES/SERIES_OPERACION/25?page=1&det=2&tip=A
     """
     Inputs = URLModels.InputModel(
         function=function,
