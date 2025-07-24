@@ -44,7 +44,7 @@ class VarValueDictModel(p.BaseModel):
 
     variables: ty.Dict[int | str, ty.List[int | str]]
     # I doubt there is any negative Id, but we don't know.
-    publicacion: int = p.Field(alias='Filter by Publication Id')
+    publicacion: int | str = p.Field(alias='Filter by Publication Id')
     # This class shouldnt be used outside FilteringInputs class.
 
 

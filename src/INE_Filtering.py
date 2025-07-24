@@ -4,10 +4,7 @@
 Created on Thu Jul 17 15:55:13 2025
 
 @author: mano
-"""
 
-
-"""
 This file contains the functions needed for creating the filtering params
 for INE API.
 """
@@ -15,8 +12,8 @@ for INE API.
 import datetime as dt
 import Models.FunctionInputsModels as FIM
 
-def metadata_param_filtering_builder(self,
-                                     var_value_dict=None,
+
+def metadata_param_filtering_builder(var_value_dict=None,
                                      format_='series'):
     """
     Transforms the input dictionary into a dictionary valid for the API.
@@ -84,8 +81,7 @@ def metadata_param_filtering_builder(self,
     return params_dict
 
 
-def date_count_selection_params_builder(self,
-                                        list_of_dates=None,
+def date_count_selection_params_builder(list_of_dates=None,
                                         count=None):
     """
     Builds filtering params valid for the INE API.

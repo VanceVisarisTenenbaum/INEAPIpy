@@ -124,7 +124,7 @@ class pyValorBase(p.BaseModel):
         return self
 
 
-class pyValor(p.BaseModel, pyValorBase):
+class pyValor(pyValorBase):
     """Extends pyValorBase by adding JerarquiaPadres."""
 
     FK_JerarquiaPadres: ty.List[int] | None = None  # Only if det = 0
