@@ -42,7 +42,8 @@ class InputParams(p.BaseModel):
 class VarValueDictModel(p.BaseModel):
     """Class model to check proper shape of input dict for metadata filters."""
 
-    variables: ty.Dict[int, ty.List[int]]  # I doubt there is any negative Id
+    variables: ty.Dict[int | str, ty.List[int | str]]
+    # I doubt there is any negative Id, but we don't know.
     publicacion: int = p.Field(alias='Filter by Publication Id')
     # This class shouldnt be used outside FilteringInputs class.
 
