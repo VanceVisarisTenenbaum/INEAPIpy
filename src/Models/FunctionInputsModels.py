@@ -32,6 +32,7 @@ class InputParams(p.BaseModel):
     period_id: int | str | None = None  # Period Id
     periodicity_id: int | str | None = None  # Periodicity Id
     classification_id: int | str | None = None  # Classification Id
+    publication_id: int | str | None = None  # Publication Id
 
     """
     There is no need for any additional check since this model is used to
