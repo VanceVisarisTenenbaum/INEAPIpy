@@ -32,6 +32,59 @@ def datos_tabla(tab_id: int | str,
         tipology=tipology,
     )
 
+    filter_params = filtering.date_count_selection_params_builder(
+        var_value_dict=metadata_filtering,
+        format_='series',
+        list_of_dates=list_of_dates,
+        count=count
+    )
+
+    query = Inputs.join_filtering_params(filter_params)
+    URL = INEURL.url_gen('DATOS_TABLA', Inputs.tab_id, **query)
+    return URL
+
+
+def datos_serie(serie_id: int | str,
+                detail_level=0,
+                tipology='',
+                count=None,
+                list_of_dates=None
+                ):
+    """Function DATOS_SERIE from INE. Returns the URL to make the request."""
+    Inputs = FIM.InputParams(
+        serie_id=serie_id,
+        detail_level=detail_level,
+        tipology=tipology,
+    )
+
+    filter_params = filtering.date_count_selection_params_builder(
+        list_of_dates=list_of_dates,
+        count=count
+    )
+
+    query = Inputs.join_filtering_params(filter_params)
+    URL = INEURL.url_gen('DATOS_SERIE', Inputs.serie_id, **query)
+    return URL
+
+
+def datos_metadataoperacion(op_id: int | str,
+                            detail_level=0,
+                            tipology='',
+                            count=None,
+                            list_of_dates=None,
+                            metadata_filtering=dict()
+                            ):
+    """
+    Function DATOS_METADATAOPERACION from INE.
+
+    Returns the URL to make the request.
+    """
+    Inputs = FIM.InputParams(
+        op_id=op_id,
+        detail_level=detail_level,
+        tipology=tipology,
+    )
+
     filter_params = filtering.metadata_and_date_filtering(
         var_value_dict=metadata_filtering,
         format_='metadata',
@@ -40,5 +93,18 @@ def datos_tabla(tab_id: int | str,
     )
 
     query = Inputs.join_filtering_params(filter_params)
-    URL = INEURL.url_gen('DATOS_TABLA', Inputs.tab_id, **query)
+    URL = INEURL.url_gen('DATOS_METADATAOPERACION', Inputs.serie_id, **query)
     return URL
+
+def operaciones_disponibles(op_id,
+                            detail_level=0,
+                            geographical_level=None,
+                            page=1
+                            ):
+    """
+    Function OPERACIONES_DISPONIBLES from INE.
+
+    Returns the URL to make the request.
+
+    page>1 doesn't returns anything.
+    """

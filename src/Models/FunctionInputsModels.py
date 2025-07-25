@@ -18,7 +18,7 @@ class InputParams(p.BaseModel):
     detail_level: p.NonNegativeInt = 0  # Int>=0
     # In practice, detail_level shouldnt be greater than 3, but it may work.
     tipology: ty.Literal['', 'A', 'M', 'AM'] = ''
-    geographical_level: p.NonNegativeInt = 0  # Int>=0
+    geographical_level: p.NonNegativeInt | None = None  # Int>=0 or None
 
     # API variables options.
     op_id: int | str | None = None  # Operation Id
@@ -52,7 +52,7 @@ class InputParams(p.BaseModel):
             self.__params['det'] = self.detail_level
         if self.tipology != '':
             self.__params['tip'] = self.tipology
-        if self.geographical_level != 0:
+        if self.geographical_level is not None:
             self.__params['geo'] = self.geographical_level
         return self
 
@@ -217,6 +217,8 @@ class FilteringInputs(p.BaseModel):
     """
     list_of_dates: ty.List[str | ty.List[str | None] | ty.Tuple[str | None]] | None = None
     count: p.PositiveInt | None = None
+
+    page: p.PositiveInt | None = None
 
     @p.field_validator('list_of_dates', mode='after')
     @classmethod
