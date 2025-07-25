@@ -394,7 +394,7 @@ def series_tabla(tab_id: int | str,
         detail_level=detail_level,
         tipology=tipology
     )
-    filter_params = filtering.date_count_selection_params_builder(
+    filter_params = filtering.metadata_param_filtering_builder(
         var_value_dict=metadata_filtering,
         format_='series'
     )
@@ -422,7 +422,7 @@ def serie_metadataoperacion(op_id: int | str,
         detail_level=detail_level,
         tipology=tipology
     )
-    filter_params = filtering.date_count_selection_params_builder(
+    filter_params = filtering.metadata_param_filtering_builder(
         var_value_dict=metadata_filtering,
         format_='metadata'
     )

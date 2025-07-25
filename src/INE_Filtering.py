@@ -57,7 +57,7 @@ def metadata_param_filtering_builder(var_value_dict: dict | None = None,
     var_value_dict = Inputs.var_value_dict.root  # root attribute needed.
     format_ = Inputs.format_
 
-    if format_ == 'metadata' or 'publicacion' in var_value_dict.keys():
+    if format_ == 'metadata':
         key_base = 'g'
     elif format_ == 'series':
         key_base = 'tv'
@@ -70,6 +70,10 @@ def metadata_param_filtering_builder(var_value_dict: dict | None = None,
         # v is a list of value_id or id of publicacion
         # The only special case is publicacion.
         if k == 'publicacion':
+            if format_ == 'series':
+                raise ValueError(
+                    "publicacion can't be a key if format_ is series"
+                )
             params_dict['p'] = str(v)  # To str in case it is an int.
             continue
         else:
