@@ -56,17 +56,25 @@ class InputParams(p.BaseModel):
             self.__params['geo'] = self.geographical_level
         return self
 
-    def get_params(self):
-        """Returns API Information Config params as a dict if necessary."""
+    def get_params(self, add_clasif=False):
+        """
+        Returns API Information Config params as a dict if necessary.
+
+        If add_clasif param is true, adds the classification_id as a param
+        to the dictionary if it is not None.
+        """
+        if add_clasif:
+            if self.classification_id is not None:
+                self.__params['clasif'] = self.classification_id
         return self.__params
 
-    def join_filtering_params(self, filtering_params):
+    def join_filtering_params(self, filtering_params, add_clasif=False):
         """
         Returns API Config params plus the filtering params from input.
 
         Doesn't alter the input params.
         """
-        newdict = dict(self.get_params())  # Dict to make a copy.
+        newdict = dict(self.get_params(add_clasif))  # Dict to make a copy.
         newdict.update(dict(filtering_params))
         return newdict
 

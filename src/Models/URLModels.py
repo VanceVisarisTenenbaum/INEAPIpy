@@ -146,7 +146,7 @@ class InputModel(p.BaseModel):
         date_param_regex = re.compile(r'\bdate\d+')
         FK_param_regex = re.compile(r'\bg\d+')
         FK_metadata_filter_regex = re.compile(r'\btv\d+')
-        static_keys = ['det', 'tip', 'geo', 'page', 'nult', 'p']
+        static_keys = ['det', 'tip', 'geo', 'page', 'nult', 'p', 'clasif']
 
         for k, v in self.query.items():
             check1 = date_param_regex.match(k)

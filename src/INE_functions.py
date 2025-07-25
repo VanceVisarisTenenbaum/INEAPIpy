@@ -96,15 +96,108 @@ def datos_metadataoperacion(op_id: int | str,
     URL = INEURL.url_gen('DATOS_METADATAOPERACION', Inputs.serie_id, **query)
     return URL
 
-def operaciones_disponibles(op_id,
-                            detail_level=0,
-                            geographical_level=None,
-                            page=1
+
+def operaciones_disponibles(detail_level: int | None = 0,
+                            geographical_level: int | None = None,
+                            page: int | None = None
                             ):
     """
     Function OPERACIONES_DISPONIBLES from INE.
 
     Returns the URL to make the request.
 
-    page>1 doesn't returns anything.
+    page>1 doesn't returns anything. No more than 500 Operaciones.
     """
+    Inputs = FIM.InputParams(
+        detail_level=detail_level,
+        geographical_level=geographical_level,
+    )
+
+    filter_params = filtering.date_count_selection_params_builder(
+        page=page
+    )
+
+    query = Inputs.join_filtering_params(filter_params)
+    URL = INEURL.url_gen('OPERACIONES_DISPONIBLES', **query)
+    return URL
+
+
+def operaciones(detail_level: int | None = 0,
+                page: int | None = None
+                ):
+    """
+    Function OPERACIONES from INE.
+
+    Returns the URL to make the request.
+
+    page>1 doesn't returns anything. No more than 500 Operaciones.
+
+    Not in the official documentation, adds some Operations.
+    """
+    Inputs = FIM.InputParams(
+        detail_level=detail_level,
+    )
+
+    filter_params = filtering.date_count_selection_params_builder(
+        page=page
+    )
+
+    query = Inputs.join_filtering_params(filter_params)
+    URL = INEURL.url_gen('OPERACIONES', **query)
+    return URL
+
+
+def operacion(op_id: int | str,
+              detail_level: int | None = 0,
+              ):
+    """Function OPERACION from INE. Returns the URL to make the request."""
+    Inputs = FIM.InputParams(
+        op_id=op_id,
+        detail_level=detail_level,
+    )
+    query = Inputs.get_params()
+    URL = INEURL.url_gen('OPERACION', Inputs.op_id, **query)
+    return URL
+
+
+def variables(page: int | None = None):
+    """Function VARIABLES from INE. Returns the URL to make the request."""
+    filter_params = filtering.date_count_selection_params_builder(
+        page=page
+    )
+    URL = INEURL.url_gen('VARIABLES', **filter_params)
+    return URL
+
+
+def variable(var_id: int | str):
+    """
+    Function VARIABLES from INE. Returns the URL to make the request.
+
+    Not documented in the official page.
+    """
+    Inputs = FIM.InputParams(
+        var_id=var_id,
+    )
+    URL = INEURL.url_gen('OPERACION', Inputs.var_id)
+    return URL
+
+
+def variables_operacion(op_id: int | str,
+                        page: int | None = None
+                        ):
+    """
+    Function VARIABLES_OPERACION from INE.
+
+    Returns the URL to make the request.
+    """
+    Inputs = FIM.InputParams(
+        op_id=op_id
+    )
+
+    filter_params = filtering.date_count_selection_params_builder(
+        page=page
+    )
+    URL = INEURL.url_gen('OPERACION', Inputs.op_id, **filter_params)
+    return URL
+
+
