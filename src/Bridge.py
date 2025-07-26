@@ -20,10 +20,42 @@ if RMPath not in sys.path:
     sys.path.insert(0, RMPath)
 
 import RequestsManagement as ReqMan
+import INE_functions as f
 
+
+def get_data_process_sync(RM,
+                          url: str,
+                          mode: str):
+    """
+    Get the data from INE URL.
+
+    Must pass the request manager instance to make the request.
+
+    Returns the data in the specified format by mode.
+
+    Parameters
+    ----------
+    RM : RequestsManagement.RequestsManager
+        Request Manager instance.
+    url : str
+        url to get the data from.
+    mode : Literal[raw, py, pydantic]
+        Mode to get the results.
+
+    Returns
+    -------
+    content : str | dict
+        Content from request.
+    """
+    content = RM.sync_request('GET', url)
+    return content
 
 class INEAPIClientSync():
-    """Wrapper for INE API, makes requests using sync requests package."""
+    """
+    Wrapper for INE API, makes requests using sync requests package.
+
+    All methods make the request and retreive the results.
+    """
 
     def __init__(self, mode='raw'):
         """
@@ -41,4 +73,14 @@ class INEAPIClientSync():
                 "mode can't be different from raw, py or pydantic."
             )
         self.mode = mode
+        return None
+
+    def get_datos_tabla(self,
+                        tab_id: int | str,
+                        detail_level: int = 0,
+                        tipology: str = '',
+                        count: int | None = None,
+                        list_of_dates=None,
+                        metadata_filtering=dict()
+                        ):
         return None
