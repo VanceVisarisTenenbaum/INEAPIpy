@@ -47,12 +47,24 @@ class pyOperacion(p.BaseModel):
     # Not all operations contain this param, and appear only if det>0.
 
 
+class pyOperacionList(p.BaseModel):
+    """Class model for list of Operacion."""
+
+    items: ty.List[pyOperacion]
+
+
 class pyVariable(p.BaseMode):
     """Class model for Variable from INE."""
 
     Id: int
     Nombre: str
     Codigo: str
+
+
+class pyVariableList(p.BaseModel):
+    """Class model for list of Variable."""
+
+    items: ty.List[pyVariable]
 
 
 def check_if_all_are_None(
@@ -135,12 +147,24 @@ class pyValor(pyValorBase):
     """No need to check if one of both happens since they may not appear."""
 
 
+class pyValorList(p.BaseModel):
+    """Class model for list of Valor."""
+
+    items: ty.List[pyValor]
+
+
 class pyPeriodicidad(p.BaseModel):
     """Class model for Periodicidad from INE."""
 
     Id: int
     Nombre: str
     Codigo: str
+
+
+class pyPeriodicidadList(p.BaseModel):
+    """Class model for list of Periodicidad."""
+
+    items: ty.List[pyPeriodicidad]
 
 
 class pyPeriodo(p.BaseModel):
@@ -174,6 +198,12 @@ class pyPeriodo(p.BaseModel):
         )
 
         return self
+
+
+class pyPeriodoList(p.BaseModel):
+    """Class model for list of Periodo."""
+
+    items: ty.List[pyPeriodo]
 
 
 class pyPublicacionFechaActa(p.BaseModel):
@@ -244,12 +274,45 @@ class pyPublicacion(p.BaseModel):
         return self
 
 
+class pyFechaPublicacion(p.BaseModel):
+    """Class model for Fecha Publicacion from INE."""
+
+    Id: int
+    FK_Publicacion: int | None = None
+    T3_Publicacion: str | None = None
+    Publicacion: pyPublicacion | None = None
+    Nombre: str
+    Fecha: int | str
+    FK_Periodo: int | None = None
+    T3_Periodo: int | None = None
+    Periodo: pyPeriodo | None = None
+    Anyo: int
+
+
+class pyFechaPublicacionList(p.BaseModel):
+    """Class model for list of fecha publicacion."""
+
+    items: ty.List[pyFechaPublicacion]
+
+
+class pyPublicacionList(p.BaseModel):
+    """Class model for list of Publicacion."""
+
+    items: ty.List[pyPublicacion]
+
+
 class pyClasificacion(p.BaseModel):
     """Class model for Clasificacion from INE."""
 
     Id: int
     Nombre: str
     Fecha: str  # COMPROBAR POR QUE PONE DATE EN MMD
+
+
+class pyClasificacionList(p.BaseModel):
+    """Class model for list of Clasificacion."""
+
+    items: ty.List[pyClasificacion]
 
 
 class pyUnidad(p.BaseModel):
@@ -261,6 +324,12 @@ class pyUnidad(p.BaseModel):
     Abrev: str
 
 
+class pyUnidadList(p.BaseModel):
+    """Class model for list of Unidad."""
+
+    items: ty.List[pyUnidad]
+
+
 class pyEscala(p.BaseModel):
     """Class model for Escala from INE."""
 
@@ -269,6 +338,12 @@ class pyEscala(p.BaseModel):
     Codigo: str
     Abrev: str
     Factor: float  # COMPROBAR POR QUE PONE FLOAT(STR) EN MMD
+
+
+class pyEscalaList(p.BaseModel):
+    """Class model for list of Escala."""
+
+    items: ty.List[pyEscala]
 
 
 class pyTipoDato(p.BaseModel):
@@ -364,6 +439,12 @@ class pyDatosSerie(p.BaseModel):
         return self
 
 
+class pyDatosSerieList(p.BaseModel):
+    """Class model to list of DatosSerie."""
+
+    items: ty.List[pyDatosSerie]
+
+
 class pySerie(p.BaseModel):
     """Class model for Serie from INE."""
 
@@ -449,11 +530,23 @@ class pySerie(p.BaseModel):
         return self
 
 
+class pySerieList(p.BaseModel):
+    """Class model for list of Serie."""
+
+    items: ty.List[pySerie]
+
+
 class pyGrupoTabla(p.BaseModel):
     """Class model for GrupoTabla from INE."""
 
     Id: int
     Nombre: str
+
+
+class pyGrupoTablaList(p.BaseModel):
+    """Class model for list of GrupoTabla."""
+
+    items: ty.List[pyGrupoTabla]
 
 
 class pyTabla(p.BaseModel):
@@ -510,3 +603,9 @@ class pyTabla(p.BaseModel):
         )
 
         return self
+
+
+class pyTablaList(p.BaseModel):
+    """Class model for list of Tabla."""
+
+    items: ty.List[pyTabla]

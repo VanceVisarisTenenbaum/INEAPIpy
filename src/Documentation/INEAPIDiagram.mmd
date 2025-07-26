@@ -38,6 +38,14 @@ classDiagram
         Operacion_: List(Operacion)
         PubFechaAct_: PubFechaAct
     }
+    class FechaPublicacion{
+        Id: int
+        Publicacion_: Publicacion
+        Nombre: str
+        Fecha: Date
+        Periodo_: Periodo
+        Anyo: int
+    }
     class Referencia{
         Id: int
         Titulo: str
@@ -139,6 +147,8 @@ classDiagram
     PubFechaAct "1" --> "1" Periodo
     Publicacion "1" --> "n" Operacion
     Publicacion "1" --> "1" PubFechaAct
+    FechaPublicacion "n" --> "1" Publicacion
+    FechaPublicacion "1" --> "1" Periodo
     Tabla "1" --> "1" Periodicidad
     Tabla "1" --> "1" Publicacion
     Tabla "1" --> "1" Periodo
