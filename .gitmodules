@@ -1,3 +1,0 @@
-[submodule "src/urlrequestsmanagement"]
-	path = src/urlrequestsmanagement
-	url = git@gitlab.com:statssearchanalysis/statsapis/urlrequestsmanagement.git
