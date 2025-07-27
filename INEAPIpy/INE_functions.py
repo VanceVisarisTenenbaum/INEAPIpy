@@ -16,8 +16,10 @@ All params are assumed to be known, so this functions have minimum docs.
 import INE_Filtering as filtering
 import INE_URL_Treatment as INEURL
 import Models.FunctionInputsModels as FIM
+from pydantic import validate_call
 
 
+@validate_call
 def datos_tabla(tab_id: int | str,
                 detail_level: int = 0,
                 tipology: str = '',
@@ -44,6 +46,7 @@ def datos_tabla(tab_id: int | str,
     return URL
 
 
+@validate_call
 def datos_serie(serie_id: int | str,
                 detail_level: int = 0,
                 tipology: str = '',
@@ -67,6 +70,7 @@ def datos_serie(serie_id: int | str,
     return URL
 
 
+@validate_call
 def datos_metadataoperacion(op_id: int | str,
                             detail_level: int = 0,
                             tipology: str = '',
@@ -97,6 +101,7 @@ def datos_metadataoperacion(op_id: int | str,
     return URL
 
 
+@validate_call
 def operaciones_disponibles(detail_level: int = 0,
                             geographical_level: int | None = None,
                             page: int | None = None
@@ -122,6 +127,7 @@ def operaciones_disponibles(detail_level: int = 0,
     return URL
 
 
+@validate_call
 def operaciones(detail_level: int = 0,
                 page: int | None = None
                 ):
@@ -147,6 +153,7 @@ def operaciones(detail_level: int = 0,
     return URL
 
 
+@validate_call
 def operacion(op_id: int | str,
               detail_level: int = 0,
               ):
@@ -159,6 +166,7 @@ def operacion(op_id: int | str,
     return URL
 
 
+@validate_call
 def variables(page: int | None = None):
     """Function VARIABLES from INE. Returns the URL to make the request."""
     filter_params = filtering.date_count_selection_params_builder(
@@ -168,6 +176,7 @@ def variables(page: int | None = None):
     return URL
 
 
+@validate_call
 def variable(var_id: int | str):
     """
     Function VARIABLE from INE. Returns the URL to make the request.
@@ -181,6 +190,7 @@ def variable(var_id: int | str):
     return URL
 
 
+@validate_call
 def variables_operacion(op_id: int | str,
                         page: int | None = None
                         ):
@@ -200,6 +210,7 @@ def variables_operacion(op_id: int | str,
     return URL
 
 
+@validate_call
 def valores_variable(var_id: int | str,
                      detail_level: int = 0,
                      classification_id: int | None = None
@@ -223,6 +234,7 @@ def valores_variable(var_id: int | str,
     return URL
 
 
+@validate_call
 def valores_variableoperacion(var_id: int | str,
                               op_id: int | str,
                               detail_level: int = 0
@@ -246,6 +258,7 @@ def valores_variableoperacion(var_id: int | str,
     return URL
 
 
+@validate_call
 def tablas_operacion(op_id: int | str,
                      detail_level: int = 0,
                      geographical_level: int | None = None,
@@ -270,6 +283,7 @@ def tablas_operacion(op_id: int | str,
     return URL
 
 
+@validate_call
 def grupos_tabla(tab_id: int | str):
     """
     Function GRUPOS_TABLA from INE.
@@ -286,6 +300,7 @@ def grupos_tabla(tab_id: int | str):
     return URL
 
 
+@validate_call
 def valores_grupostabla(tab_id: int | str,
                         group_id: int | str,
                         detail_level: int = 0
@@ -309,6 +324,7 @@ def valores_grupostabla(tab_id: int | str,
     return URL
 
 
+@validate_call
 def serie(serie_id: int | str,
           detail_level: int = 0,
           tipology: str = ''
@@ -331,6 +347,7 @@ def serie(serie_id: int | str,
     return URL
 
 
+@validate_call
 def series_operacion(op_id: int | str,
                      detail_level: int = 0,
                      tipology: str = '',
@@ -359,6 +376,7 @@ def series_operacion(op_id: int | str,
     return URL
 
 
+@validate_call
 def valores_serie(serie_id: int | str,
                   detail_level: int = 0
                   ):
@@ -379,6 +397,7 @@ def valores_serie(serie_id: int | str,
     return URL
 
 
+@validate_call
 def series_tabla(tab_id: int | str,
                  detail_level: int = 0,
                  tipology: str = '',
@@ -407,6 +426,7 @@ def series_tabla(tab_id: int | str,
     return URL
 
 
+@validate_call
 def serie_metadataoperacion(op_id: int | str,
                             detail_level: int = 0,
                             tipology: str = '',
@@ -435,6 +455,7 @@ def serie_metadataoperacion(op_id: int | str,
     return URL
 
 
+@validate_call
 def periodicidades():
     """
     Function PERIODICIDADES from INE.
@@ -445,6 +466,7 @@ def periodicidades():
     return URL
 
 
+@validate_call
 def periodicidad(periodicity_id: int | str):
     """
     Function PERIODICIDAD from INE.
@@ -458,6 +480,7 @@ def periodicidad(periodicity_id: int | str):
     return URL
 
 
+@validate_call
 def publicaciones(detail_level: int = 0,
                   tipology: str = ''
                   ):
@@ -474,6 +497,7 @@ def publicaciones(detail_level: int = 0,
     return URL
 
 
+@validate_call
 def publicaciones_operacion(op_id: int | str,
                             detail_level: int = 0,
                             tipology: str = ''
@@ -494,6 +518,7 @@ def publicaciones_operacion(op_id: int | str,
     return URL
 
 
+@validate_call
 def publicacionfecha_publicacion(publication_id: int | str,
                                  detail_level: int = 0,
                                  tipology: str = ''
@@ -514,6 +539,7 @@ def publicacionfecha_publicacion(publication_id: int | str,
     return URL
 
 
+@validate_call
 def clasificaciones():
     """
     Function CLASIFICACIONES from INE.
@@ -524,6 +550,7 @@ def clasificaciones():
     return URL
 
 
+@validate_call
 def clasificaciones_operacion(op_id: int | str):
     """
     Function CLASIFICACIONES_OPERACION from INE.
@@ -539,6 +566,7 @@ def clasificaciones_operacion(op_id: int | str):
     return URL
 
 
+@validate_call
 def valores_hijos(var_id: int | str,
                   val_id: int | str,
                   detail_level: int = 0
@@ -561,6 +589,7 @@ def valores_hijos(var_id: int | str,
     return URL
 
 
+@validate_call
 def unidades():
     """
     Function UNIDADES from INE.
@@ -573,6 +602,7 @@ def unidades():
     return URL
 
 
+@validate_call
 def unidad(unit_id: int | str):
     """
     Function UNIDAD from INE.
@@ -588,6 +618,7 @@ def unidad(unit_id: int | str):
     return URL
 
 
+@validate_call
 def escalas():
     """
     Function ESCALAS from INE.
@@ -600,6 +631,7 @@ def escalas():
     return URL
 
 
+@validate_call
 def escala(scale_id: int | str):
     """
     Function ESCALA from INE.
@@ -615,6 +647,7 @@ def escala(scale_id: int | str):
     return URL
 
 
+@validate_call
 def periodo(period_id: int | str):
     """
     Function PERIODO from INE.
