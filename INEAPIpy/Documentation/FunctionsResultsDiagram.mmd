@@ -1,0 +1,307 @@
+---
+title: INE functions results
+---
+
+classDiagram
+    %% INE functions
+    class get_datos_tabla{
+        tab_id
+        detail_level
+        tipology
+        count
+        list_of_dates
+        metadata_filtering
+    }
+    class get_datos_serie{
+        serie_id
+        detail_level
+        tipology
+        count
+        list_of_dates
+    }
+    class get_datos_metadataoperacion{
+        op_id
+        detail_level
+        tipology
+        count
+        list_of_dates
+        metadata_filtering
+    }
+    class get_operaciones_disponibles{
+        detail_level
+        geographical_level
+        page
+    }
+    class get_operaciones{
+        detail_level
+        page
+    }
+    class get_operacion{
+        op_id
+        detail_level
+    }
+    class get_variables{
+        page
+    }
+    class get_variable{
+        var_id
+    }
+    class get_variables_operacion{
+        op_id
+        page
+    }
+    class get_valores_variable{
+        var_id
+        detail_level
+        classification_id
+    }
+    class get_valores_variableoperacion{
+        var_id
+        op_id
+        detail_level
+    }
+    class get_tablas_operacion{
+        op_id
+        detail_level
+        geographical_level
+        tipology
+    }
+    class get_grupos_tabla{
+        tab_id
+    }
+    class get_valores_grupostabla{
+        tab_id
+        group_id
+        detail_level
+    }
+    class get_serie{
+        serie_id
+        detail_level
+        tipology
+    }
+    class get_series_operacion{
+        op_id
+        detail_level
+        tipology
+        page
+    }
+    class get_valores_serie{
+        serie_id
+        detail_level
+    }
+    class get_series_tabla{
+        tab_id
+        detail_level
+        tipology
+        metadata_filtering
+    }
+    class get_serie_metadataoperacion{
+        op_id
+        detail_level
+        tipology
+        metadata_filtering
+    }
+    class get_periodicidades{
+    }
+    class get_periodicidad{
+        periodicity_id
+    }
+    class get_publicaciones{
+        detail_level
+        tipology
+    }
+    class get_publicaciones_operacion{
+        op_id
+        detail_level
+        tipology
+    }
+    class get_publicacionfecha_publicacion{
+        publication_id
+        detail_level
+        tipology
+    }
+    class get_clasificaciones{
+    }
+    class get_clasificaciones_operacion{
+        op_id
+    }
+    class get_valores_hijos{
+        var_id
+        val_id
+        detail_level
+    }
+    class get_unidades{
+    }
+    class get_unidad{
+        unit_id
+    }
+    class get_escalas{
+    }
+    class get_escala{
+        scale_id
+    }
+    class get_periodo{
+        period_id
+    }
+    %% Custom functions
+    class get_operations_{
+        op_id
+        detail_level
+        geographical_level
+        extra_op
+        page
+    }
+    class get_variables_{
+        var_id
+        classification_id
+        op_id
+        get_sons
+        val_id
+        detail_level
+    }
+    class get_tables_{
+        op_id
+        tab_id
+        group_id
+        detail_level
+        geographical_level
+        tipology
+    }
+    class get_series_{
+        serie_id
+        op_id
+        tab_id
+        serie_data
+        operation_data
+        detail_level
+        tipology
+        page
+        metadata_filtering
+    }
+    class get_publications_{
+        op_id
+        publication_id
+        detail_level
+        tipology
+    }
+    class get_data_{
+        serie_id
+        tab_id
+        op_id
+        detail_level
+        tipology
+        count
+        list_of_dates
+        metadata_filtering
+    }
+    class get_units_{
+        unit_id
+    }
+    class get_scales_{
+        scale_id
+    }
+    class get_periods_{
+        period_id
+    }
+    class get_periodicities_{
+        periodicity_id
+    }
+    class get_classifications_{
+        op_id
+    }
+    %% INE Ojects
+    class Operacion{
+    }
+    class Variable{
+    }
+    class Valor{
+    }
+    class Periodicidad{
+    }
+    class Periodo{
+    }
+    class Publicacion{
+    }
+    class FechaPublicacion{
+    }
+    class Clasificacion{
+    }
+    class Unidad{
+    }
+    class Escala{
+    }
+    class DatosSerie{
+    }
+    class Serie{
+    }
+    class GrupoTabla{
+    }
+    class Tabla{
+    }
+    %% Relations INE functions --> Object
+    get_datos_tabla --> "n" DatosSerie
+    get_datos_serie --> "1" DatosSerie
+    get_datos_metadataoperacion --> "n" DatosSerie
+    get_operaciones_disponibles --> "n" Operacion
+    get_operaciones --> "n" Operacion
+    get_operacion --> "1"  Operacion
+    get_variables --> "n" Variable
+    get_variable --> "1" Variable
+    get_variables_operacion --> "n" Variable
+    get_valores_variable --> "n" Valor
+    get_valores_variableoperacion --> "n" Valor
+    get_tablas_operacion --> "n" Tabla
+    get_grupos_tabla --> "n" GrupoTabla
+    get_valores_grupostabla --> "n" Valor
+    get_serie --> "1" Serie
+    get_series_operacion --> "n" Serie
+    get_valores_serie --> "n" Valor
+    get_series_tabla --> "n" Serie
+    get_serie_metadataoperacion --> "n" Serie
+    get_periodicidades --> "n" Periodicidad
+    get_periodicidad --> "1" Periodicidad
+    get_publicaciones --> "n" Publicacion
+    get_publicaciones_operacion --> "n" Publicacion
+    get_publicacionfecha_publicacion --> "n" FechaPublicacion
+    get_clasificaciones --> "n" Clasificacion
+    get_clasificaciones_operacion --> "n" Clasificacion
+    get_valores_hijos --> "n" Valor
+    get_unidades --> "n" Unidad
+    get_unidad --> "1" Unidad
+    get_escalas --> "n" Escala
+    get_escala --> "1" Escala
+    get_periodo --> "1" Periodo
+    %% Relations Custom function --> INE function
+    get_operations_ --> get_operacion : op_id provided
+    get_operations_ --> get_operaciones_disponibles : extra_op is False
+    get_operations_ --> get_operaciones : extra_op is True
+    get_variables_ --> get_variable : var_id provided
+    get_variables_ --> get_variables_operacion : op_id provided and var_id not_provided
+    get_variables_ --> get_variables : nothing is provided
+    get_values_ --> get_valores_hijos : get_sons True
+    get_values_ --> get_valores_variableoperacion : op_id provided
+    get_values_ --> get_valores_variable : only var_id is provided
+    get_tables_ --> get_tablas_operacion : op_id provided
+    get_tables_ --> get_valores_grupostabla : group_id provided
+    get_tables_ --> get_grupos_tabla : only tab_id is provided
+    get_series_ --> get_serie : serie_id provided and serie_data is metadata
+    get_series_ --> get_valores_serie : serie_id provided and serie_data is values
+    get_series_ --> get_series_operacion : op_id provided and operation_data is series
+    get_series_ --> get_serie_metadataoperacion : op_id provided and operation_data is metadata
+    get_series_ --> get_series_tabla : tab_id provided
+    get_publications_ --> get_publicaciones_operacion : op_id provided
+    get_publications_ --> get_publicacionfecha_publicacion : publication_id provided
+    get_publications_ --> get_publicaciones : nothing is provided
+    get_data_ --> get_datos_serie : serie_id provided
+    get_data_ --> get_datos_tabla : tab_id provided
+    get_data_ --> get_datos_metadataoperacion : op_id provided
+    get_units_ --> get_unidad : unit_id provided
+    get_units_  --> get_unidades : nothing is provided
+    get_scales_ --> get_escala : scale_id provided
+    get_scales_ --> get_escalas : nothing is provided
+    get_periods_ --> get_periodo : period_id provided
+    get_periodicities_ --> get_periodicidad : periodicity_id provided
+    get_periodicities_ --> get_periodicidades : nothing is provided
+    get_classifications_ --> get_clasificaciones_operacion : op_id provided
+    get_classifications_ --> get_clasificaciones : nothing is provided
+    %% Fin

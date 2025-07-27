@@ -1235,7 +1235,7 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                 list_of_dates=list_of_dates,
                 metadata_filtering=metadata_filtering)
 
-    def get_units(self,
+    def get_units_(self,
                   unit_id: int | str | None = None):
         """Returns all the units or the data of the specified unit."""
         if unit_id is None:
@@ -1243,7 +1243,7 @@ class EasyINEAPIClientSync(INEAPIClientSync):
         else:
             return self.get_unidad(unit_id)
 
-    def get_scales(self,
+    def get_scales_(self,
                    scale_id: int | str | None = None):
         """Return all the scales or the data of the specified scale."""
         if scale_id is None:
@@ -1251,14 +1251,14 @@ class EasyINEAPIClientSync(INEAPIClientSync):
         else:
             return self.get_escala(scale_id)
 
-    def get_periods(self,
+    def get_periods_(self,
                     period_id: int | str | None = None):
         """Returns the data of the specified period. Same as get_periodo()."""
         if period_id is not None:
             return self.get_periodo(period_id)
         return None
 
-    def get_periodicities(self,
+    def get_periodicities_(self,
                           periodicity_id: int | str | None = None):
         """
         Returns the peridocities.
@@ -1272,7 +1272,7 @@ class EasyINEAPIClientSync(INEAPIClientSync):
         else:
             return self.get_periodicidad(periodicity_id)
 
-    def get_classifications(self,
+    def get_classifications_(self,
                             op_id: int | str | None = None):
         """
         Returns classifications.
@@ -1546,7 +1546,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                 list_of_dates=list_of_dates,
                 metadata_filtering=metadata_filtering)
 
-    async def get_units(self,
+    async def get_units_(self,
                         unit_id: int | str | None = None):
         """Returns all the units or the data of the specified unit."""
         if unit_id is None:
@@ -1554,7 +1554,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
         else:
             return await self.get_unidad(unit_id)
 
-    async def get_scales(self,
+    async def get_scales_(self,
                          scale_id: int | str | None = None):
         """Return all the scales or the data of the specified scale."""
         if scale_id is None:
@@ -1562,14 +1562,14 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
         else:
             return await self.get_escala(scale_id)
 
-    async def get_periods(self,
+    async def get_periods_(self,
                           period_id: int | str | None = None):
         """Returns the data of the specified period. Same as get_periodo()."""
         if period_id is not None:
             return await self.get_periodo(period_id)
         return None
 
-    async def get_periodicities(self,
+    async def get_periodicities_(self,
                                 periodicity_id: int | str | None = None):
         """
         Returns the peridocities.
@@ -1583,7 +1583,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
         else:
             return await self.get_periodicidad(periodicity_id)
 
-    async def get_classifications(self,
+    async def get_classifications_(self,
                                   op_id: int | str | None = None):
         """
         Returns classifications.
