@@ -1165,6 +1165,10 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                                          detail_level=detail_level,
                                          tipology=tipology,
                                          metadata_filtering=metadata_filtering)
+        else:
+            raise ValueError(
+                'Wether serie_id, or op_id, or tab_id must be passed.'
+            )
 
     def get_publications_(self,
                           op_id: int | str | None = None,
@@ -1475,6 +1479,10 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                 detail_level=detail_level,
                 tipology=tipology,
                 metadata_filtering=metadata_filtering)
+        else:
+            raise ValueError(
+                'Wether serie_id, or op_id, or tab_id must be passed.'
+            )
 
     async def get_publications_(self,
                                 op_id: int | str | None = None,

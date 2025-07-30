@@ -40,5 +40,8 @@ INE.get_tables_('IPC')
 INE.get_tables_(tab_id=50913)
 INE.get_tables_(tab_id=50913, group_id=110924, detail_level=2)
 
+print('Series')
+INE.get_series_()
+
 
 #INE.close_all_sessions()
