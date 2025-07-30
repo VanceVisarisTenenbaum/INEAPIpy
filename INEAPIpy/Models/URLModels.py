@@ -65,7 +65,7 @@ class InputModel(p.BaseModel):
         'VARIABLES',
         'VARIABLES_OPERACION',
         # Valores
-        'VALORES_VARIABLES',
+        'VALORES_VARIABLE',
         'VALORES_VARIABLEOPERACION',
         'VALORES_HIJOS',
         # Tablas

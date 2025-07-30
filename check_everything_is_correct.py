@@ -72,7 +72,17 @@ print('Clasificaciones')
 INE.get_classifications_()
 
 print('Datos')
-INE.get_data_()
+INE.get_data_('IPC251856', detail_level=2, tipology='M', count=20)
+INE.get_data_('IPC251856', detail_level=2, tipology='M',
+              list_of_dates=[('2023-01-01', '2023-12-31')])
+INE.get_data_(tab_id=50902, detail_level=2)
+INE.get_data_(op_id='IPC', count=1,
+              metadata_filtering={
+                  115: [29],
+                  3: [84],
+                  762: []
+              },
+              detail_level=2)
 
 
 #INE.close_all_sessions()
