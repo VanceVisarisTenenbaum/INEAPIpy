@@ -15,6 +15,25 @@ from .Models import INEModels as models
 import json
 
 
+def reemplazar_none_a_null(obj_og: dict):
+    """
+    Transform None from INE to 'null' string.
+
+    Responses from INE API, may return values that are null. This is
+    transformed to None when parsed to Python. In this cases, they will
+    be transformed back to 'null' as string, since None is used as missing
+    fields and we can't check what fields may be missing and when.
+    """
+    obj = dict(obj_og)
+    for k, v in obj.items():
+        if isinstance(v, dict):
+            obj[k] = reemplazar_none_a_null(v)
+        else:
+            if v is None:
+                obj[k] = 'null'
+    return obj
+
+
 def json_string_to_python(string: str):
     """
     Process the string to a python dict.
@@ -39,10 +58,11 @@ def json_string_to_python(string: str):
     """
     string = string.decode('utf-8')
     try:
-        data = json.loads(string)
+        data = json.loads(string, object_hook=reemplazar_none_a_null)
     except json.JSONDecodeError:
         try:
-            data = json.loads(string + ']')
+            data = json.loads(string + ']',
+                              object_hook=reemplazar_none_a_null)
             # This is here because sometimes the API returns a list with
             # a missing ] at the end.
         except json.JSONDecodeError:
