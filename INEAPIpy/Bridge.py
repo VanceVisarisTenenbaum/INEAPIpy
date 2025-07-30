@@ -122,7 +122,7 @@ class INEAPIClientSync():
     All methods make the request and retreive the results.
     """
 
-    def __init__(self, mode='raw', RM=None):
+    def __init__(self, mode='raw', RM=None, sleep_time: int | float = 0.4):
         """
         Init of class.
 
@@ -140,7 +140,7 @@ class INEAPIClientSync():
             )
         self.mode = mode
         if RM is None:
-            self.__RM = ReqMan.RequestsManager()
+            self.__RM = ReqMan.RequestsManager(sleep_time=sleep_time)
         return None
 
     def close_all_sessions(self):
@@ -1038,7 +1038,6 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                     var_id: int | str | None = None,
                     classification_id: int | str | None = None,
                     op_id: int | str | None = None,
-                    get_sons: bool = False,
                     val_id: int | str | None = None,
                     detail_level: int = 0):
         """
@@ -1056,7 +1055,7 @@ class EasyINEAPIClientSync(INEAPIClientSync):
         Getting the values return a list of dictionaries. The shape of it
         depends on the detail_level
         """
-        if get_sons:
+        if val_id is not None:
             return self.get_valores_hijos(var_id,
                                           val_id,
                                           detail_level=detail_level)
