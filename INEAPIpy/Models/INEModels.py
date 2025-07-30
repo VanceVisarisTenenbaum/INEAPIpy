@@ -304,6 +304,23 @@ class pyFechaPublicacion(p.BaseModel):
     Periodo: pyPeriodo | None = None
     Anyo: int
 
+    @p.model_validator(mode='after')
+    def checks(self):
+        """
+        Checks None for Periodo.
+
+        Returns
+        -------
+        self
+        """
+        check_if_all_are_None(
+            self.FK_Periodo,
+            self.T3_Period,
+            self.Periodo,
+            name='pyFechaPublicacion -- Periodo'
+        )
+        return self
+
     @p.field_validator('Fecha', mode='after')
     @classmethod
     def __to_date(cls, val):
