@@ -143,6 +143,11 @@ class INEAPIClientSync():
             self.__RM = ReqMan.RequestsManager()
         return None
 
+    def close_all_sessions(self):
+        """Closes all requests sessions."""
+        self.__RM.close_all_sessions()
+        return None
+
     def __get_data(self, url):
         """Just to simplify the usage of function."""
         return get_data_process_sync(self.__RM, url, self.mode)
@@ -575,6 +580,11 @@ class INEAPIClientAsync():
     async def __get_data(self, url):
         """Just to simplify the usage of function."""
         return await get_data_process_async(self.__RM, url, self.mode)
+
+    def close_all_sessions(self):
+        """Closes all requests sessions."""
+        self.__RM.close_all_sessions()
+        return None
 
     async def get_datos_tabla(self,
                               tab_id: int | str,
