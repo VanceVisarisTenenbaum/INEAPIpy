@@ -107,7 +107,7 @@ class pyValorBase(p.BaseModel):
     Id: int
     FK_Variable: int | None = None  # Only if det = 0
     T3_Variable: str | None = None  # Only if tip = A, shouldn't appear
-    Variable: pyVariable | None  # Only if det>0
+    Variable: pyVariable | None = None  # Only if det>0
     """
     Valor has associated a Variable, this is represented in these params.
 
