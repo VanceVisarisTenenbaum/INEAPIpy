@@ -622,7 +622,7 @@ def unidad(unit_id: int | str):
 
 
 @validate_call
-def escalas():
+def escalas(tipology: str = ''):
     """
     Function ESCALAS from INE.
 
@@ -635,7 +635,7 @@ def escalas():
 
 
 @validate_call
-def escala(scale_id: int | str):
+def escala(scale_id: int | str, tipology: str = ''):
     """
     Function ESCALA from INE.
 

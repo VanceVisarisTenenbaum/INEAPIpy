@@ -20,6 +20,21 @@ different names.
 
 import typing as ty
 import pydantic as p
+import datetime as dt
+
+
+class pyDate(p.BaseModel):
+    """Class model to pass date from INE to datetime."""
+    date: str | int
+
+    @p.field_validator('date', mode='after')
+    @classmethod
+    def __to_date(cls, val):
+        if isinstance(val, int):
+            return dt.datetime.fromtimestamp(val / 1000)
+        elif isinstance(val, str):
+            return dt.datetime.fromisoformat(val)
+        return val
 
 
 class pyReferencia(p.BaseModel):
@@ -211,7 +226,7 @@ class pyPublicacionFechaActa(p.BaseModel):
 
     Id: int
     Nombre: str
-    Fecha: str | int
+    Fecha: pyDate
     FK_Periodo: int | None = None
     T3_Periodo: str | None = None
     Periodo: pyPeriodo | None = None
@@ -282,7 +297,7 @@ class pyFechaPublicacion(p.BaseModel):
     T3_Publicacion: str | None = None
     Publicacion: pyPublicacion | None = None
     Nombre: str
-    Fecha: int | str
+    Fecha: pyDate
     FK_Periodo: int | None = None
     T3_Periodo: int | None = None
     Periodo: pyPeriodo | None = None
@@ -304,9 +319,9 @@ class pyPublicacionList(p.BaseModel):
 class pyClasificacion(p.BaseModel):
     """Class model for Clasificacion from INE."""
 
-    Id: int
+    Id: int | None = None  # May not appear if tip = A
     Nombre: str
-    Fecha: str  # COMPROBAR POR QUE PONE DATE EN MMD
+    Fecha: pyDate
 
 
 class pyClasificacionList(p.BaseModel):
@@ -318,7 +333,7 @@ class pyClasificacionList(p.BaseModel):
 class pyUnidad(p.BaseModel):
     """Class model for Unidad from INE."""
 
-    Id: int
+    Id: int | None = None  # May not appear if tip = A
     Nombre: str
     Codigo: str
     Abrev: str
@@ -333,7 +348,7 @@ class pyUnidadList(p.BaseModel):
 class pyEscala(p.BaseModel):
     """Class model for Escala from INE."""
 
-    Id: int
+    Id: int | None = None  # May not appear if tip = A
     Nombre: str
     Codigo: str
     Abrev: str
@@ -357,7 +372,7 @@ class pyTipoDato(p.BaseModel):
 class pyDato(p.BaseModel):
     """Class model for Dato from INE."""
 
-    Fecha: str  # COMPROBAR PORQUE PONE DATE EN MMD
+    Fecha: pyDate
     FK_TipoDato: int | None = None
     T3_TipoDato: str | None = None
     TipoDato: pyTipoDato | None = None

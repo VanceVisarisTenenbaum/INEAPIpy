@@ -537,18 +537,19 @@ class INEAPIClientSync():
             return models.pyUnidad(**data)
         return data
 
-    def get_escalas(self):
+    def get_escalas(self, tipology: str = ''):
         """Process for ESCALAS. Returns content."""
-        url = functions.escalas()
+        url = functions.escalas(tipology=tipology)
         data = self.__get_data(url)
         if self.mode == 'pydantic':
             return models.pyEscalaList(items=data)
         return data
 
     def get_escala(self,
-                   scale_id: int | str):
+                   scale_id: int | str,
+                   tipology: str = ''):
         """Process for ESCALA. Returns content."""
-        url = functions.escala()
+        url = functions.escala(scale_id, tipology=tipology)
         data = self.__get_data(url)
         if self.mode == 'pydantic':
             return models.pyEscala(**data)
@@ -986,18 +987,19 @@ class INEAPIClientAsync():
             return models.pyUnidad(**data)
         return data
 
-    async def get_escalas(self):
+    async def get_escalas(self, tipology: str = ''):
         """Process for ESCALAS. Returns content."""
-        url = functions.escalas()
+        url = functions.escalas(tipology=tipology)
         data = await self.__get_data(url)
         if self.mode == 'pydantic':
             return models.pyEscalaList(items=data)
         return data
 
     async def get_escala(self,
-                         scale_id: int | str):
+                         scale_id: int | str,
+                         tipology: str = ''):
         """Process for ESCALA. Returns content."""
-        url = functions.escala()
+        url = functions.escala(scale_id, tipology=tipology)
         data = await self.__get_data(url)
         if self.mode == 'pydantic':
             return models.pyEscala(**data)
@@ -1288,12 +1290,13 @@ class EasyINEAPIClientSync(INEAPIClientSync):
             return self.get_unidad(unit_id)
 
     def get_scales_(self,
-                   scale_id: int | str | None = None):
+                   scale_id: int | str | None = None,
+                   tipology: str = ''):
         """Return all the scales or the data of the specified scale."""
         if scale_id is None:
-            return self.get_escalas()
+            return self.get_escalas(tipology=tipology)
         else:
-            return self.get_escala(scale_id)
+            return self.get_escala(scale_id, tipology=tipology)
 
     def get_periods_(self,
                     period_id: int | str | None = None):
@@ -1613,12 +1616,13 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
             return await self.get_unidad(unit_id)
 
     async def get_scales_(self,
-                          scale_id: int | str | None = None):
+                          scale_id: int | str | None = None,
+                          tipology: str = ''):
         """Return all the scales or the data of the specified scale."""
         if scale_id is None:
-            return await self.get_escalas()
+            return await self.get_escalas(tipology=tipology)
         else:
-            return await self.get_escala(scale_id)
+            return await self.get_escala(scale_id, tipology=tipology)
 
     async def get_periods_(self,
                            period_id: int | str | None = None):

@@ -2,7 +2,7 @@
 
 import INEAPIpy.Bridge as Bridge
 
-INE = Bridge.EasyINEAPIClientSync(mode='pydantic', print_url=True)
+INE = Bridge.EasyINEAPIClientSync(mode='pydantic', print_url=True, sleep_time=1)
 
 import time
 
@@ -39,7 +39,7 @@ print(f'Elapsed time: {end - start}')
 print('Valores')
 start = time.time()
 INE.get_values_(115, detail_level=2)
-INE.get_values_(19, 107)
+# INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
 INE.get_values_(762, None, 25)
 INE.get_values_(70, val_id=8997)
 end = time.time()
