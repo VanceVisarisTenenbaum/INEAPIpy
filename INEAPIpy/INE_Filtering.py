@@ -131,8 +131,10 @@ def date_count_selection_params_builder(list_of_dates: list | None = None,
         DESCRIPTION.
 
     """
-    if list_of_dates is None and count is None:
-        raise ValueError('At least one must be provided, count or dates.')
+    if list_of_dates is None and count is None and page is None:
+        raise ValueError(
+            'At least one must be provided, count or dates or page.'
+        )
     # pydantic checks. This raises error if input isn't correctly shaped.
     Inputs = FIM.FilteringInputs(
         list_of_dates=list_of_dates, count=count,
