@@ -344,8 +344,8 @@ class pyUnidad(p.BaseModel):
 
     Id: int | None = None  # May not appear if tip = A
     Nombre: str
-    Codigo: str
-    Abrev: str
+    Codigo: str | None  # A veces es None
+    Abrev: str | None  # A veces es None
 
 
 class pyUnidadList(p.BaseModel):
@@ -359,9 +359,9 @@ class pyEscala(p.BaseModel):
 
     Id: int | None = None  # May not appear if tip = A
     Nombre: str
-    Codigo: str
-    Abrev: str | None = None
-    Factor: float  # COMPROBAR POR QUE PONE FLOAT(STR) EN MMD
+    Codigo: str | None  # A veces puede ser None
+    Abrev: str | None  # A veces puede ser None
+    Factor: float
 
 
 class pyEscalaList(p.BaseModel):
@@ -537,12 +537,14 @@ class pySerie(p.BaseModel):
             self.Publicacion,
             name='pySerie -- Publicacion'
         )
+        """
         check_if_all_are_None(
             self.FK_Clasificacion,
             self.T3_Clasificacion,
             self.Clasificacion,
             name='pySerie -- Clasificacion'
         )
+        """  # Sinlenciado por que a veces clasificacion puede ser None.
         check_if_all_are_None(
             self.FK_Escala,
             self.T3_Escala,

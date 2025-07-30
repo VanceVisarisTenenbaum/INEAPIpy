@@ -58,11 +58,10 @@ def json_string_to_python(string: str):
     """
     string = string.decode('utf-8')
     try:
-        data = json.loads(string, object_hook=reemplazar_none_a_null)
+        data = json.loads(string)
     except json.JSONDecodeError:
         try:
-            data = json.loads(string + ']',
-                              object_hook=reemplazar_none_a_null)
+            data = json.loads(string + ']')
             # This is here because sometimes the API returns a list with
             # a missing ] at the end.
         except json.JSONDecodeError:
