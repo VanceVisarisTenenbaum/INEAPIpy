@@ -328,7 +328,7 @@ class pyFechaPublicacion(p.BaseModel):
         """
         check_if_all_are_None(
             self.FK_Periodo,
-            self.T3_Period,
+            self.T3_Periodo,
             self.Periodo,
             name='pyFechaPublicacion -- Periodo'
         )
