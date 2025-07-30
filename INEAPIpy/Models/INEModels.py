@@ -278,12 +278,14 @@ class pyPublicacion(p.BaseModel):
             self.Periodicidad,
             name='pyPublicacion -- Periodicidad'
         )
+        """
         check_if_all_are_None(
             self.FK_PubFechaAct,
             self.T3_PubFechaAct,
             self.PubFechaAct,
             name='pyPublicacion -- PubFechaAct'
         )
+        """  # Silenciada por que puede que sea None
 
         return self
 
