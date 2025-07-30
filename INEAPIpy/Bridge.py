@@ -1263,6 +1263,10 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                 count=count,
                 list_of_dates=list_of_dates,
                 metadata_filtering=metadata_filtering)
+        else:
+            raise ValueError(
+                'Wether serie_id or tab_id or op_id must be passed.'
+            )
 
     def get_units_(self,
                   unit_id: int | str | None = None):
@@ -1579,9 +1583,13 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                 count=count,
                 list_of_dates=list_of_dates,
                 metadata_filtering=metadata_filtering)
+        else:
+            raise ValueError(
+                'Wether serie_id or tab_id or op_id must be passed.'
+            )
 
     async def get_units_(self,
-                        unit_id: int | str | None = None):
+                         unit_id: int | str | None = None):
         """Returns all the units or the data of the specified unit."""
         if unit_id is None:
             return await self.get_unidades()
@@ -1589,7 +1597,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
             return await self.get_unidad(unit_id)
 
     async def get_scales_(self,
-                         scale_id: int | str | None = None):
+                          scale_id: int | str | None = None):
         """Return all the scales or the data of the specified scale."""
         if scale_id is None:
             return await self.get_escalas()
@@ -1597,14 +1605,14 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
             return await self.get_escala(scale_id)
 
     async def get_periods_(self,
-                          period_id: int | str | None = None):
+                           period_id: int | str | None = None):
         """Returns the data of the specified period. Same as get_periodo()."""
         if period_id is not None:
             return await self.get_periodo(period_id)
         return None
 
     async def get_periodicities_(self,
-                                periodicity_id: int | str | None = None):
+                                 periodicity_id: int | str | None = None):
         """
         Returns the peridocities.
 
@@ -1618,7 +1626,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
             return await self.get_periodicidad(periodicity_id)
 
     async def get_classifications_(self,
-                                  op_id: int | str | None = None):
+                                   op_id: int | str | None = None):
         """
         Returns classifications.
 

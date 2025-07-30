@@ -2,7 +2,7 @@
 
 import INEAPIpy.Bridge as Bridge
 
-INE = Bridge.EasyINEAPIClientSync(mode='pydantic')
+INE = Bridge.EasyINEAPIClientSync(mode='pydantic', print_url=True)
 
 
 """
@@ -51,6 +51,28 @@ INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='metadata',
                     'publicacion': 1
                 })
 INE.get_series_(tab_id=50913)
+
+print('Publicaciones')
+INE.get_publications_(detail_level=2, tipology='AM')
+INE.get_publications_('IPC')
+INE.get_publications_(publication_id=8, detail_level=2)
+
+print('UNIDADES')
+INE.get_units()
+INE.get_units(11)
+
+print('Periodos')
+INE.get_periods(8)
+
+print('Periodicidades')
+INE.get_periodicities_()
+INE.get_periodicities_(12)
+
+print('Clasificaciones')
+INE.get_classifications_()
+
+print('Datos')
+INE.get_data_()
 
 
 #INE.close_all_sessions()
