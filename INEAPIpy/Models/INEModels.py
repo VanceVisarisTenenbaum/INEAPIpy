@@ -23,18 +23,12 @@ import pydantic as p
 import datetime as dt
 
 
-class pyDate(p.BaseModel):
-    """Class model to pass date from INE to datetime."""
-    date: str | int
-
-    @p.field_validator('date', mode='after')
-    @classmethod
-    def __to_date(cls, val):
-        if isinstance(val, int):
-            return dt.datetime.fromtimestamp(val / 1000)
-        elif isinstance(val, str):
-            return dt.datetime.fromisoformat(val)
-        return val
+def to_date(val: str | int):
+    if isinstance(val, int):
+        return dt.datetime.fromtimestamp(val / 1000)
+    elif isinstance(val, str):
+        return dt.datetime.fromisoformat(val)
+    return val
 
 
 class pyReferencia(p.BaseModel):
@@ -171,7 +165,7 @@ class pyValorList(p.BaseModel):
 class pyPeriodicidad(p.BaseModel):
     """Class model for Periodicidad from INE."""
 
-    Id: int
+    Id: int | None = None  # May not appear if tip=A
     Nombre: str
     Codigo: str
 
@@ -226,7 +220,7 @@ class pyPublicacionFechaActa(p.BaseModel):
 
     Id: int
     Nombre: str
-    Fecha: pyDate
+    Fecha: str | int
     FK_Periodo: int | None = None
     T3_Periodo: str | None = None
     Periodo: pyPeriodo | None = None
@@ -250,6 +244,11 @@ class pyPublicacionFechaActa(p.BaseModel):
 
         return self
 
+    @p.field_validator('Fecha', mode='after')
+    @classmethod
+    def __to_date(cls, val):
+        return to_date(val)
+
 
 class pyPublicacion(p.BaseModel):
     """Class model for Publicacion from INE."""
@@ -267,7 +266,7 @@ class pyPublicacion(p.BaseModel):
     @p.model_validator(mode='after')
     def checks(self):
         """
-        Checks None for both Periodicidad and PubFechaAct
+        Checks None for both Periodicidad and PubFechaAct.
 
         Returns
         -------
@@ -297,11 +296,16 @@ class pyFechaPublicacion(p.BaseModel):
     T3_Publicacion: str | None = None
     Publicacion: pyPublicacion | None = None
     Nombre: str
-    Fecha: pyDate
+    Fecha: int | str
     FK_Periodo: int | None = None
     T3_Periodo: int | None = None
     Periodo: pyPeriodo | None = None
     Anyo: int
+
+    @p.field_validator('Fecha', mode='after')
+    @classmethod
+    def __to_date(cls, val):
+        return to_date(val)
 
 
 class pyFechaPublicacionList(p.BaseModel):
@@ -321,7 +325,12 @@ class pyClasificacion(p.BaseModel):
 
     Id: int | None = None  # May not appear if tip = A
     Nombre: str
-    Fecha: pyDate
+    Fecha: int | str
+
+    @p.field_validator('Fecha', mode='after')
+    @classmethod
+    def __to_date(cls, val):
+        return to_date(val)
 
 
 class pyClasificacionList(p.BaseModel):
@@ -351,7 +360,7 @@ class pyEscala(p.BaseModel):
     Id: int | None = None  # May not appear if tip = A
     Nombre: str
     Codigo: str
-    Abrev: str
+    Abrev: str | None = None
     Factor: float  # COMPROBAR POR QUE PONE FLOAT(STR) EN MMD
 
 
@@ -372,7 +381,7 @@ class pyTipoDato(p.BaseModel):
 class pyDato(p.BaseModel):
     """Class model for Dato from INE."""
 
-    Fecha: pyDate
+    Fecha: int | str
     FK_TipoDato: int | None = None
     T3_TipoDato: str | None = None
     TipoDato: pyTipoDato | None = None
@@ -406,6 +415,11 @@ class pyDato(p.BaseModel):
         )
 
         return self
+
+    @p.field_validator('Fecha', mode='after')
+    @classmethod
+    def __to_date(cls, val):
+        return to_date(val)
 
 
 class pyNota(p.BaseModel):
