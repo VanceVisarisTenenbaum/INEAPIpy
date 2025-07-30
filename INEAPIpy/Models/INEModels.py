@@ -184,7 +184,7 @@ class pyPeriodo(p.BaseModel):
     # May not appear if tip = A
     FK_Periodicidad: int | None = None
     T3_Periodicidad: str | None = None
-    Periodicidad: pyPeriodicidad | None
+    Periodicidad: pyPeriodicidad | None = None  # May not appear if tip = A
     Dia_inicio: str | None = None  # May not appear if tip = A
     Mes_inicio: str | None = None  # May not appear if tip = A
     Codigo: str
@@ -200,12 +200,14 @@ class pyPeriodo(p.BaseModel):
         -------
         self
         """
+        """
         check_if_all_are_None(
             self.FK_Periodicidad,
             self.T3_Periodicidad,
             self.Periodicidad,
             name='pyPeriodo'
         )
+        """  # Silenced because it may not appear if tip = A
 
         return self
 
@@ -225,7 +227,8 @@ class pyPublicacionFechaActa(p.BaseModel):
     FK_Periodo: int | None = None
     T3_Periodo: str | None = None
     Periodo: pyPeriodo | None = None
-    Anyo: int
+    Anyo: int | None = None  # May not always appear.
+    FechaReferencia: str | None = None
 
     @p.model_validator(mode='after')
     def checks(self):
@@ -249,6 +252,14 @@ class pyPublicacionFechaActa(p.BaseModel):
     @classmethod
     def __to_date(cls, val):
         return to_date(val)
+
+    @p.field_validator('FechaReferencia', mode='after')
+    @classmethod
+    def __to_date(cls, val):
+        """In this case it is sending a date timestamp but as string."""
+        """In this case anyo may not appear."""
+        return to_date(int(val))
+
 
 
 class pyPublicacion(p.BaseModel):
