@@ -1049,8 +1049,8 @@ class EasyINEAPIClientSync(INEAPIClientSync):
         a specific operation, this can be achieved by providing the op_id param
 
         If you just want to get the sons of a specific value from a specific
-        variable you must set the param get_sons as True and specify the val_id
-        in this case, the op_id is ignored.
+        variable you must specify the val_id. In this case,
+        the op_id is ignored.
 
         Getting the values return a list of dictionaries. The shape of it
         depends on the detail_level
