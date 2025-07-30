@@ -97,7 +97,7 @@ def datos_metadataoperacion(op_id: int | str,
     )
 
     query = Inputs.join_filtering_params(filter_params)
-    URL = INEURL.url_gen('DATOS_METADATAOPERACION', Inputs.serie_id, **query)
+    URL = INEURL.url_gen('DATOS_METADATAOPERACION', Inputs.op_id, **query)
     return URL
 
 
