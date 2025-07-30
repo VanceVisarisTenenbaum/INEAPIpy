@@ -179,16 +179,17 @@ class pyPeriodicidadList(p.BaseModel):
 class pyPeriodo(p.BaseModel):
     """Class model fof Periodo from INE."""
 
-    Id: int
-    Valor: int  # This Valor has nothing to do with pyValor.
+    Id: int | None = None  # May not appear if tip = A
+    Valor: int | None = None  # This Valor has nothing to do with pyValor.
+    # May not appear if tip = A
     FK_Periodicidad: int | None = None
     T3_Periodicidad: str | None = None
     Periodicidad: pyPeriodicidad | None
-    Dia_inicio: str
-    Mes_inicio: str
+    Dia_inicio: str | None = None  # May not appear if tip = A
+    Mes_inicio: str | None = None  # May not appear if tip = A
     Codigo: str
     Nombre: str
-    Nombre_largo: str
+    Nombre_largo: str | None = None  # May not appear if tip = A
 
     @p.model_validator(mode='after')
     def checks(self):
