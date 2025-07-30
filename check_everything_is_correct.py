@@ -30,13 +30,15 @@ INE.get_variables_(25)
 INE.get_variables_(None, 115)
 
 print('Valores')
-INE.get_values_(115)
+INE.get_values_(115, detail_level=2)
 INE.get_values_(19, 107)
 INE.get_values_(762, None, 25)
 INE.get_values_(70, val_id=8997)
 
 print('Tablas')
-INE.get_tables_()
+INE.get_tables_('IPC')
+INE.get_tables_(tab_id=50913)
+INE.get_tables_(tab_id=50913, group_id=110924, detail_level=2)
 
 
 #INE.close_all_sessions()

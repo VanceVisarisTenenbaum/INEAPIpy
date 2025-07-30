@@ -239,7 +239,7 @@ class pyPublicacionFechaActa(p.BaseModel):
 class pyPublicacion(p.BaseModel):
     """Class model for Publicacion from INE."""
 
-    Id: int
+    Id: int | None = None  # API may not return this if tip=A
     Nombre: str
     FK_Periodicidad: int | None = None
     T3_Periodicidad: str | None = None
@@ -448,7 +448,7 @@ class pyDatosSerieList(p.BaseModel):
 class pySerie(p.BaseModel):
     """Class model for Serie from INE."""
 
-    Id: int
+    Id: int | None = None  # API may not return this if tip = A
     COD: str
     FK_Operacion: int | None = None
     T3_Operacion: str | None = None
