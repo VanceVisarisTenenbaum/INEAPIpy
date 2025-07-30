@@ -41,7 +41,16 @@ INE.get_tables_(tab_id=50913)
 INE.get_tables_(tab_id=50913, group_id=110924, detail_level=2)
 
 print('Series')
-INE.get_series_()
+INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='metadata')
+INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='values')
+INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='series')
+INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='metadata',
+                metadata_filtering={
+                    115: [29],
+                    3: [84],
+                    'publicacion': 1
+                })
+INE.get_series_(tab_id=50913)
 
 
 #INE.close_all_sessions()

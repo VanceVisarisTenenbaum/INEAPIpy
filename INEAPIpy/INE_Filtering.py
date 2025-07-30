@@ -81,6 +81,9 @@ def metadata_param_filtering_builder(var_value_dict: dict | None = None,
             for val in v:
                 params_dict[f'{key_base}{counter}'] = f'{k}:{val}'
                 counter += 1
+            if len(v) == 0:
+                params_dict[f'{key_base}{counter}'] = f'{k}:'
+                counter += 1
 
     return params_dict
 

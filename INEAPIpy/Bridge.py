@@ -122,7 +122,11 @@ class INEAPIClientSync():
     All methods make the request and retreive the results.
     """
 
-    def __init__(self, mode='raw', RM=None, sleep_time: int | float = 0.4):
+    def __init__(self,
+                 mode='raw',
+                 RM=None,
+                 sleep_time: int | float = 0.4,
+                 print_url: bool = False):
         """
         Init of class.
 
@@ -133,6 +137,11 @@ class INEAPIClientSync():
             pydantic: returns the result as pydantic object.
 
         RM: RequestsManagement.RequestManager instance if you already have one.
+
+        sleep_time: is the sleep time after each request.
+
+        print_url: is the option to set if you want to print URLs after each
+        request.
         """
         if mode not in ['raw', 'py', 'pydantic']:
             raise ValueError(
@@ -140,7 +149,10 @@ class INEAPIClientSync():
             )
         self.mode = mode
         if RM is None:
-            self.__RM = ReqMan.RequestsManager(sleep_time=sleep_time)
+            self.__RM = ReqMan.RequestsManager(
+                sleep_time=sleep_time,
+                print_url=print_url
+            )
         return None
 
     def close_all_sessions(self):
@@ -556,7 +568,11 @@ class INEAPIClientAsync():
     All methods make the request and retreive the results.
     """
 
-    def __init__(self, mode='raw', RM=None):
+    def __init__(self,
+                 mode='raw',
+                 RM=None,
+                 sleep_time: int | float = 0.4,
+                 print_url: bool = False):
         """
         Init of class.
 
@@ -567,6 +583,11 @@ class INEAPIClientAsync():
             pydantic: returns the result as pydantic object.
 
         RM: RequestsManagement.RequestManager instance if you already have one.
+
+        sleep_time: is the sleep time after each request.
+
+        print_url: is the option to set if you want to print URLs after each
+        request.
         """
         if mode not in ['raw', 'py', 'pydantic']:
             raise ValueError(
@@ -574,7 +595,10 @@ class INEAPIClientAsync():
             )
         self.mode = mode
         if RM is None:
-            self.__RM = ReqMan.RequestsManager()
+            self.__RM = ReqMan.RequestsManager(
+                sleep_time=sleep_time,
+                print_url=print_url
+            )
         return None
 
     async def __get_data(self, url):
