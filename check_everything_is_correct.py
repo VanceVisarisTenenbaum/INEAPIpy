@@ -75,11 +75,11 @@ INE.get_publications_(publication_id=8, detail_level=2)
 
 
 print('UNIDADES')
-INE.get_units()
-INE.get_units(11)
+INE.get_units_()
+INE.get_units_(11)
 
 print('Periodos')
-INE.get_periods(8)
+INE.get_periods_(8)
 
 print('Periodicidades')
 INE.get_periodicities_()

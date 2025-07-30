@@ -90,7 +90,7 @@ def metadata_param_filtering_builder(var_value_dict: dict | None = None,
 
 def date_count_selection_params_builder(list_of_dates: list | None = None,
                                         count: int | None = None,
-                                        page: int | None = None
+                                        page: int = 1
                                         ):
     """
     Builds filtering params valid for the INE API.
@@ -174,7 +174,7 @@ def date_count_selection_params_builder(list_of_dates: list | None = None,
             params_dict[key] = v
     elif count is not None:
         params_dict['nult'] = count
-    elif page is not None:
+    elif page != 1:
         params_dict['page'] = page
 
     return params_dict

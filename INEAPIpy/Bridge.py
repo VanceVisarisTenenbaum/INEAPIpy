@@ -577,7 +577,7 @@ class INEAPIClientSync():
     def get_periodo(self,
                     period_id: int | str):
         """Process for PERIODO. Returns content."""
-        url = functions.periodo()
+        url = functions.periodo(period_id)
         data = self.__get_data(url)
         if self.mode == 'pydantic':
             return models.pyPeriodo(**data)
@@ -1027,7 +1027,7 @@ class INEAPIClientAsync():
     async def get_periodo(self,
                           period_id: int | str):
         """Process for PERIODO. Returns content."""
-        url = functions.periodo()
+        url = functions.periodo(period_id)
         data = await self.__get_data(url)
         if self.mode == 'pydantic':
             return models.pyPeriodo(**data)
@@ -1318,11 +1318,10 @@ class EasyINEAPIClientSync(INEAPIClientSync):
             return self.get_escala(scale_id, tipology=tipology)
 
     def get_periods_(self,
-                    period_id: int | str | None = None):
+                    period_id: int | str):
         """Returns the data of the specified period. Same as get_periodo()."""
-        if period_id is not None:
-            return self.get_periodo(period_id)
-        return None
+        return self.get_periodo(period_id)
+
 
     def get_periodicities_(self,
                           periodicity_id: int | str | None = None):
@@ -1644,11 +1643,9 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
             return await self.get_escala(scale_id, tipology=tipology)
 
     async def get_periods_(self,
-                           period_id: int | str | None = None):
+                           period_id: int | str | None):
         """Returns the data of the specified period. Same as get_periodo()."""
-        if period_id is not None:
-            return await self.get_periodo(period_id)
-        return None
+        return await self.get_periodo(period_id)
 
     async def get_periodicities_(self,
                                  periodicity_id: int | str | None = None):

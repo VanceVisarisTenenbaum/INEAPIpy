@@ -34,7 +34,7 @@ def datos_tabla(tab_id: int | str,
         tipology=tipology,
     )
 
-    filter_params = filtering.date_count_selection_params_builder(
+    filter_params = filtering.metadata_and_date_filtering(
         var_value_dict=metadata_filtering,
         format_='series',
         list_of_dates=list_of_dates,

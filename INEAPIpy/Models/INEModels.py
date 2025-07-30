@@ -256,7 +256,7 @@ class pyPublicacionFechaActa(p.BaseModel):
 
     @p.field_validator('FechaReferencia', mode='after')
     @classmethod
-    def __to_date(cls, val):
+    def __to_date_2(cls, val):
         """In this case it is sending a date timestamp but as string."""
         """In this case anyo may not appear."""
         return to_date(int(val))
