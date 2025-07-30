@@ -98,7 +98,8 @@ INE.get_data_(op_id='IPC', count=1,
               metadata_filtering={
                   115: [29],
                   3: [84],
-                  762: []
+                  762: [],
+                  'publicacion': 1
               },
               detail_level=2)
 end = time.time()
