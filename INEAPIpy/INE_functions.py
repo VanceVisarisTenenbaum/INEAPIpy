@@ -104,7 +104,7 @@ def datos_metadataoperacion(op_id: int | str,
 @validate_call
 def operaciones_disponibles(detail_level: int = 0,
                             geographical_level: int | None = None,
-                            page: int | None = None
+                            page: int = 1
                             ):
     """
     Function OPERACIONES_DISPONIBLES from INE.
@@ -129,7 +129,7 @@ def operaciones_disponibles(detail_level: int = 0,
 
 @validate_call
 def operaciones(detail_level: int = 0,
-                page: int | None = None
+                page: int = 1
                 ):
     """
     Function OPERACIONES from INE.
@@ -167,7 +167,7 @@ def operacion(op_id: int | str,
 
 
 @validate_call
-def variables(page: int | None = None):
+def variables(page: int = 1):
     """Function VARIABLES from INE. Returns the URL to make the request."""
     filter_params = filtering.date_count_selection_params_builder(
         page=page
@@ -192,7 +192,7 @@ def variable(var_id: int | str):
 
 @validate_call
 def variables_operacion(op_id: int | str,
-                        page: int | None = None
+                        page: int = 1
                         ):
     """
     Function VARIABLES_OPERACION from INE.
@@ -351,7 +351,7 @@ def serie(serie_id: int | str,
 def series_operacion(op_id: int | str,
                      detail_level: int = 0,
                      tipology: str = '',
-                     page: int | None = None
+                     page: int = 1
                      ):
     """
     Function SERIES_OPERACION from INE.

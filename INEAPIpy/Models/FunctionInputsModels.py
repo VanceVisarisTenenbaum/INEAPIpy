@@ -227,7 +227,7 @@ class FilteringInputs(p.BaseModel):
     list_of_dates: ty.List[str | ty.List[str | None] | ty.Tuple[str | None]] | None = None
     count: p.PositiveInt | None = None
 
-    page: p.PositiveInt | None = None
+    page: p.PositiveInt = 1
 
     @p.field_validator('list_of_dates', mode='after')
     @classmethod

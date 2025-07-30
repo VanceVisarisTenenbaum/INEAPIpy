@@ -209,7 +209,7 @@ class INEAPIClientSync():
     def get_operaciones_disponibles(self,
                                     detail_level: int = 0,
                                     geographical_level: int | None = None,
-                                    page: int | None = None
+                                    page: int = 1
                                     ):
         """Process for OPERACIONES_DISPONIBLES. Returns content."""
         url = functions.operaciones_disponibles(
@@ -223,7 +223,7 @@ class INEAPIClientSync():
 
     def get_operaciones(self,
                         detail_level: int = 0,
-                        page: int | None = None
+                        page: int = 1
                         ):
         """Process for OPERACIONES. Returns content."""
         url = functions.operaciones(detail_level=detail_level,
@@ -246,7 +246,7 @@ class INEAPIClientSync():
         return data
 
     def get_variables(self,
-                      page: int | None = None):
+                      page: int = 1):
         """Process for VARIABLES. Returns content."""
         url = functions.variables(page=page)
         data = self.__get_data(url)
@@ -265,7 +265,7 @@ class INEAPIClientSync():
 
     def get_variables_operacion(self,
                                 op_id: int | str,
-                                page: int | None = None):
+                                page: int = 1):
         """Process for VARIABLES_OPERACION. Returns content."""
         url = functions.variables_operacion(op_id,
                                             page=page)
@@ -357,7 +357,7 @@ class INEAPIClientSync():
                              op_id: int | str,
                              detail_level: int = 0,
                              tipology: str = '',
-                             page: int | None = None
+                             page: int = 1
                              ):
         """Process for SERIES_OPERACION. Returns content."""
         url = functions.series_operacion(op_id,
@@ -638,7 +638,7 @@ class INEAPIClientAsync():
     async def get_operaciones_disponibles(self,
                                           detail_level: int = 0,
                                           geographical_level: int | None = None,
-                                          page: int | None = None
+                                          page: int = 1
                                           ):
         """Process for OPERACIONES_DISPONIBLES. Returns content."""
         url = functions.operaciones_disponibles(
@@ -652,7 +652,7 @@ class INEAPIClientAsync():
 
     async def get_operaciones(self,
                               detail_level: int = 0,
-                              page: int | None = None
+                              page: int = 1
                               ):
         """Process for OPERACIONES. Returns content."""
         url = functions.operaciones(detail_level=detail_level,
@@ -675,7 +675,7 @@ class INEAPIClientAsync():
         return data
 
     async def get_variables(self,
-                            page: int | None = None):
+                            page: int = 1):
         """Process for VARIABLES. Returns content."""
         url = functions.variables(page=page)
         data = await self.__get_data(url)
@@ -694,7 +694,7 @@ class INEAPIClientAsync():
 
     async def get_variables_operacion(self,
                                       op_id: int | str,
-                                      page: int | None = None):
+                                      page: int = 1):
         """Process for VARIABLES_OPERACION. Returns content."""
         url = functions.variables_operacion(op_id,
                                             page=page)
@@ -786,7 +786,7 @@ class INEAPIClientAsync():
                                    op_id: int | str,
                                    detail_level: int = 0,
                                    tipology: str = '',
-                                   page: int | None = None
+                                   page: int = 1
                                    ):
         """Process for SERIES_OPERACION. Returns content."""
         url = functions.series_operacion(op_id,
@@ -981,7 +981,7 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                         detail_level: int = 0,
                         geographical_level: int | None = None,
                         extra_op: bool = False,
-                        page: int | None = None):
+                        page: int = 1):
         """
         Returns the data of all operations, or the specified one.
 
@@ -1005,7 +1005,7 @@ class EasyINEAPIClientSync(INEAPIClientSync):
     def get_variables_(self,
                        op_id: int | str | None = None,
                        var_id: int | str | None = None,
-                       page: int | None = None):
+                       page: int = 1):
         """
         Returns the available variables.
 
@@ -1101,7 +1101,7 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                     operation_data: str = 'series',  # What you want from op.
                     detail_level: int = 0,
                     tipology: str = '',
-                    page: int | None = None,
+                    page: int = 1,
                     metadata_filtering=dict()
                     ):
         """
@@ -1285,7 +1285,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                               detail_level: int = 0,
                               geographical_level: int | None = None,
                               extra_op: bool = False,
-                              page: int | None = None):
+                              page: int = 1):
         """
         Returns the data of all operations, or the specified one.
 
@@ -1309,7 +1309,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
     async def get_variables_(self,
                              op_id: int | str | None = None,
                              var_id: int | str | None = None,
-                             page: int | None = None):
+                             page: int = 1):
         """
         Returns the available variables.
 
@@ -1408,7 +1408,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                           # What you want from operation
                           detail_level: int = 0,
                           tipology: str = '',
-                          page: int | None = None,
+                          page: int = 1,
                           metadata_filtering=dict()
                           ):
         """
