@@ -39,7 +39,7 @@ print(f'Elapsed time: {end - start}')
 print('Valores')
 start = time.time()
 INE.get_values_(115, detail_level=2)
-INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
+# INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
 INE.get_values_(762, None, 25)
 INE.get_values_(70, val_id=8997)
 end = time.time()
@@ -103,4 +103,4 @@ INE.get_data_(op_id='IPC', count=1,
               detail_level=2)
 end = time.time()
 print(f'Elapsed time: {end - start}')
-#INE.close_all_sessions()
+INE.close_all_sessions()

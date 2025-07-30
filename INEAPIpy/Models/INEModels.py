@@ -360,7 +360,7 @@ class pyEscala(p.BaseModel):
     Id: int | None = None  # May not appear if tip = A
     Nombre: str
     Codigo: str | None  # A veces puede ser None
-    Abrev: str | None  # A veces puede ser None
+    Abrev: str | None = None
     Factor: float
 
 
