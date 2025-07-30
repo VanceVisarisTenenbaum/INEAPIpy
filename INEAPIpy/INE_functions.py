@@ -13,9 +13,9 @@ They are all described here: https://www.ine.es/dyngs/DAB/index.htm?cid=1100
 All params are assumed to be known, so this functions have minimum docs.
 """
 
-import INE_Filtering as filtering
-import INE_URL_Treatment as INEURL
-import Models.FunctionInputsModels as FIM
+from . import INE_Filtering as filtering
+from . import INE_URL_Treatment as INEURL
+from .Models import FunctionInputsModels as FIM
 from pydantic import validate_call
 
 

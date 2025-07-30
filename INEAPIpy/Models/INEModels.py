@@ -53,7 +53,7 @@ class pyOperacionList(p.BaseModel):
     items: ty.List[pyOperacion]
 
 
-class pyVariable(p.BaseMode):
+class pyVariable(p.BaseModel):
     """Class model for Variable from INE."""
 
     Id: int
@@ -117,7 +117,7 @@ class pyValorBase(p.BaseModel):
     Codigo: str
     Nota: str | None = None  # Doesn't appears always.
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def checks(self):
         """
         Checks if FK, T3, or Variable are all None.
@@ -181,7 +181,7 @@ class pyPeriodo(p.BaseModel):
     Nombre: str
     Nombre_largo: str
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def checks(self):
         """
         Checks if FK, T3, or Periodicidad are all None.
@@ -217,7 +217,7 @@ class pyPublicacionFechaActa(p.BaseModel):
     Periodo: pyPeriodo | None = None
     Anyo: int
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def checks(self):
         """
         Checks if FK, T3, or Periodo are all None.
@@ -249,7 +249,7 @@ class pyPublicacion(p.BaseModel):
     PubFechaAct: pyPublicacionFechaActa | None = None
     Operacion: ty.List[pyOperacion] | None = None
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def checks(self):
         """
         Checks None for both Periodicidad and PubFechaAct
@@ -368,7 +368,7 @@ class pyDato(p.BaseModel):
     Valor: float
     Secreto: bool
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def checks(self):
         """
         Checks if all None for TipoDato and Periodo.
@@ -417,10 +417,10 @@ class pyDatosSerie(p.BaseModel):
     T3_Unidad: str | None = None
     Unidad: pyUnidad | None = None
     Notas: ty.List[pyNota] | None = None
-    MetaData: ty.List(pyValor) | None = None
-    Data: ty.List(pyDato) | None = None
+    MetaData: ty.List[pyValor] | None = None
+    Data: ty.List[pyDato] | None = None
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def checks(self):
         """
         Checks if FK, T3, or Unidad are all None.
@@ -474,7 +474,7 @@ class pySerie(p.BaseModel):
     # Only if tip = M
     DatosSerie: pyDatosSerie | None = None
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def checks(self):
         """
         Checks if all None for next attributes.
@@ -570,7 +570,7 @@ class pyTabla(p.BaseModel):
     GruposTabla: ty.List[pyGrupoTabla] | None = None
     Series: ty.List[pySerie] | None = None
 
-    @p.model_validator('after')
+    @p.model_validator(mode='after')
     def checks(self):
         """
         Checks if all None for next attributes.

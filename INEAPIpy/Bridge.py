@@ -9,19 +9,9 @@ This file contains 4 classes, all of them act as bridge with the INE API,
 all of them return the results from the INE API.
 """
 
-import os
-import sys
-
-RMPath = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), './urlrequestsmanagement/src')
-)
-
-if RMPath not in sys.path:
-    sys.path.insert(0, RMPath)
-
-import RequestsManagement as ReqMan
-import INE_functions as functions
-import Models.INEModels as models
+from .urlrequestsmangement.src import RequestsManagement as ReqMan
+from . import INE_functions as functions
+from .Models import INEModels as models
 import json
 
 

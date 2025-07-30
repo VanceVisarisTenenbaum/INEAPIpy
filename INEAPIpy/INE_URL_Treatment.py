@@ -12,7 +12,7 @@ of path elements of a url and kwargs as parameters for the url.
 """
 
 import yarl
-import Models.URLModels as URLModels
+from .Models import URLModels as URLModels
 
 
 def url_gen(function, *inputs, **kwargs):

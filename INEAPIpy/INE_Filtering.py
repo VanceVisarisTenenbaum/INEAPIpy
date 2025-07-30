@@ -10,7 +10,7 @@ for INE API.
 """
 
 import datetime as dt
-import Models.FunctionInputsModels as FIM
+from .Models import FunctionInputsModels as FIM
 
 
 def metadata_param_filtering_builder(var_value_dict: dict | None = None,
