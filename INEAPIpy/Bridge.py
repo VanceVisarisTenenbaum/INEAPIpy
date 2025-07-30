@@ -1094,13 +1094,15 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                 op_id,
                 detail_level=detail_level,
                 geographical_level=geographical_level)
-        if tab_id is not None:
+        elif tab_id is not None:
             if group_id is None:
                 return self.get_grupos_tabla(tab_id)
             else:
                 return self.get_valores_grupostabla(tab_id,
                                                     group_id,
                                                     detail_level=detail_level)
+        else:
+            raise ValueError('Wether op_id or tab_id must be provided.')
 
     def get_series_(self,
                     serie_id: int | str | None = None,
@@ -1397,7 +1399,7 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                 op_id,
                 detail_level=detail_level,
                 geographical_level=geographical_level)
-        if tab_id is not None:
+        elif tab_id is not None:
             if group_id is None:
                 return await self.get_grupos_tabla(tab_id)
             else:
@@ -1405,6 +1407,8 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                     tab_id,
                     group_id,
                     detail_level=detail_level)
+        else:
+            raise ValueError('Wether op_id or tab_id must be provided.')
 
     async def get_series_(self,
                           serie_id: int | str | None = None,

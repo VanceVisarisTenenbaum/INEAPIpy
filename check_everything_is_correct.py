@@ -35,5 +35,8 @@ INE.get_values_(19, 107)
 INE.get_values_(762, None, 25)
 INE.get_values_(70, val_id=8997)
 
+print('Tablas')
+INE.get_tables_()
+
 
 #INE.close_all_sessions()
