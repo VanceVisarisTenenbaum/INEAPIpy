@@ -188,7 +188,7 @@ class pyPeriodo(p.BaseModel):
     Dia_inicio: str | None = None  # May not appear if tip = A
     Mes_inicio: str | None = None  # May not appear if tip = A
     Codigo: str
-    Nombre: str
+    Nombre: str | None  # May be none, but should always appear.
     Nombre_largo: str | None = None  # May not appear if tip = A
 
     @p.model_validator(mode='after')
@@ -239,13 +239,14 @@ class pyPublicacionFechaActa(p.BaseModel):
         -------
         self
         """
+        """
         check_if_all_are_None(
             self.FK_Periodo,
             self.T3_Periodo,
             self.Periodo,
             name='pyPublicacionFechaActa'
         )
-
+        """  # Silenced because this may not appear.
         return self
 
     @p.field_validator('Fecha', mode='after')
