@@ -38,7 +38,7 @@ class pyReferencia(p.BaseModel):
 class pyOperacion(p.BaseModel):
     """Class model for Operacion from INE."""
 
-    Id: int
+    Id: int | None = None  # May not appear if tip=A
     Cod_IOE: str
     Nombre: str
     Codigo: str

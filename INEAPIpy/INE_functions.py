@@ -104,7 +104,8 @@ def datos_metadataoperacion(op_id: int | str,
 @validate_call
 def operaciones_disponibles(detail_level: int = 0,
                             geographical_level: int | None = None,
-                            page: int = 1
+                            page: int = 1,
+                            tipology: str = ''
                             ):
     """
     Function OPERACIONES_DISPONIBLES from INE.
@@ -129,7 +130,8 @@ def operaciones_disponibles(detail_level: int = 0,
 
 @validate_call
 def operaciones(detail_level: int = 0,
-                page: int = 1
+                page: int = 1,
+                tipology: str = ''
                 ):
     """
     Function OPERACIONES from INE.
@@ -156,6 +158,7 @@ def operaciones(detail_level: int = 0,
 @validate_call
 def operacion(op_id: int | str,
               detail_level: int = 0,
+              tipology: str = ''
               ):
     """Function OPERACION from INE. Returns the URL to make the request."""
     Inputs = FIM.InputParams(

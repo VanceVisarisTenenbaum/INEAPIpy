@@ -226,7 +226,8 @@ class INEAPIClientSync():
     def get_operaciones_disponibles(self,
                                     detail_level: int = 0,
                                     geographical_level: int | None = None,
-                                    page: int = 1
+                                    page: int = 1,
+                                    tipology: str = ''
                                     ):
         """Process for OPERACIONES_DISPONIBLES. Returns content."""
         url = functions.operaciones_disponibles(
@@ -240,7 +241,8 @@ class INEAPIClientSync():
 
     def get_operaciones(self,
                         detail_level: int = 0,
-                        page: int = 1
+                        page: int = 1,
+                        tipology: str = ''
                         ):
         """Process for OPERACIONES. Returns content."""
         url = functions.operaciones(detail_level=detail_level,
@@ -252,7 +254,8 @@ class INEAPIClientSync():
 
     def get_operacion(self,
                       op_id: int | str,
-                      detail_level: int = 0
+                      detail_level: int = 0,
+                      tipology: str = ''
                       ):
         """Process for OPERACION. Returns content."""
         url = functions.operacion(op_id,
@@ -672,7 +675,8 @@ class INEAPIClientAsync():
     async def get_operaciones_disponibles(self,
                                           detail_level: int = 0,
                                           geographical_level: int | None = None,
-                                          page: int = 1
+                                          page: int = 1,
+                                          tipology: str = ''
                                           ):
         """Process for OPERACIONES_DISPONIBLES. Returns content."""
         url = functions.operaciones_disponibles(
@@ -686,7 +690,8 @@ class INEAPIClientAsync():
 
     async def get_operaciones(self,
                               detail_level: int = 0,
-                              page: int = 1
+                              page: int = 1,
+                              tipology: str = ''
                               ):
         """Process for OPERACIONES. Returns content."""
         url = functions.operaciones(detail_level=detail_level,
@@ -698,7 +703,8 @@ class INEAPIClientAsync():
 
     async def get_operacion(self,
                             op_id: int | str,
-                            detail_level: int = 0
+                            detail_level: int = 0,
+                            tipology: str = ''
                             ):
         """Process for OPERACION. Returns content."""
         url = functions.operacion(op_id,
@@ -1015,7 +1021,8 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                         detail_level: int = 0,
                         geographical_level: int | None = None,
                         extra_op: bool = False,
-                        page: int = 1):
+                        page: int = 1,
+                        tipology: str = ''):
         """
         Returns the data of all operations, or the specified one.
 
@@ -1027,14 +1034,18 @@ class EasyINEAPIClientSync(INEAPIClientSync):
         if op_id is None:
             if extra_op:
                 return self.get_operaciones(detail_level=detail_level,
-                                            page=page)
+                                            page=page,
+                                            tipology=tipology)
             return self.get_operaciones_disponibles(
                 detail_level=detail_level,
                 geographical_level=geographical_level,
-                page=page
+                page=page,
+                tipology=tipology
             )
         else:
-            return self.get_operacion(op_id, detail_level=detail_level)
+            return self.get_operacion(op_id,
+                                      detail_level=detail_level,
+                                      tipology=tipology)
 
     def get_variables_(self,
                        op_id: int | str | None = None,
@@ -1328,7 +1339,8 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                               detail_level: int = 0,
                               geographical_level: int | None = None,
                               extra_op: bool = False,
-                              page: int = 1):
+                              page: int = 1,
+                              tipology: str = ''):
         """
         Returns the data of all operations, or the specified one.
 
@@ -1340,14 +1352,18 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
         if op_id is None:
             if extra_op:
                 return await self.get_operaciones(detail_level=detail_level,
-                                                  page=page)
+                                                  page=page,
+                                                  tipology=tipology)
             return await self.get_operaciones_disponibles(
                 detail_level=detail_level,
                 geographical_level=geographical_level,
-                page=page
+                page=page,
+                tipology=tipology
             )
         else:
-            return await self.get_operacion(op_id, detail_level=detail_level)
+            return await self.get_operacion(op_id,
+                                            detail_level=detail_level,
+                                            tipology=tipology)
 
     async def get_variables_(self,
                              op_id: int | str | None = None,
