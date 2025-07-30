@@ -1341,7 +1341,6 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                           var_id: int | str | None = None,
                           classification_id: int | str | None = None,
                           op_id: int | str | None = None,
-                          get_sons: bool = False,
                           val_id: int | str | None = None,
                           detail_level: int = 0):
         """
@@ -1353,13 +1352,13 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
         a specific operation, this can be achieved by providing the op_id param
 
         If you just want to get the sons of a specific value from a specific
-        variable you must set the param get_sons as True and specify the val_id
-        in this case, the op_id is ignored.
+        variable you must specify the val_id. In this case,
+        the op_id is ignored.
 
         Getting the values return a list of dictionaries. The shape of it
         depends on the detail_level
         """
-        if get_sons:
+        if val_id is not None:
             return await self.get_valores_hijos(var_id,
                                                 val_id,
                                                 detail_level=detail_level)
