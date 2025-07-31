@@ -166,6 +166,13 @@ classDiagram
         detail_level
         page
     }
+    class get_values_{
+        var_id
+        classification_id
+        op_id
+        val_id
+        detail_level
+    }
     class get_tables_{
         op_id
         tab_id
@@ -286,7 +293,7 @@ classDiagram
     get_variables_ --> get_variable : var_id provided
     get_variables_ --> get_variables_operacion : op_id provided and var_id not_provided
     get_variables_ --> get_variables : nothing is provided
-    get_values_ --> get_valores_hijos : get_sons True
+    get_values_ --> get_valores_hijos : val_id provided
     get_values_ --> get_valores_variableoperacion : op_id provided
     get_values_ --> get_valores_variable : only var_id is provided
     get_tables_ --> get_tablas_operacion : op_id provided
