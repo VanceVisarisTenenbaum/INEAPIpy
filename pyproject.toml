@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "INEAPIpy_VanceVisarisTenenbaum"
+version = "0.0.1"
+authors = [
+  { name="VanceVisarisTenenbaum", email="144833048+VanceVisarisTenenbaum@users.noreply.github.com" },
+]
+description = "INE API Wrapper, provides classes that contains methods to make requests to the INE API, both sync or async."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "Apache-2.0"
+license-files = ["LICEN[CS]E*"]
+dependencies = [
+    "requests >= 2.32.4",
+    "aiohttp >= 3.12.14",
+    "yarl >= 1.20.1",
+    "pydantic >= 2.11.5"
+]
+keywords = [
+    "INE", "Instituto", "Nacional", "API",
+    "Statistics", "Estadisticas", "Stats",
+    "INEAPI"
+]
+[project.urls]
+Homepage = "https://github.com/VanceVisarisTenenbaum/INEAPIpy"
+Issues = "https://github.com/VanceVisarisTenenbaum/INEAPIpy/issues"
