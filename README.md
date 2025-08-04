@@ -12,7 +12,7 @@ Toda la documentación se encuentra en este enlace.
 
 https://github.com/VanceVisarisTenenbaum/INEAPIpy/tree/main/INEAPIpy/Documentation
 
-Los diagramas o archivos .mmd son diagramas de mermaid y es recomendable utilizar la [app oficial](https://mermaid.live/) para visualizarlos de la mejor manera posible.
+Los diagramas o archivos .mmd son diagramas de mermaid y es recomendable utilizar la [app oficial](https://mermaid.live/) para visualizarlos de la mejor manera posible. (Tardan un poco en cargar)
 
 La documentación de las clases, funciones y módulos proporcionados se encuentra en el [enlace](https://github.com/VanceVisarisTenenbaum/INEAPIpy/blob/main/INEAPIpy/Documentation/INEAPIpy_Docs.md). Una vez leido, el siguiente [diagrama](https://mermaid.live/view?gist=https://gist.github.com/VanceVisarisTenenbaum/5b2890f4ccc5517ba9289c5c271af1fa) clarifica la estructura y los resultados.
 
