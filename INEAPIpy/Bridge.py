@@ -126,7 +126,8 @@ async def get_data_process_async(RM,
     content : str | dict
         Content from request.
     """
-    content_str = await RM.async_request('GET', url).content
+    result = await RM.async_request('GET', url)
+    content_str = await result.content.read()
     if mode == 'raw':
         return content_str
     elif mode in ['py', 'pydantic']:
