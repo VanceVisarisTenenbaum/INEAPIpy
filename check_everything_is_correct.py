@@ -42,7 +42,7 @@ def tests_Sync(INE):
     print('Valores')
     start = time.time()
     INE.get_values_(115, detail_level=2)
-    # INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
+    INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
     INE.get_values_(762, None, 25)
     INE.get_values_(70, val_id=8997)
     end = time.time()
@@ -138,7 +138,7 @@ async def tests_Async(INE):
     print('Valores')
     start = time.time()
     await INE.get_values_(115, detail_level=2)
-    # INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
+    await INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
     await INE.get_values_(762, None, 25)
     await INE.get_values_(70, val_id=8997)
     end = time.time()
