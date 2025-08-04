@@ -1,5 +1,5 @@
 exclude tests/*
 exclude *__pycache__/*
-exclude src/INEAPIpy/urlrequestmanagement/*
+exclude INEAPIpy/urlrequestmanagement/*
 exclude .gitignore .gitmodules .git .spyproject
-include src/INEAPIpy/urlrequestmanagement/src/*
+include INEAPIpy/urlrequestmanagement/src/*
