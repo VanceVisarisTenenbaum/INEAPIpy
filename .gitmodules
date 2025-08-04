@@ -1,0 +1,3 @@
+[submodule "INEAPIpy/urlrequestsmangement"]
+	path = INEAPIpy/urlrequestsmangement
+	url = git@gitlab.com:statssearchanalysis/statsapis/urlrequestsmanagement.git
