@@ -18,7 +18,7 @@ If pydantic fails there is something wrong.
 
 def tests_Sync(INE):
     """All tests."""
-
+    start_total = time.time()
     # Ops
     print('Operaciones')
     start = time.time()
@@ -108,13 +108,14 @@ def tests_Sync(INE):
     end = time.time()
     print(f'Elapsed time: {end - start}')
     INE.close_all_sessions()
-
+    end_total = time.time()
+    print(f'\nTotal time: {end_total - start_total} seconds\n\n\n')
     return None
 
 
 async def tests_Async(INE):
     """All tests."""
-
+    start_total = time.time()
     # Ops
     print('Operaciones')
     start = time.time()
@@ -204,12 +205,84 @@ async def tests_Async(INE):
     end = time.time()
     print(f'Elapsed time: {end - start}')
     INE.close_all_sessions()
-
+    end_total = time.time()
+    print(f'\nTotal time: {end_total - start_total} seconds\n\n\n')
     return None
 
+async def tests_Async_no_await(INE):
+    """All tests."""
+    start_total = time.time()
+    # Ops
+
+    await asyncio.gather([
+    INE.get_operations_(detail_level=2, extra_op=True, page=1),
+    INE.get_operations_(geographical_level=0),
+    INE.get_operations_(geographical_level=1),
+
+    INE.get_operations_(25),
+    INE.get_operations_('IPC'),
+
+    INE.get_variables_(page=2),
+    INE.get_variables_(25),
+    INE.get_variables_(None, 115),
+
+    INE.get_values_(115, detail_level=2),
+    INE.get_values_(19, 107),  # Funciona bie, silenciado por tardar demasiado.
+    INE.get_values_(762, None, 25),
+    INE.get_values_(70, val_id=8997),
+
+    INE.get_tables_('IPC'),
+    INE.get_tables_(tab_id=50913),
+    INE.get_tables_(tab_id=50913, group_id=110924, detail_level=2),
+
+    INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='metadata'),
+    INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='values'),
+    INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='series'),
+    INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='metadata',
+                    metadata_filtering={
+                        115: [29],
+                        3: [84],
+                        'publicacion': 1
+                    }),
+    INE.get_series_(tab_id=50913),
+
+    INE.get_publications_(detail_level=2, tipology='AM'),
+    INE.get_publications_('IPC'),
+    INE.get_publications_(publication_id=8, detail_level=2),
+
+    INE.get_units_(),
+    INE.get_units_(11),
+
+    INE.get_periods_(8),
+
+    INE.get_periodicities_(),
+    INE.get_periodicities_(12),
+
+    INE.get_classifications_(),
+
+    INE.get_data_('IPC251856', detail_level=2, tipology='M', count=20),
+    INE.get_data_('IPC251856', detail_level=2, tipology='M',
+                  list_of_dates=[('2023-01-01', '2023-12-31')]),
+    INE.get_data_(tab_id=50902, detail_level=2),
+    INE.get_data_(op_id='IPC', count=1,
+                  metadata_filtering={
+                      115: [29],
+                      3: [84],
+                      762: [],
+                      'publicacion': 1
+                  },
+                  detail_level=2),
+    ])
+    INE.close_all_sessions()
+    end_total = time.time()
+    print(f'\nTotal time: {end_total - start_total} seconds\n\n\n')
+    return None
 
 print('Startin Sync tests.')
-tests_Sync(INES)
+#tests_Sync(INES)
 
 print('Startin Async tests.')
-asyncio.create_task(tests_Async(INEA))
+#asyncio.create_task(tests_Async(INEA))
+
+print('Startin Async no await tests.')
+asyncio.create_task(tests_Async_no_await(INEA))
