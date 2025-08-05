@@ -278,11 +278,95 @@ async def tests_Async_no_await(INE):
     print(f'\nTotal time: {end_total - start_total} seconds\n\n\n')
     return None
 
+from pydantic import ValidationError
+
+def errors_checks_sync(INE):
+    try:
+        INE.get_tables_(2.5, detail_level='ABC', geographical_level='ABC', tipology='MA')
+    except ValidationError:
+        print('Test 1 passed.')
+
+    try:
+        INE.get_tables_(2.5, detail_level='ABC', geographical_level='ABC', tipology=2)
+    except ValidationError:
+        print('Test 2 passed.')
+
+    try:
+        INE.get_series_(op_id=3.8, operation_data='Caca', page=3.2)
+    except (ValidationError, ValueError):
+        print('Test 3 passed.')
+
+    try:
+        INE.get_series_(serie_id=3.8, serie_data='Caca', page='Caca', metadata_filtering={3.2: 5.3, 'publicacion': 3.8})
+    except (ValidationError, ValueError):
+        print('Test 4 passed.')
+
+    try:
+        INE.get_data_(serie_id='IPC251856', list_of_dates=['Caca'])
+    except ValidationError:
+        print('Test 5 passed.')
+
+    try:
+        INE.get_data_(serie_id='IPC251856', list_of_dates=[('Caca', 'Caca')])
+    except ValidationError:
+        print('Test 6 passed.')
+
+    try:
+        INE.get_data_(serie_id='IPC251856', count=1.2)
+    except ValidationError:
+        print('Test 7 passed.')
+    return None
+
+
+async def errors_checks_async(INE):
+    try:
+        await INE.get_tables_(2.5, detail_level='ABC', geographical_level='ABC', tipology='MA')
+    except ValidationError:
+        print('Test 1 passed.')
+
+    try:
+        await INE.get_tables_(2.5, detail_level='ABC', geographical_level='ABC', tipology=2)
+    except ValidationError:
+        print('Test 2 passed.')
+
+    try:
+        await INE.get_series_(op_id=3.8, operation_data='Caca', page=3.2)
+    except (ValidationError, ValueError):
+        print('Test 3 passed.')
+
+    try:
+        await INE.get_series_(serie_id=3.8, serie_data='Caca', page='Caca', metadata_filtering={3.2: 5.3, 'publicacion': 3.8})
+    except (ValidationError, ValueError):
+        print('Test 4 passed.')
+
+    try:
+        await INE.get_data_(serie_id='IPC251856', list_of_dates=['Caca'])
+    except ValidationError:
+        print('Test 5 passed.')
+
+    try:
+        await INE.get_data_(serie_id='IPC251856', list_of_dates=[('Caca', 'Caca')])
+    except ValidationError:
+        print('Test 6 passed.')
+
+    try:
+        await INE.get_data_(serie_id='IPC251856', count=1.2)
+    except ValidationError:
+        print('Test 7 passed.')
+    return None
+
+
 print('Startin Sync tests.')
-#tests_Sync(INES)
+tests_Sync(INES)
 
 print('Startin Async tests.')
-#asyncio.create_task(tests_Async(INEA))
+asyncio.create_task(tests_Async(INEA))
 
 print('Startin Async no await tests.')
-asyncio.create_task(tests_Async_no_await(INEA))
+#asyncio.create_task(tests_Async_no_await(INEA))
+
+print('Starting error checks Sync')
+errors_checks_sync(INES)
+
+print('Starting error checks Async')
+asyncio.create_task(errors_checks_async(INEA))
