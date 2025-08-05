@@ -4,7 +4,9 @@ Este paquete de Python actua como Wrapper de la [API del INE](https://www.ine.es
 
 ## Instalación
 
-Aún no disponible.
+```py
+pip install ineapipy
+```
 
 ## Documentación
 
