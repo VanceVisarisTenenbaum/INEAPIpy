@@ -26,6 +26,8 @@ Existe un paquete con la misma funcionalidad aunque organizado y estructurado de
 
 Dicho paquete es [ineapy](https://github.com/Angel-RC/ineapy)
 
+También existe el paquete [inejsonstat](https://github.com/Mlgpigeon/inejsonstat) con la misma funcionalidad, pero la última actualización fue hace 3 años.
+
 
 ## Documentación
 
