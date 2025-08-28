@@ -226,32 +226,109 @@ classDiagram
     }
     %% INE Ojects
     class Operacion{
+        Id: No aparece si tipology=A.
+        Cod_IOE
+        Nombre
+        Codigo
+        Referencia: No todos lo tienen. Solo aparece si detail_level>0.
+        Url: No todos lo tienen.
     }
     class Variable{
+        Id
+        Nombre
+        Codigo
     }
     class Valor{
+        Id
+        Variable: Puede aparecer como FK o T3 también.
+        Nombre
+        Codigo
+        Nota: No aparece siempre.
+        JerarquiaPadres: No aparece siempre. Puede aparecer como FK o T3 también.
     }
     class Periodicidad{
+        Id: No aparece si tipology=A
+        Nombre
+        Codigo
     }
     class Periodo{
+        Id: No aparece si tipology=A
+        Valor: Este valor no tiene que ver con el obejto valor, esto es un integer. No aparece si tipology=A
+        Periodicidad: Puede aparecer como FK o T3 también.
+        Dia_inicio: No aparece si tipology=A
+        Mes_inicio: No aparece si tipology=A
+        Codigo
+        Nombre
+        Nombre_largo: No aparece si tipology=A
     }
     class Publicacion{
+        Id: No aparece si tipology=A
+        Nombre
+        Periodicidad: Puede aparecer como FK o T3 también.
+        PubFechaAct: Puede aparecer como FK o T3 también.
+        Operacion
     }
     class FechaPublicacion{
+        Id
+        Publicacion: Puede aparecer como FK o T3 también.
+        Nombre
+        Fecha
+        Periodo: Puede aparecer como FK o T3 también.
+        Anyo
     }
     class Clasificacion{
+        Id: No aparece si tipology=A
+        Nombre
+        Fecha
     }
     class Unidad{
+        Id: No aparece si tipology=A
+        Nombre
+        Codigo
+        Abrev
     }
     class Escala{
+        Id: No aparece si tipology=A
+        Nombre
+        Codigo
+        Abrev
+        Factor
     }
     class DatosSerie{
+        COD
+        Nombre
+        Unidad: Puede aparecer como FK o T3 también.
+        Notas: Puede no aparecer.
+        MetaData: Aparece si tipology=M
+        Data
     }
     class Serie{
+        Id: No aparece si tipology=A
+        COD
+        Operacion: Puede aparecer com FK o T3 también.
+        Nombre
+        Decimales
+        Periodicidad: Puede aparecer com FK o T3 también.
+        Publicacion: Puede aparecer com FK o T3 también.
+        Clasificacion: Puede aparecer com FK o T3 también.
+        Escala: Puede aparecer com FK o T3 también.
+        Unidad: Puede aparecer com FK o T3 también.
+        MetaData: Solo aparece si tipology=M
     }
     class GrupoTabla{
+        Id
+        Nombre
     }
     class Tabla{
+        Id
+        Nombre
+        Codigo
+        Periodicidad: Puede aparecer com FK o T3 también.
+        Publicacion: Puede aparecer com FK o T3 también.
+        Periodo_ini: Puede aparecer com FK o T3 también.
+        Anyo_Periodo_ini
+        FechaRef_fin
+        Ultima_Modificacion
     }
     %% Relations INE functions --> Object
     get_datos_tabla --> "n" DatosSerie

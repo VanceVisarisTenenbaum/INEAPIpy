@@ -8,6 +8,25 @@ Este paquete de Python actua como Wrapper de la [API del INE](https://www.ine.es
 pip install ineapipy
 ```
 
+## Guía de inicio
+
+```py
+from INEAPIpy import Bridge as B
+
+INE = B.INEAPIClientSync()
+
+# Primera función de https://ine.es/dyngs/DAB/index.htm?cid=1100
+# Y primer ejemplo
+print(INE.get_datos_tabla(50902))
+```
+
+## Anotación
+
+Existe un paquete con la misma funcionalidad aunque organizado y estructurado de otra manera. Sin embargo, este paquete fue desarrollado de forma independiente y no existe ninguna relación entre los dos desarrolladores.
+
+Dicho paquete es [ineapy](https://github.com/Angel-RC/ineapy)
+
+
 ## Documentación
 
 Toda la documentación se encuentra en este enlace.

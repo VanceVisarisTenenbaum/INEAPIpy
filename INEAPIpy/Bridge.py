@@ -152,9 +152,9 @@ class INEAPIClientSync():
 
         Mode: Literal['raw', 'py', 'pydantic']
 
-            raw: returns the result straight from INE API, without checking.
-            py: returns the result as python dict
-            pydantic: returns the result as pydantic object.
+            raw: returns the result straight from INE API, without checking as string.
+            py: returns the result as python dict or list, without checking.
+            pydantic: returns the result as pydantic object and checks the results are correctly formatted according to models.
 
         RM: RequestsManagement.RequestManager instance if you already have one.
 
@@ -602,9 +602,9 @@ class INEAPIClientAsync():
 
         Mode: Literal['raw', 'py', 'pydantic']
 
-            raw: returns the result straight from INE API, without checking.
-            py: returns the result as python dict
-            pydantic: returns the result as pydantic object.
+            raw: returns the result straight from INE API, without checking as string.
+            py: returns the result as python dict or list, without checking.
+            pydantic: returns the result as pydantic object and checks the results are correctly formatted according to models.
 
         RM: RequestsManagement.RequestManager instance if you already have one.
 
