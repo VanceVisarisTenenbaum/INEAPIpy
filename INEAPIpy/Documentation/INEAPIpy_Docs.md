@@ -181,23 +181,22 @@ Es la misma clase que las anteriores, pero añade varios métodos que simplifica
     * Si se especifica ```op_id```, devuelve las variables asociadas a dicha operación.
     * Si se especifica ```var_id```, devuelve dicha variable.
     * Si no se especifica ningún parámetro, devuelve todas las variables disponibles.
-* ```get_values_(var_id, classification_id, op_id, val_id, detail_level)```: Devuelve los valores asociados a la variable especificada.
-    * ```var_id``` es un parámetro obligatorio.
-    * Si se especifica ```classification_id```, devuelve los valores asociados a dicha variable y dicha operación.
-    * Si se especifica ```op_id```, devuelve los valores asociados a dicha variable y dicha operación.
-    * Si se especifica ```val_id```, devuelve los valores hijos dicho valor.
-* ```get_tables_(op_id, tab_id, group_id, detail_level, geographical_level, tipology)```: Devuelve las tablas, grupos de tabla o valores según el input.
+* ```get_values_(var_id, classification_id, op_id, val_id, serie_id, tab_id, group_id detail_level)```: Devuelve los valores asociados según las inputs.
+    * Si se especifiva ```var_id```, devuelve los valores asociados a dicha variable.
+        * Se puede filtrar además especificando ```classification_id```.
+    * Si se especifica ```var_id``` y ```op_id```, devuelve los valores asociados a dicha variable y dicha operación.
+    * Si se especifica ```var_id``` y ```val_id```, devuelve los valores hijos dicho valor.
+    * Si se especifica ```serie_id```, devuelve los valores asociados a dicha serie.
+    * Si se especifica ```tab_id``` y ```group_id```, devuelve los valores asociados a dicho grupo de tablas.
+* ```get_tables_(op_id, tab_id, detail_level, geographical_level, tipology)```: Devuelve las tablas, grupos de tabla o valores según el input.
     * Si se especifica ```op_id```, devuelve las tablas asociadas a dicha operación.
     * Si se especifica ```tab_id```, devuelve los grupos de tabla disponibles para dicha tabla.
-    * Si se especifica ```tab_id``` y ```group_id```, devuelve los valores disponibles para dicho grupo.
-* ```get_series_(serie_id, op_id, tab_id, serie_data, operation_data, detail_level, tipology, page, metadata_filtering)```: Devuelve la información disponible de las series.
-    * La función tiene varios modos, y creo que dividirla en dos hubiese sido más difícil de interpretar.
-    * Si se especifica ```serie_id```:
-        * Si ```serie_data=metadata``` devuelve los datos de dicha serie.
-        * Si ```serie_data=values``` devuelve los valores de dicha serie.
-    * Si se especifica ```op_id```:
-        * Si ```operation_data=series``` devuelve las series asociadas a dicha operación.
-        * Si ```operation_data=metadata``` devuelve las series asociadas a dicha operación filtradas con ```metadata_filtering```.
+* ```get_series_(serie_id, op_id, tab_id, detail_level, tipology, page, metadata_filtering)```: Devuelve la información disponible de las series.
+    * Si se especifica ```serie_id```, devuelve los datos de dicha serie.
+    * Si se especifica ```op_id```, devuelve las series asociadas a dicha operación.
+        * Se puede filtrar utilizando ```metadata_filtering```.
+    * Si se especifica ```tab_id```, devuelve las series asociadas s dicha tabla.
+        * Se puede filtrar utilizando ```metadata_filtering```.
 * ```get_publications_(op_id, publication_id, detail_level, tipology)```: Devuelve las publicaciones disponibles.
     * Si no se especifica ningún input, devuelve todas las publicaciones.
     * Si se especifica ```op_id```, devuelve las publicacionesa asociadas a dicha operación.

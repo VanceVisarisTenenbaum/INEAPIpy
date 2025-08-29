@@ -171,12 +171,14 @@ classDiagram
         classification_id
         op_id
         val_id
+        serie_id
+        tab_id
+        group_id
         detail_level
     }
     class get_tables_{
         op_id
         tab_id
-        group_id
         detail_level
         geographical_level
         tipology
@@ -185,8 +187,6 @@ classDiagram
         serie_id
         op_id
         tab_id
-        serie_data
-        operation_data
         detail_level
         tipology
         page
@@ -370,16 +370,16 @@ classDiagram
     get_variables_ --> get_variable : var_id provided
     get_variables_ --> get_variables_operacion : op_id provided and var_id not_provided
     get_variables_ --> get_variables : nothing is provided
-    get_values_ --> get_valores_hijos : val_id provided
-    get_values_ --> get_valores_variableoperacion : op_id provided
+    get_values_ --> get_valores_hijos : var_id and val_id provided
+    get_values_ --> get_valores_variableoperacion : var_id and op_id provided
     get_values_ --> get_valores_variable : only var_id is provided
+    get_values_ --> get_valores_serie : only serie_id is provided
+    get_values_ --> get_valores_grupostabla : only tab_id and group_id is provided
     get_tables_ --> get_tablas_operacion : op_id provided
-    get_tables_ --> get_valores_grupostabla : group_id provided
     get_tables_ --> get_grupos_tabla : only tab_id is provided
-    get_series_ --> get_serie : serie_id provided and serie_data is metadata
-    get_series_ --> get_valores_serie : serie_id provided and serie_data is values
-    get_series_ --> get_series_operacion : op_id provided and operation_data is series
-    get_series_ --> get_serie_metadataoperacion : op_id provided and operation_data is metadata
+    get_series_ --> get_serie : serie_id provided
+    get_series_ --> get_series_operacion : op_id provided but not metadata_filtering
+    get_series_ --> get_serie_metadataoperacion : op_id and metadata_filtering are provided
     get_series_ --> get_series_tabla : tab_id provided
     get_publications_ --> get_publicaciones_operacion : op_id provided
     get_publications_ --> get_publicacionfecha_publicacion : publication_id provided

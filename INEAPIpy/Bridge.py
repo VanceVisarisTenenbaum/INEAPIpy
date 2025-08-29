@@ -1096,68 +1096,74 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                     classification_id: int | str | None = None,
                     op_id: int | str | None = None,
                     val_id: int | str | None = None,
+                    serie_id: int | str | None = None,
+                    tab_id: int | str | None = None,
+                    group_id: int | str | None = None,
                     detail_level: int = 0):
         """
-        Returns the available values for the specified variable.
+        Returns the available values for the specified inputs.
 
-        The variable must be specified.
+            If var_id is provided.
+                It returns the values for such variable.
+                    Additionaly, it can be filtered with the classification_id.
+            If var_id and val_id is provided.
+                It returns the sons values for such value.
+            If var_id and val_id is provided.
+                It returns the values for such operation.
+            If serie_id is provided.
+                It returns the values asociated with such serie. The metadata.
+            If tab_id and group_id is provided.
+                It returns the values for such group of tables.
 
-        Additionally one may want the values for a specific variable and
-        a specific operation, this can be achieved by providing the op_id param
-
-        If you just want to get the sons of a specific value from a specific
-        variable you must specify the val_id. In this case,
-        the op_id is ignored.
-
-        Getting the values return a list of dictionaries. The shape of it
-        depends on the detail_level
+        All returns are Valor Objects.
         """
-        if val_id is not None:
-            return self.get_valores_hijos(var_id,
-                                          val_id,
-                                          detail_level=detail_level)
-        if op_id is None:
-            return self.get_valores_variable(
-                var_id,
-                detail_level=detail_level,
-                classification_id=classification_id)
+        if var_id is not None:
+            if val_id is not None:
+                return self.get_valores_hijos(var_id,
+                                              val_id,
+                                              detail_level=detail_level)
+            if op_id is None:
+                return self.get_valores_variable(
+                    var_id,
+                    detail_level=detail_level,
+                    classification_id=classification_id)
+            else:
+                return self.get_valores_variableoperacion(
+                    var_id,
+                    op_id,
+                    detail_level=detail_level)
+        elif serie_id is not None:
+            return self.get_valores_serie(serie_id, detail_level=detail_level)
+        elif tab_id is not None and group_id is not None:
+            return self.get_valores_grupostabla(tab_id,
+                                                group_id,
+                                                detail_level=detail_level)
         else:
-            return self.get_valores_variableoperacion(
-                var_id,
-                op_id,
-                detail_level=detail_level)
+            raise ValueError(
+                'One input must be provided, var_id, or serie_id or'
+                + ' tab_id and group_id.'
+            )
 
     def get_tables_(self,
                     op_id: int | str | None = None,
                     tab_id: int | str | None = None,
-                    group_id: int | str | None = None,
                     detail_level: int = 0,
                     geographical_level: int | None = None,
                     tipology: str = ''):
         """
-        Returns different data depending on input options.
+        Returns the tables or group tables.
 
-        If operation is provided it returns the available tables for that
-        operation. The resulting data will depend on the params provided.
-
-        If only the table is provided it will return the available groups for
-        such table.
-
-        If table and group is provided it will return the available values
-        for such group.
+            If op_id is provided.
+                It returns the tables asociated with such operation.
         """
         if op_id is not None:
             return self.get_tablas_operacion(
                 op_id,
                 detail_level=detail_level,
-                geographical_level=geographical_level)
+                geographical_level=geographical_level,
+                tipology=tipology)
         elif tab_id is not None:
-            if group_id is None:
-                return self.get_grupos_tabla(tab_id)
-            else:
-                return self.get_valores_grupostabla(tab_id,
-                                                    group_id,
-                                                    detail_level=detail_level)
+            return self.get_grupos_tabla(tab_id)
         else:
             raise ValueError('Wether op_id or tab_id must be provided.')
 
@@ -1165,8 +1171,6 @@ class EasyINEAPIClientSync(INEAPIClientSync):
                     serie_id: int | str | None = None,
                     op_id: int | str | None = None,
                     tab_id: int | str | None = None,
-                    serie_data: str = 'metadata',  # What you want from series.
-                    operation_data: str = 'series',  # What you want from op.
                     detail_level: int = 0,
                     tipology: str = '',
                     page: int = 1,
@@ -1175,48 +1179,30 @@ class EasyINEAPIClientSync(INEAPIClientSync):
         """
         Returns the available information for the series.
 
-        This function is a little more complex than the previous one, but
-        splitting this function in two may reduce readability.
-
-        serie_id param must be a serie of which you want the data from,
-        you may ask metadata or values for the serie specifying
-        the serie_data param
-
-        op_id is the operation of which you want the data from,
-        you may ask for series or metadata by specifying the
-        operation_data param
-
-        tab_id is the table of which you want the data from, this param will
-        return only the series inside the specified table.
+            If serie_id is provided.
+                It returns the information for such serie.
+            If op_id is provided.
+                It returns all the series for such operation and such filters.
+            If tab_id is provided.
+                It returns all the series for such table and such filters.
         """
         if serie_id is not None:
-            if serie_data == 'metadata':
-                return self.get_serie(serie_id,
-                                      detail_level=detail_level,
-                                      tipology=tipology)
-            elif serie_data == 'values':
-                return self.get_valores_serie(serie_id,
-                                              detail_level=detail_level)
-            else:
-                raise ValueError(
-                    'serie_data param must be "metadata" or "values".'
-                )
+            return self.get_serie(serie_id,
+                                  detail_level=detail_level,
+                                  tipology=tipology)
         elif op_id is not None:
-            if operation_data == 'series':
+            empty_filters = not bool(metadata_filtering)
+            if empty_filters:
                 return self.get_series_operacion(op_id,
                                                  detail_level=detail_level,
                                                  tipology=tipology,
                                                  page=page)
-            elif operation_data == 'metadata':
+            else:
                 return self.get_serie_metadataoperacion(
                     op_id,
                     detail_level=detail_level,
                     tipology=tipology,
                     metadata_filtering=metadata_filtering)
-            else:
-                raise ValueError(
-                    'operation_data param must be "series" or "metadata".'
-                )
         elif tab_id is not None:
             return self.get_series_tabla(tab_id,
                                          detail_level=detail_level,
@@ -1414,69 +1400,75 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                           classification_id: int | str | None = None,
                           op_id: int | str | None = None,
                           val_id: int | str | None = None,
+                          serie_id: int | str | None = None,
+                          tab_id: int | str | None = None,
+                          group_id: int | str | None = None,
                           detail_level: int = 0):
         """
-        Returns the available values for the specified variable.
+        Returns the available values for the specified inputs.
 
-        The variable must be specified.
+            If var_id is provided.
+                It returns the values for such variable.
+                    Additionaly, it can be filtered with the classification_id.
+            If var_id and val_id is provided.
+                It returns the sons values for such value.
+            If var_id and val_id is provided.
+                It returns the values for such operation.
+            If serie_id is provided.
+                It returns the values asociated with such serie. The metadata.
+            If tab_id and group_id is provided.
+                It returns the values for such group of tables.
 
-        Additionally one may want the values for a specific variable and
-        a specific operation, this can be achieved by providing the op_id param
-
-        If you just want to get the sons of a specific value from a specific
-        variable you must specify the val_id. In this case,
-        the op_id is ignored.
-
-        Getting the values return a list of dictionaries. The shape of it
-        depends on the detail_level
+        All returns are Valor Objects.
         """
-        if val_id is not None:
-            return await self.get_valores_hijos(var_id,
-                                                val_id,
+        if var_id is not None:
+            if val_id is not None:
+                return await self.get_valores_hijos(var_id,
+                                                    val_id,
+                                                    detail_level=detail_level)
+            if op_id is None:
+                return await self.get_valores_variable(
+                    var_id,
+                    detail_level=detail_level,
+                    classification_id=classification_id)
+            else:
+                return await self.get_valores_variableoperacion(
+                    var_id,
+                    op_id,
+                    detail_level=detail_level)
+        elif serie_id is not None:
+            return await self.get_valores_serie(serie_id,
                                                 detail_level=detail_level)
-        if op_id is None:
-            return await self.get_valores_variable(
-                var_id,
-                detail_level=detail_level,
-                classification_id=classification_id)
+        elif tab_id is not None and group_id is not None:
+            return await self.get_valores_grupostabla(tab_id,
+                                                      group_id,
+                                                      detail_level=detail_level)
         else:
-            return await self.get_valores_variableoperacion(
-                var_id,
-                op_id,
-                detail_level=detail_level)
+            raise ValueError(
+                'One input must be provided, var_id, or serie_id or'
+                + ' tab_id and group_id.'
+            )
 
     async def get_tables_(self,
                           op_id: int | str | None = None,
                           tab_id: int | str | None = None,
-                          group_id: int | str | None = None,
                           detail_level: int = 0,
                           geographical_level: int | None = None,
                           tipology: str = ''):
         """
-        Returns different data depending on input options.
+        Returns the tables or group tables.
 
-        If operation is provided it returns the available tables for that
-        operation. The resulting data will depend on the params provided.
-
-        If only the table is provided it will return the available groups for
-        such table.
-
-        If table and group is provided it will return the available values
-        for such group.
+            If op_id is provided.
+                It returns the tables asociated with such operation.
         """
         if op_id is not None:
             return await self.get_tablas_operacion(
                 op_id,
                 detail_level=detail_level,
-                geographical_level=geographical_level)
+                geographical_level=geographical_level,
+                tipology=tipology)
         elif tab_id is not None:
-            if group_id is None:
-                return await self.get_grupos_tabla(tab_id)
-            else:
-                return await self.get_valores_grupostabla(
-                    tab_id,
-                    group_id,
-                    detail_level=detail_level)
+            return await self.get_grupos_tabla(tab_id)
         else:
             raise ValueError('Wether op_id or tab_id must be provided.')
 
@@ -1484,10 +1476,6 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
                           serie_id: int | str | None = None,
                           op_id: int | str | None = None,
                           tab_id: int | str | None = None,
-                          serie_data: str = 'metadata',
-                          # What you want from series.
-                          operation_data: str = 'series',
-                          # What you want from operation
                           detail_level: int = 0,
                           tipology: str = '',
                           page: int = 1,
@@ -1496,55 +1484,35 @@ class EasyINEAPIClientAsync(INEAPIClientAsync):
         """
         Returns the available information for the series.
 
-        This function is a little more complex than the previous one, but
-        splitting this function in two may reduce readability.
-
-        serie_id param must be a serie of which you want the data from,
-        you may ask metadata or values for the serie specifying
-        the serie_data param
-
-        op_id is the operation of which you want the data from,
-        you may ask for series or metadata by specifying the
-        operation_data param
-
-        tab_id is the table of which you want the data from, this param will
-        return only the series inside the specified table.
+            If serie_id is provided.
+                It returns the information for such serie.
+            If op_id is provided.
+                It returns all the series for such operation and such filters.
+            If tab_id is provided.
+                It returns all the series for such table and such filters.
         """
         if serie_id is not None:
-            if serie_data == 'metadata':
-                return await self.get_serie(serie_id,
-                                            detail_level=detail_level,
-                                            tipology=tipology)
-            elif serie_data == 'values':
-                return await self.get_valores_serie(serie_id,
-                                                    detail_level=detail_level)
-            else:
-                raise ValueError(
-                    'serie_data param must be "metadata" or "values".'
-                )
+            return await self.get_serie(serie_id,
+                                        detail_level=detail_level,
+                                        tipology=tipology)
         elif op_id is not None:
-            if operation_data == 'series':
-                return await self.get_series_operacion(
-                    op_id,
-                    detail_level=detail_level,
-                    tipology=tipology,
-                    page=page)
-            elif operation_data == 'metadata':
+            empty_filters = not bool(metadata_filtering)
+            if empty_filters:
+                return await self.get_series_operacion(op_id,
+                                                       detail_level=detail_level,
+                                                       tipology=tipology,
+                                                       page=page)
+            else:
                 return await self.get_serie_metadataoperacion(
                     op_id,
                     detail_level=detail_level,
                     tipology=tipology,
                     metadata_filtering=metadata_filtering)
-            else:
-                raise ValueError(
-                    'operation_data param must be "series" or "metadata".'
-                )
         elif tab_id is not None:
-            return await self.get_series_tabla(
-                tab_id,
-                detail_level=detail_level,
-                tipology=tipology,
-                metadata_filtering=metadata_filtering)
+            return await self.get_series_tabla(tab_id,
+                                               detail_level=detail_level,
+                                               tipology=tipology,
+                                               metadata_filtering=metadata_filtering)
         else:
             raise ValueError(
                 'Wether serie_id, or op_id, or tab_id must be passed.'

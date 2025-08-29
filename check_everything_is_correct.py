@@ -45,6 +45,8 @@ def tests_Sync(INE):
     INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
     INE.get_values_(762, None, 25)
     INE.get_values_(70, val_id=8997)
+    INE.get_values_(serie_id='IPC251852', detail_level=1)
+    INE.get_values_(tab_id=50913, group_id=110924, detail_level=2)
     end = time.time()
     print(f'Elapsed time: {end - start}')
 
@@ -52,16 +54,14 @@ def tests_Sync(INE):
     start = time.time()
     INE.get_tables_('IPC')
     INE.get_tables_(tab_id=50913)
-    INE.get_tables_(tab_id=50913, group_id=110924, detail_level=2)
     end = time.time()
     print(f'Elapsed time: {end - start}')
 
     print('Series')
     start = time.time()
-    INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='metadata')
-    INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='values')
-    INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='series')
-    INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='metadata',
+    INE.get_series_('IPC251852', detail_level=2, tipology='AM')
+    INE.get_series_(op_id=25, detail_level=2, page=2)
+    INE.get_series_(op_id=25, detail_level=2, page=2,
                     metadata_filtering={
                         115: [29],
                         3: [84],
@@ -142,6 +142,8 @@ async def tests_Async(INE):
     await INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
     await INE.get_values_(762, None, 25)
     await INE.get_values_(70, val_id=8997)
+    await INE.get_values_(serie_id='IPC251852', detail_level=1)
+    await INE.get_values_(tab_id=50913, group_id=110924, detail_level=2)
     end = time.time()
     print(f'Elapsed time: {end - start}')
 
@@ -149,16 +151,14 @@ async def tests_Async(INE):
     start = time.time()
     await INE.get_tables_('IPC')
     await INE.get_tables_(tab_id=50913)
-    await INE.get_tables_(tab_id=50913, group_id=110924, detail_level=2)
     end = time.time()
     print(f'Elapsed time: {end - start}')
 
     print('Series')
     start = time.time()
-    await INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='metadata')
-    await INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='values')
-    await INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='series')
-    await INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='metadata',
+    await INE.get_series_('IPC251852', detail_level=2, tipology='AM')
+    await INE.get_series_(op_id=25, detail_level=2, page=2)
+    await INE.get_series_(op_id=25, detail_level=2, page=2,
                     metadata_filtering={
                         115: [29],
                         3: [84],
@@ -204,7 +204,7 @@ async def tests_Async(INE):
                   detail_level=2)
     end = time.time()
     print(f'Elapsed time: {end - start}')
-    INE.close_all_sessions()
+    # INE.close_all_sessions()  Silenced because it interferes with next async call.
     end_total = time.time()
     print(f'\nTotal time: {end_total - start_total} seconds\n\n\n')
     return None
@@ -230,15 +230,15 @@ async def tests_Async_no_await(INE):
         INE.get_values_(19, 107),  # Funciona bie, silenciado por tardar demasiado.
         INE.get_values_(762, None, 25),
         INE.get_values_(70, val_id=8997),
+        INE.get_values_(serie_id='IPC251852', detail_level=1),
+        INE.get_values_(tab_id=50913, group_id=110924, detail_level=2),
 
         INE.get_tables_('IPC'),
         INE.get_tables_(tab_id=50913),
-        INE.get_tables_(tab_id=50913, group_id=110924, detail_level=2),
 
-        INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='metadata'),
-        INE.get_series_('IPC251852', detail_level=2, tipology='AM', serie_data='values'),
-        INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='series'),
-        INE.get_series_(op_id=25, detail_level=2, page=2, operation_data='metadata',
+        INE.get_series_('IPC251852', detail_level=2, tipology='AM'),
+        INE.get_series_(op_id=25, detail_level=2, page=2),
+        INE.get_series_(op_id=25, detail_level=2, page=2,
                         metadata_filtering={
                             115: [29],
                             3: [84],
@@ -292,13 +292,13 @@ def errors_checks_sync(INE):
         print('Test 2 passed.')
 
     try:
-        INE.get_series_(op_id=3.8, operation_data='Caca', page=3.2)
-    except (ValidationError, ValueError):
+        INE.get_series_(op_id=3.8, page=3.2)
+    except ValidationError:
         print('Test 3 passed.')
 
     try:
-        INE.get_series_(serie_id=3.8, serie_data='Caca', page='Caca', metadata_filtering={3.2: 5.3, 'publicacion': 3.8})
-    except (ValidationError, ValueError):
+        INE.get_series_(serie_id=3.8, page='Caca', metadata_filtering={3.2: 5.3, 'publicacion': 3.8})
+    except ValidationError:
         print('Test 4 passed.')
 
     try:
@@ -330,13 +330,13 @@ async def errors_checks_async(INE):
         print('Test 2 passed.')
 
     try:
-        await INE.get_series_(op_id=3.8, operation_data='Caca', page=3.2)
-    except (ValidationError, ValueError):
+        await INE.get_series_(op_id=3.8, page=3.2)
+    except ValidationError:
         print('Test 3 passed.')
 
     try:
-        await INE.get_series_(serie_id=3.8, serie_data='Caca', page='Caca', metadata_filtering={3.2: 5.3, 'publicacion': 3.8})
-    except (ValidationError, ValueError):
+        await INE.get_series_(serie_id=3.8, page='Caca', metadata_filtering={3.2: 5.3, 'publicacion': 3.8})
+    except ValidationError:
         print('Test 4 passed.')
 
     try:
@@ -356,17 +356,23 @@ async def errors_checks_async(INE):
     return None
 
 
-print('Startin Sync tests.')
-tests_Sync(INES)
 
-print('Startin Async tests.')
-asyncio.create_task(tests_Async(INEA))
 
-print('Startin Async no await tests.')
-#asyncio.create_task(tests_Async_no_await(INEA))
+async def testing():
+    print('\n ---- Startin Sync tests. ---- \n')
+    tests_Sync(INES)
 
-print('Starting error checks Sync')
-errors_checks_sync(INES)
+    print('\n ---- Startin Async tests. ---- \n')
+    await tests_Async(INEA)
 
-print('Starting error checks Async')
-asyncio.create_task(errors_checks_async(INEA))
+    print('\n ---- Startin Async no await tests. ---- \n')
+    await tests_Async_no_await(INEA)
+
+    print('\n ---- Starting error checks Sync ---- \n')
+    errors_checks_sync(INES)
+
+    print('\n ---- Starting error checks Async ---- \n')
+    await errors_checks_async(INEA)
+
+
+asyncio.create_task(testing())
