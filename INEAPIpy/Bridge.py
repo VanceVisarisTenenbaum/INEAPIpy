@@ -135,30 +135,23 @@ async def get_data_process_async(RM,
     return None
 
 
-class INEAPIClientSync():
-    """
-    Wrapper for INE API, makes requests using sync requests package.
-
-    All methods make the request and retreive the results.
-    """
+class Base():
+    """Base init for both classes."""
 
     def __init__(self,
                  mode='raw',
-                 RM=None,
                  sleep_time: int | float = 0.4,
                  print_url: bool = False):
         """
         Init of class.
 
-        Mode: Literal['raw', 'py', 'pydantic']
+        Mode: Literal['raw', 'py', 'pydantic']    default: raw
 
-            raw: returns the result straight from INE API, without checking as string.
+            raw: returns the result straight from INE API, without checking, and as string.
             py: returns the result as python dict or list, without checking.
             pydantic: returns the result as pydantic object and checks the results are correctly formatted according to models.
 
-        RM: RequestsManagement.RequestManager instance if you already have one.
-
-        sleep_time: is the sleep time after each request.
+        sleep_time: is the sleep time after each request. default: 0.4s
 
         print_url: is the option to set if you want to print URLs after each
         request.
@@ -168,17 +161,25 @@ class INEAPIClientSync():
                 "mode can't be different from raw, py or pydantic."
             )
         self.mode = mode
-        if RM is None:
-            self.__RM = ReqMan.RequestsManager(
-                sleep_time=sleep_time,
-                print_url=print_url
-            )
+
+        self.__RM = ReqMan.RequestsManager(
+            sleep_time=sleep_time,
+            print_url=print_url
+        )
         return None
 
     def close_all_sessions(self):
         """Closes all requests sessions."""
         self.__RM.close_all_sessions()
         return None
+
+
+class INEAPIClientSync(Base):
+    """
+    Wrapper for INE API, makes requests using sync requests package.
+
+    All methods make the request and retreive the results.
+    """
 
     def __get_data(self, url):
         """Just to simplify the usage of function."""
@@ -585,54 +586,16 @@ class INEAPIClientSync():
         return data
 
 
-class INEAPIClientAsync():
+class INEAPIClientAsync(Base):
     """
     Wrapper for INE API, makes requests using sync requests package.
 
     All methods make the request and retreive the results.
     """
 
-    def __init__(self,
-                 mode='raw',
-                 RM=None,
-                 sleep_time: int | float = 0.4,
-                 print_url: bool = False):
-        """
-        Init of class.
-
-        Mode: Literal['raw', 'py', 'pydantic']
-
-            raw: returns the result straight from INE API, without checking as string.
-            py: returns the result as python dict or list, without checking.
-            pydantic: returns the result as pydantic object and checks the results are correctly formatted according to models.
-
-        RM: RequestsManagement.RequestManager instance if you already have one.
-
-        sleep_time: is the sleep time after each request.
-
-        print_url: is the option to set if you want to print URLs after each
-        request.
-        """
-        if mode not in ['raw', 'py', 'pydantic']:
-            raise ValueError(
-                "mode can't be different from raw, py or pydantic."
-            )
-        self.mode = mode
-        if RM is None:
-            self.__RM = ReqMan.RequestsManager(
-                sleep_time=sleep_time,
-                print_url=print_url
-            )
-        return None
-
     async def __get_data(self, url):
         """Just to simplify the usage of function."""
         return await get_data_process_async(self.__RM, url, self.mode)
-
-    def close_all_sessions(self):
-        """Closes all requests sessions."""
-        self.__RM.close_all_sessions()
-        return None
 
     async def get_datos_tabla(self,
                               tab_id: int | str,
