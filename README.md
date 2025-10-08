@@ -11,9 +11,9 @@ pip install ineapipy
 ## Guía de inicio
 
 ```py
-from INEAPIpy import Bridge as B
+from INEAPIpy import Wrapper as W
 
-INE = B.INEAPIClientSync()
+INE = W.INEAPIClientSync()
 
 # Primera función de https://ine.es/dyngs/DAB/index.htm?cid=1100
 # Y primer ejemplo

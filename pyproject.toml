@@ -3,7 +3,7 @@ requires = ["setuptools >= 77.0.3"]
 build-backend = "setuptools.build_meta"
 [project]
 name = "ineapipy"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="VanceVisarisTenenbaum", email="144833048+VanceVisarisTenenbaum@users.noreply.github.com" },
 ]
@@ -28,5 +28,5 @@ keywords = [
     "INEAPI"
 ]
 [project.urls]
-Homepage = "https://github.com/VanceVisarisTenenbaum/INEAPIpy"
+Repository = "https://github.com/VanceVisarisTenenbaum/INEAPIpy"
 Issues = "https://github.com/VanceVisarisTenenbaum/INEAPIpy/issues"

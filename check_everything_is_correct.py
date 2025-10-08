@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import INEAPIpy.Bridge as Bridge
+import INEAPIpy.Wrapper as Wrapper
 import time
 import asyncio
 
-INES = Bridge.EasyINEAPIClientSync(mode='pydantic', print_url=True, sleep_time=1)
-INEA = Bridge.EasyINEAPIClientAsync(mode='pydantic', print_url=True, sleep_time=1)
+INES = Wrapper.EasyINEAPIClientSync(mode='pydantic', print_url=True, sleep_time=1)
+INEA = Wrapper.EasyINEAPIClientAsync(mode='pydantic', print_url=True, sleep_time=1)
 
 """
 This file is here just to run every possible option and check everything is
@@ -107,7 +107,7 @@ def tests_Sync(INE):
                   detail_level=2)
     end = time.time()
     print(f'Elapsed time: {end - start}')
-    INE.close_all_sessions()
+    #INE.close_all_sessions()
     end_total = time.time()
     print(f'\nTotal time: {end_total - start_total} seconds\n\n\n')
     return None
@@ -373,6 +373,8 @@ async def testing():
 
     print('\n ---- Starting error checks Async ---- \n')
     await errors_checks_async(INEA)
+
+    print('\n ---- End Testing ---- \n')
 
 
 asyncio.create_task(testing())

@@ -162,7 +162,7 @@ class Base():
             )
         self.mode = mode
 
-        self.__RM = ReqMan.RequestsManager(
+        self._RM = ReqMan.RequestsManager(
             sleep_time=sleep_time,
             print_url=print_url
         )
@@ -170,7 +170,7 @@ class Base():
 
     def close_all_sessions(self):
         """Closes all requests sessions."""
-        self.__RM.close_all_sessions()
+        self._RM.close_all_sessions()
         return None
 
 
@@ -183,7 +183,7 @@ class INEAPIClientSync(Base):
 
     def __get_data(self, url):
         """Just to simplify the usage of function."""
-        return get_data_process_sync(self.__RM, url, self.mode)
+        return get_data_process_sync(self._RM, url, self.mode)
 
     def get_datos_tabla(self,
                         tab_id: int | str,
@@ -595,7 +595,7 @@ class INEAPIClientAsync(Base):
 
     async def __get_data(self, url):
         """Just to simplify the usage of function."""
-        return await get_data_process_async(self.__RM, url, self.mode)
+        return await get_data_process_async(self._RM, url, self.mode)
 
     async def get_datos_tabla(self,
                               tab_id: int | str,
