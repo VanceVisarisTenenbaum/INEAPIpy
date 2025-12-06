@@ -29,7 +29,7 @@ Antes de definir las funciones, es necesario conocer los inputs que los conforma
     * ```list_of_dates```: Lista de fechas a filtrar.
     * ```count```: Número de resultados a mostrar (Datos).
     * ```page```: Página de resultados (Metadatos).
-    
+
 En la siguiente tabla se encuentran los valores que pueden tomar los inputs y sus valores por defecto.
 
 | Input                                | Tipos válidos                                                | Valores por defecto        |
@@ -51,7 +51,7 @@ Para el filtrado mediante pares variable valor se utiliza este input ***metadata
 {
     var_id_1: [val_id_1, ..., val_id_i],
     var_id_2: [val_id_1, ..., val_id_j],
-    
+
     var_id_n: [val_id_1, ..., val_id_k],
     publicacion: pub_id
 }
@@ -100,12 +100,12 @@ El paquete proporciona los siguientes módulos:
 * INE_filtering (No es necesario usarlo)
 * INE_URL_Treatment (No es necesario usarlo)
 
-### Bridge
+### Wrapper
 
 Este paquete proporciona cuatro clases para realizar las peticiones al INE. Las dos primeras proprocionan exactamente los mismos métodos, sin embargo, el primero es Síncrono y el segundo Asíncrono. Las dos clases siguientes extienden la funcionalidad de las dos primeras proporcionando varios métodos adicionales para realizar las mismas peticiones de la primera clase, pero utilizando una estructura diferente.
-    
+
 Todas las clases utilizan un objeto RequestManager, que se encarga de realizar las peticiones sin necesidad de iniciar tu propia instancia de Sesión y la cierra si tras cierto tiempo no se realizan peticiones.
-    
+
 Si no quieres que existan estos procesos, puedes usar el módulo INE_functions, cuyas funciones sólo devuelven las urls.
 
 
