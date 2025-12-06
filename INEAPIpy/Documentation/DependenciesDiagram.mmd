@@ -1,0 +1,45 @@
+---
+title: Dependencias para obtener los objetos de la API INE.
+---
+flowchart TD
+    V[ ]
+    O[Operación]
+    Var[Variable]
+    Val[Valor]
+    ValH[Valores Hijos]
+    Tab[Tabla]
+    GT[Grupo Tablas]
+    S[Serie]
+    D[Datos]
+    P[Publicación]
+    FP[Fecha Publicación]
+    U[Unidad]
+    E[Escala]
+    Pr[Periodo]
+    Pi[Periodicidad]
+    Cl[Clasificación]
+    %% Relaciones
+    %% Dependencias
+    V --> O --> Var
+    V -->|Muchas variables| Var
+
+    O -.-> Val
+    Var ==> Val
+
+    Var ==> ValH
+    Val ==> ValH
+
+    O ==> Tab ==> GT
+
+    O os@==> S
+    Tab ts@==> S
+    Var -.-> S
+    Val -.-> S --> D
+    os@{ animate: true }
+    ts@{ animate: true }
+
+    V --> P
+    O --> P --> FP
+
+    V --> Cl
+    O --> Cl
