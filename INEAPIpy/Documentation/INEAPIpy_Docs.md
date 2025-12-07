@@ -53,7 +53,7 @@ Para el filtrado mediante pares variable valor se utiliza este input ***metadata
     var_id_2: [val_id_1, ..., val_id_j],
 
     var_id_n: [val_id_1, ..., val_id_k],
-    publicacion: pub_id
+    periodicidad: periodicity_id
 }
 ```
 

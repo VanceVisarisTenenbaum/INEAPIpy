@@ -102,7 +102,7 @@ def tests_Sync(INE):
                       115: [29],
                       3: [84],
                       762: [],
-                      'publicacion': 1
+                      'periodicidad': 1
                   },
                   detail_level=2)
     end = time.time()
@@ -162,7 +162,7 @@ async def tests_Async(INE):
                     metadata_filtering={
                         115: [29],
                         3: [84],
-                        'publicacion': 1
+                        'periodicidad': 1
                     })
     await INE.get_series_(tab_id=50913)
     end = time.time()
@@ -199,7 +199,7 @@ async def tests_Async(INE):
                       115: [29],
                       3: [84],
                       762: [],
-                      'publicacion': 1
+                      'periodicidad': 1
                   },
                   detail_level=2)
     end = time.time()
@@ -242,7 +242,7 @@ async def tests_Async_no_await(INE):
                         metadata_filtering={
                             115: [29],
                             3: [84],
-                            'publicacion': 1
+                            'periodicidad': 1
                         }),
         INE.get_series_(tab_id=50913),
 
@@ -269,7 +269,7 @@ async def tests_Async_no_await(INE):
                           115: [29],
                           3: [84],
                           762: [],
-                          'publicacion': 1
+                          'periodicidad': 1
                       },
                       detail_level=2),
     )

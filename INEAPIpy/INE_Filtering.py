@@ -35,11 +35,11 @@ def metadata_param_filtering_builder(var_value_dict: dict | None = None,
     If format is series it will be the first option.
     If it is metadata it will return the second option.
 
-    If there is a key named "publicacion" and a value that is not a list
+    If there is a key named "periodicidad" and a value that is not a list
     it will be the second and will add the next:
-        p:publication_id
+        p:periodicity_id
 
-    If publication is not in keys and the value of some keys is not a list
+    If periodicidad is not in keys and the value of some keys is not a list
     they will be skipped
 
     If empty it will return empty dict.
@@ -69,10 +69,10 @@ def metadata_param_filtering_builder(var_value_dict: dict | None = None,
         # k is a variable Id or publicacion
         # v is a list of value_id or id of publicacion
         # The only special case is publicacion.
-        if k == 'publicacion':
+        if k == 'periodicidad':
             if format_ == 'series':
                 raise ValueError(
-                    "publicacion can't be a key if format_ is series"
+                    "periodicidad can't be a key if format_ is series"
                 )
             params_dict['p'] = str(v)  # To str in case it is an int.
             continue
