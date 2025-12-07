@@ -181,7 +181,7 @@ Es la misma clase que las anteriores, pero añade varios métodos que simplifica
     * Si se especifica ```op_id```, devuelve las variables asociadas a dicha operación.
     * Si se especifica ```var_id```, devuelve dicha variable.
     * Si no se especifica ningún parámetro, devuelve todas las variables disponibles.
-* ```get_values_(var_id, classification_id, op_id, val_id, serie_id, tab_id, group_id detail_level)```: Devuelve los valores asociados según las inputs.
+* ```get_values_(var_id, classification_id, op_id, val_id, serie_id, tab_id, group_id, detail_level)```: Devuelve los valores asociados según las inputs.
     * Si se especifiva ```var_id```, devuelve los valores asociados a dicha variable.
         * Se puede filtrar además especificando ```classification_id```.
     * Si se especifica ```var_id``` y ```op_id```, devuelve los valores asociados a dicha variable y dicha operación.

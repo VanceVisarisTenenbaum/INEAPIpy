@@ -1,0 +1,38 @@
+---
+title: Flujo de uso de la app.
+---
+flowchart TD
+    O[Operación]
+    Var[Variable]
+    Val[Valor]
+    ValH[Valores Hijos]
+    Tab[Tabla]
+    GT[Grupo Tablas]
+    S[Serie]
+    D[Datos]
+    P[Publicación]
+    FP[Fecha Publicación]
+    U[Unidad]
+    E[Escala]
+    Pr[Periodo]
+    Pi[Periodicidad]
+    Cl[Clasificación]
+    %% Relaciones
+    %% Dependencias
+    O OVar@-.-> Var VarVal@-.-> Val ValS@--> S
+    O OT@--> Tab TS@--> S
+    OVar@{ animate: true }
+    VarVal@{ animate: true }
+    ValS@{ animate: true }
+    OT@{ animate: true }
+    TS@{ animate: true }
+    S ==> U
+    S ==> E
+
+
+    O ==> Cl
+    O ==> P ==> FP
+
+    Val ==> ValH
+
+    Tab ==> GT
