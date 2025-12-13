@@ -115,7 +115,7 @@ Si no quieres que existan estos procesos, puedes usar el módulo INE_functions, 
 
 Todos los métodos devuelven los resultados del INE y se pueden visualizar mejor en el [diagrama](https://mermaid.live/view?gist=https://gist.github.com/VanceVisarisTenenbaum/5b2890f4ccc5517ba9289c5c271af1fa)
 
-##### __init__(mode, RM, sleep_time, print_url)
+##### __init__(mode, sleep_time, print_url)
 
 > Init of class.
 
@@ -123,7 +123,6 @@ Todos los métodos devuelven los resultados del INE y se pueden visualizar mejor
     * ```raw```: Devuelve los resultados como un string directamente de la API del INE.
     * ```py```: Devuelve los resultados como un diccionario o como una lista.
     * ```pydantic```: Devuelve los resultados como un objeto de pydantic y comprueba que son correctos.
-* ```RM```: Instancia de RequestsManagement.RequestManager en caso de ya tener una. Si no sabes lo que es es un objeto para manejar sesiones de forma automática del submodulo. Se inicia solo si no lo especifícas.
 * ```sleep_time```: Cuanto tiempo debe esperar entre peticiones.
 * ```print_url```: Establece esta opción como True si quieres imprimir la url después de cada petición.
 
