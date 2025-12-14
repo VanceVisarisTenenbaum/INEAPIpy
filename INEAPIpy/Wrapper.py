@@ -168,9 +168,9 @@ class Base():
         )
         return None
 
-    def close_all_sessions(self):
+    async def close_all_sessions(self):
         """Closes all requests sessions."""
-        self._RM.close_all_sessions()
+        await self._RM.close_all_sessions()
         return None
 
 

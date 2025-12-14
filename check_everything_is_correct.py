@@ -273,7 +273,7 @@ async def tests_Async_no_await(INE):
                       },
                       detail_level=2),
     )
-    INE.close_all_sessions()
+    #INE.close_all_sessions()
     end_total = time.time()
     print(f'\nTotal time: {end_total - start_total} seconds\n\n\n')
     return None
@@ -375,6 +375,18 @@ async def testing():
     await errors_checks_async(INEA)
 
     print('\n ---- End Testing ---- \n')
+    await INES.close_all_sessions()
+    await INEA.close_all_sessions()
 
 
-asyncio.create_task(testing())
+def main():
+    print('-'*15)
+    for t in asyncio.all_tasks():
+        print(t)
+    print('-'*15)
+
+    asyncio.create_task(testing())
+
+    return None
+
+main()
