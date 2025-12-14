@@ -93,21 +93,21 @@ class VarValueDictModel(p.RootModel):
     @p.model_validator(mode='after')
     def __publication_check(self):
         """
-        Raises error if it finds any key other than publicacion isn't a list.
+        Raises error if it finds any key other than periodicidad isn't a list.
 
         Any key value must be a list.
         Only key publicacion can have a value that is a str or int.
         """
         for k, v in self.root.items():
-            if k == 'publicacion':
+            if k == 'periodicidad':
                 if isinstance(v, list):
                     raise TypeError(
-                        'Value for publicacion must be an int or str.'
+                        'Value for periodicidad must be an int or str.'
                     )
             else:
                 if not isinstance(v, list):
                     raise TypeError(
-                        'Values of dict must be a list except for publicacion.'
+                        'Values of dict must be a list except for periodicidad.'
                     )
         return self
 

@@ -42,7 +42,7 @@ def tests_Sync(INE):
     print('Valores')
     start = time.time()
     INE.get_values_(115, detail_level=2)
-    INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
+    # INE.get_values_(19, 107)  # Ya no funciona
     INE.get_values_(762, None, 25)
     INE.get_values_(70, val_id=8997)
     INE.get_values_(serie_id='IPC251852', detail_level=1)
@@ -65,7 +65,7 @@ def tests_Sync(INE):
                     metadata_filtering={
                         115: [29],
                         3: [84],
-                        'publicacion': 1
+                        'periodicidad': 1
                     })
     INE.get_series_(tab_id=50913)
     end = time.time()
@@ -139,7 +139,7 @@ async def tests_Async(INE):
     print('Valores')
     start = time.time()
     await INE.get_values_(115, detail_level=2)
-    await INE.get_values_(19, 107)  # Funciona bie, silenciado por tardar demasiado.
+    # await INE.get_values_(19, 107)  # Ya no funciona
     await INE.get_values_(762, None, 25)
     await INE.get_values_(70, val_id=8997)
     await INE.get_values_(serie_id='IPC251852', detail_level=1)
@@ -227,7 +227,7 @@ async def tests_Async_no_await(INE):
         INE.get_variables_(None, 115),
 
         INE.get_values_(115, detail_level=2),
-        INE.get_values_(19, 107),  # Funciona bie, silenciado por tardar demasiado.
+        # INE.get_values_(19, 107),  # Ya no funciona
         INE.get_values_(762, None, 25),
         INE.get_values_(70, val_id=8997),
         INE.get_values_(serie_id='IPC251852', detail_level=1),

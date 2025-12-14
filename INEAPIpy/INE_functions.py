@@ -17,6 +17,7 @@ from . import INE_Filtering as filtering
 from . import INE_URL_Treatment as INEURL
 from .Models import FunctionInputsModels as FIM
 from pydantic import validate_call
+import warnings
 
 
 @validate_call
@@ -228,6 +229,9 @@ def valores_variable(var_id: int | str,
         detail_level=detail_level,
         classification_id=classification_id
     )
+
+    if classification_id is not None:
+        warnings.war('Classification_id is kept because it is shown in the official documentation, but it seems deprecated and using this will probably raise an error.')
 
     URL = INEURL.url_gen(
         'VALORES_VARIABLE',
