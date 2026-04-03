@@ -20,13 +20,13 @@ INE = W.INEAPIClientSync()
 print(INE.get_datos_tabla(50902))
 ```
 
-## Anotación
+## Proyectos relacionados
 
-Existe un paquete con la misma funcionalidad aunque organizado y estructurado de otra manera. Sin embargo, este paquete fue desarrollado de forma independiente y no existe ninguna relación entre los dos desarrolladores.
+No guardo ninguna relación con los desarrolladores aquí mencionados.
 
-Dicho paquete es [ineapy](https://github.com/Angel-RC/ineapy)
-
-También existe el paquete [inejsonstat](https://github.com/Mlgpigeon/inejsonstat) con la misma funcionalidad, pero la última actualización fue hace 3 años.
+* [inepandas](https://github.com/JonathanMair/inepandas)
+* [ineapy](https://github.com/Angel-RC/ineapy)
+* [inejsonstat](https://github.com/Mlgpigeon/inejsonstat) la última actualización fue hace 3 años.
 
 
 ## Documentación
